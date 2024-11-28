@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maling.dk - Eksklusiv maling</title>
+    <title>Maling.dk - Tilbud</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -13,6 +13,7 @@
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
+
 <!-- Header -->
 <header class="bg-white py-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
@@ -22,56 +23,11 @@
             </div>
             <span class="ml-4 font-semibold text-lg tracking-wide">Maling.dk</span>
         </div>
-        <input type="text" placeholder="Søg..." class="p-2 rounded-md text-gray-800 w-1/3 mx-4 border border-gray-300">
-        <div>
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
+        <div class="flex items-center w-1/2">
+            <input type="text" placeholder="Søg efter produkter..." class="p-3 rounded-l-full text-gray-800 flex-grow border border-gray-300 focus:outline-none focus:ring focus:ring-gray-400">
+            <button class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-r-full">Søg</button>
         </div>
-        <nav class="bg-gray-100 py-4">
-            <div class="container mx-auto flex justify-between items-center">
-                <div>
-                    <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
-                        Sign up
-                    </button>
-                    <button id="btn-show-login" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
-                        Sign in
-                    </button>
-                    <button id="btn-fetch" hidden class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                        Fetch data
-                    </button>
-                    <button id="btn-get-secret" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" hidden>
-                        Get Secret
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-        <div class="bg-white w-96 rounded-lg shadow-lg">
-            <div class="border-b px-4 py-2 flex justify-between items-center">
-                <h3 id="modal-title" class="text-lg font-semibold">Login</h3>
-                <button onclick="toggleModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
-            </div>
-            <div class="p-4">
-                <form>
-                    <div class="mb-4">
-                        <label for="username-field" class="block text-gray-700 font-semibold">Name</label>
-                        <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
-                    </div>
-                    <div class="mb-4">
-                        <label for="password-field" class="block text-gray-700 font-semibold">Password</label>
-                        <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
-                    </div>
-                </form>
-            </div>
-            <div class="border-t px-4 py-2 flex justify-end">
-                <button onclick="toggleModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    Cancel
-                </button>
-                <button id="btn-form-login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
-                    Login
-                </button>
-            </div>
-        </div>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
     </div>
 </header>
 
@@ -80,53 +36,65 @@
     <div class="absolute inset-0 bg-white opacity-70"></div>
     <div class="relative z-10 text-center flex items-center justify-center h-full">
         <div>
-            <h1 class="text-4xl font-bold tracking-wide text-gray-900">Eksklusiv maling til dit hjem</h1>
-            <p class="mt-4 text-gray-700">Kvalitet og elegance i hvert eneste produkt</p>
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-6 rounded-full mt-6">Se vores sortiment</button>
+            <h1 class="text-4xl font-bold tracking-wide text-gray-900">Spar op til 50% på vores mest populære produkter!</h1>
+            <p class="mt-4 text-gray-700">Gå ikke glip af de fantastiske tilbud - kun i en begrænset periode.</p>
+            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-full mt-6">Shop tilbud</button>
         </div>
     </div>
 </section>
 
+<!-- Info Sektion -->
+<section class="bg-white py-8">
+    <div class="container mx-auto flex justify-around">
+        <div class="text-center">
+            <h3 class="text-lg font-bold">Hurtig levering</h3>
+            <p class="text-gray-600">1-4 hverdage</p>
+        </div>
+        <div class="text-center">
+            <h3 class="text-lg font-bold">Prisgaranti</h3>
+            <p class="text-gray-600">På alle vores varer</p>
+        </div>
+        <div class="text-center">
+            <h3 class="text-lg font-bold">Gratis fragt</h3>
+            <p class="text-gray-600">Ved køb for min. 499,-</p>
+        </div>
+        <div class="text-center">
+            <h3 class="text-lg font-bold">Trustpilot</h3>
+            <p class="text-gray-600">4.7 ud af 5 stjerner</p>
+        </div>
+    </div>
+</section>
 
-<!-- Produkter -->
+<!-- Kategorier -->
 <section class="container mx-auto mt-8">
     <h2 class="text-center text-2xl font-bold mb-6 text-gray-900">Kategorier</h2>
-    <div class="flex justify-center gap-8 py-8">
-
-        <!-- Maling -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div class="text-center">
             <a href="/maling" class="block">
-                <img src="/images/malingKategori.png" alt="Maling" class="rounded-md shadow-lg w-48 h-48 object-cover hover:scale-105 transition-transform duration-300">
+                <img src="/images/malingKategori.png" alt="Maling" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Maling</p>
         </div>
-
-        <!-- Værktøj -->
         <div class="text-center">
             <a href="/værktøj" class="block">
-                <img src="/images/toolsKategori.png" alt="Værktøj" class="rounded-md shadow-lg w-48 h-48 object-cover hover:scale-105 transition-transform duration-300">
+                <img src="/images/toolsKategori.png" alt="Værktøj" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Værktøj</p>
         </div>
-
-        <!-- Spartel -->
         <div class="text-center">
             <a href="/spartel" class="block">
-                <img src="/images/spartelKategori.png" alt="Spartel" class="rounded-md shadow-lg w-48 h-48 object-cover hover:scale-105 transition-transform duration-300">
+                <img src="/images/spartelKategori.png" alt="Spartel" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Spartel</p>
         </div>
-
-        <!-- Gulvpleje -->
         <div class="text-center">
             <a href="/gulvpleje" class="block">
-                <img src="/images/gulvplejeKategori.png" alt="Gulvpleje" class="rounded-md shadow-lg w-48 h-48 object-cover hover:scale-105 transition-transform duration-300">
+                <img src="/images/gulvplejeKategori.png" alt="Gulvpleje" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Gulvpleje</p>
         </div>
-
+        <!-- Tilføj de øvrige kategorier -->
     </div>
 </section>
-<script src="../JS/JwtHandling.js"></script>
 </body>
 </html>
