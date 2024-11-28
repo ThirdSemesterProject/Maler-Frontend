@@ -1,12 +1,6 @@
 /* JWT handling */
 const API_LOGIN = 'http://localhost:8080/login';
 const API_SIGNUP = 'http://localhost:8080/signup';
-/*
-function getToken(){
-    const localstorage_user = JSON.parse(localStorage.getItem('user'))
-    return  localstorage_user.token
-}
-*/
 
 function getToken() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -87,22 +81,6 @@ function deleteUser(event) {
             printThis(div, JSON.stringify(data), "green")
         })
 }
-/*
-function getSecret(event) {
-    event.preventDefault()
-    if(localStorage.getItem('user') == undefined){
-        console.log("No token. Login first");
-        return
-    }
-
-    const token = getToken();
-    console.log(token);
-    myFetch("getSecret", "POST", null, getToken())
-        .then((data) => {
-            console.log(JSON.stringify(data));
-        })
-}
- */
 
 function getSecret(event) {
     event.preventDefault();
@@ -163,16 +141,6 @@ btnShowLogin.onclick = function (evt) {
         logout();
     }
 };
-/*
-function showModalLogin(login) {
-    const myModal = new bootstrap.Modal(document.getElementById('login-modal'));
-    let lbl
-    if (login) {lbl = "Login"} else {lbl = "Sign up"}
-    document.getElementById("modal-title").innerText = lbl;
-    document.getElementById("btn-form-login").innerText = lbl;
-    myModal.show()
-}
- */
 
 function showModalLogin(isLogin) {
     const modal = document.getElementById('login-modal');
@@ -187,20 +155,6 @@ function showModalLogin(isLogin) {
     modal.classList.remove('hidden');
 }
 
-/*
-document.getElementById('btn-form-login').onclick = function (evt) {
-    evt.preventDefault();
-    const loginTitle = document.getElementById("modal-title").innerText;
-    if (loginTitle == "Sign up") {
-        signup();
-    }
-    else
-    {
-        login();
-    }
-}
- */
-
 document.getElementById('btn-form-login').onclick = function (evt) {
     evt.preventDefault();
 
@@ -212,7 +166,7 @@ document.getElementById('btn-form-login').onclick = function (evt) {
     } else {
         login();
     }
-    toggleModal(); // Close the modal after login or signup
+    toggleModal();
 };
 
 function toggleModal() {
