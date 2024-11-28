@@ -26,6 +26,52 @@
         <div>
             <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
         </div>
+        <nav class="bg-gray-100 py-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div>
+                    <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
+                        Sign up
+                    </button>
+                    <button id="btn-show-login" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
+                        Sign in
+                    </button>
+                    <button id="btn-fetch" hidden class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Fetch data
+                    </button>
+                    <button id="btn-get-secret" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" hidden>
+                        Get Secret
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div class="bg-white w-96 rounded-lg shadow-lg">
+            <div class="border-b px-4 py-2 flex justify-between items-center">
+                <h3 id="modal-title" class="text-lg font-semibold">Login</h3>
+                <button onclick="toggleModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
+            </div>
+            <div class="p-4">
+                <form>
+                    <div class="mb-4">
+                        <label for="username-field" class="block text-gray-700 font-semibold">Name</label>
+                        <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                    </div>
+                    <div class="mb-4">
+                        <label for="password-field" class="block text-gray-700 font-semibold">Password</label>
+                        <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                    </div>
+                </form>
+            </div>
+            <div class="border-t px-4 py-2 flex justify-end">
+                <button onclick="toggleModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Cancel
+                </button>
+                <button id="btn-form-login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                    Login
+                </button>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -83,6 +129,6 @@
 </section>
 
 
-
+<script src="../JS/JwtHandling.js"></script>
 </body>
 </html>
