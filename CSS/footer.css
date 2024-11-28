@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 
+
 }
 
 .container {
@@ -20,8 +21,8 @@ ul {
 }
 
 .footer {
-    background-color: rgb(31, 41, 55); /* Baggrundsfarve */
-    padding: 40px 0 10px; /* Reduceret padding */
+    background-color: rgb(31, 41, 55);
+    padding: 40px 0 10px;
 }
 
 .footer-col {
