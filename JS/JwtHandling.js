@@ -62,7 +62,14 @@ function logout(event) {
 
     localStorage.removeItem('user')
     console.log("You have logged out.");
-    clearData();
+    clearData()
+}
+
+function clearData() {
+    // Example: Clear user-related data
+    localStorage.clear(); // Clears all local storage data
+    sessionStorage.clear(); // Clears all session storage data
+    console.log("Data cleared!");
 }
 
 function deleteUser(event) {
