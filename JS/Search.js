@@ -1,9 +1,11 @@
 let paints = []; // Variabel til at gemme malinger
 
 // Hent malinger fra backend, når siden loader
-async function fetchAllPaints() {
+let products = []; // Variabel til at gemme produkter
+
+async function fetchAllProducts() {
     try {
-        const response = await fetch('http://localhost:8080/api/paint/getAllPaints', {
+        const response = await fetch('http://localhost:8080/api/products/getAllProducts', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -11,15 +13,17 @@ async function fetchAllPaints() {
         });
 
         if (!response.ok) {
-            throw new Error("Fejl ved hentning af malinger");
+            throw new Error("Fejl ved hentning af produkter");
         }
 
-        paints = await response.json(); // Gem malinger i variablen
-        console.log("Hentede malinger:", paints); // Debugging
+        products = await response.json(); // Gem produkter i den globale variabel
+        console.log("Hentede produkter:", products); // Debugging
     } catch (error) {
         console.error("Fejl:", error);
     }
 }
+
+
 
 // Søgning ved input
 function searchByNameOrItemNo() {
@@ -32,22 +36,23 @@ function searchByNameOrItemNo() {
         return;
     }
 
-    // Filtrer malinger baseret på søgning
-    const filteredPaints = paints.filter(paint =>
-        paint.name.toLowerCase().includes(searchInput) ||
-        paint.paintNo.itemNo.toLowerCase().includes(searchInput)
+    // Filtrer produkter baseret på søgning
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchInput) ||
+        (product.paintNo && product.paintNo.itemNo.toLowerCase().includes(searchInput)) // Hvis produktet er maling
     );
 
-    console.log("Filtrerede resultater:", filteredPaints); // Debugging
+    console.log("Filtrerede resultater:", filteredProducts); // Debugging
 
-    if (filteredPaints.length > 0) {
+    if (filteredProducts.length > 0) {
         resultsContainer.classList.remove("hidden");
-        displayItems(filteredPaints);
+        displayItems(filteredProducts);
     } else {
         resultsContainer.classList.remove("hidden");
         resultsContainer.innerHTML = `<div class="p-2 text-gray-600">Ingen resultater fundet.</div>`;
     }
 }
+
 
 // Vis søgeresultater
 function displayItems(results) {
@@ -56,27 +61,33 @@ function displayItems(results) {
 
     results.forEach(result => {
         const div = document.createElement("div");
-        div.classList.add("p-3", "hover:bg-gray-100", "cursor-pointer");
+        div.classList.add("flex", "items-center", "p-2", "hover:bg-gray-100", "cursor-pointer");
 
         div.innerHTML = `
-            <strong>${result.name}</strong> - ${result.paintNo.itemNo} (${result.paintNo.liters}L)
-            <br>
-            <span class="text-sm text-gray-600">Kategori: ${result.category} - Pris: ${result.price} kr.</span>
+            <img src="${result.url || '/images/default.jpg'}" alt="${result.name}" class="w-12 h-12 rounded-md object-cover mr-4">
+            <div>
+                <strong>${result.name}</strong> - ${result.category}
+                <br>
+                Pris: ${result.price.toFixed(2)} kr.
+                <br>
+                Beskrivelse: ${result.description || "Ingen beskrivelse"}
+                <br>
+                Mærke: ${result.brand || "Ukendt"}
+            </div>
         `;
 
+        // Klik for at navigere til produktets side
         div.addEventListener("click", () => {
-            productPageUrl = `/products/${result.paintNo.itemNo}`;
+            const productPageUrl = `/products/${result.id}`; // Dynamisk URL baseret på produktets ID
             window.location.href = productPageUrl;
         });
 
         resultsContainer.appendChild(div);
     });
-
-    resultsContainer.classList.remove("hidden"); // Vis resultater
 }
 
 window.onload = () => {
-    fetchAllPaints();
+    fetchAllProducts();
 
     const searchInput = document.getElementById("search-input");
     if (!searchInput) {
