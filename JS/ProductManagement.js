@@ -104,6 +104,7 @@ function createProductManagementSection() {
     createProductManagementSection();
 })();
 
+// Show section for Products
 function showProductSection() {
     const productManagement = document.querySelector('#product-management');
     if (!productManagement) {
@@ -167,6 +168,9 @@ async function fetchProducts() {
     `;
 }
 
+/* CRUD Functions */
+
+// Create product function
 async function createProduct() {
     const name = document.querySelector('#product-name').value;
     const url = document.querySelector('#product-url').value;
@@ -183,16 +187,6 @@ async function createProduct() {
     fetchProducts();
 }
 
-async function deleteProduct(id) {
-    await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
-    fetchProducts();
-}
-
-function showProductSection() {
-    document.querySelector('#product-management').classList.remove('hidden');
-    fetchProducts();
-}
-
 // Populate product data for editing
 function populateProductForm(product) {
     document.querySelector('#product-name').value = product.name;
@@ -204,17 +198,6 @@ function populateProductForm(product) {
 
     // Store the product ID for updating
     document.querySelector('#product-management').dataset.editingId = product.id;
-}
-
-// Clear the form inputs
-function clearProductForm() {
-    document.querySelector('#product-name').value = '';
-    document.querySelector('#product-url').value = '';
-    document.querySelector('#product-price').value = '';
-    document.querySelector('#product-description').value = '';
-    document.querySelector('#product-category').value = '';
-    document.querySelector('#product-brand').value = '';
-    delete document.querySelector('#product-management').dataset.editingId; // Remove editing ID
 }
 
 // Update an existing product
@@ -245,4 +228,21 @@ async function updateProduct() {
     } else {
         alert('Failed to update product.');
     }
+}
+
+// delete product by id function
+async function deleteProduct(id) {
+    await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
+    fetchProducts();
+}
+
+// Clear the form inputs
+function clearProductForm() {
+    document.querySelector('#product-name').value = '';
+    document.querySelector('#product-url').value = '';
+    document.querySelector('#product-price').value = '';
+    document.querySelector('#product-description').value = '';
+    document.querySelector('#product-category').value = '';
+    document.querySelector('#product-brand').value = '';
+    delete document.querySelector('#product-management').dataset.editingId; // Remove editing ID
 }
