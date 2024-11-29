@@ -1,66 +1,7 @@
-async function searchByNameOrItemNo() {
-    const searchInput = document.getElementById("search-input").value.trim();
-    const resultsContainer = document.getElementById("results-container");
+let paints = []; // Variabel til at gemme malinger
 
-    if (searchInput.length === 0) {
-        resultsContainer.style.display = "none";
-        resultsContainer.innerHTML = "";
-        return;
-    }
-
-    try {
-        const response = await fetch('http://localhost:8080/api/search?query=' + encodeURIComponent(searchInput), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error("Søgningen mislykkedes");
-        }
-
-        const results = await response.json();
-        if (results.length > 0) {
-            resultsContainer.style.display = "block";
-            displayItems(results);
-        } else {
-            resultsContainer.style.display = "block";
-            resultsContainer.innerHTML = `<div class="result-item">Ingen resultater fundet.</div>`;
-        }
-    } catch (error) {
-        console.error("Fejl under søgning:", error);
-    }
-}
-
-// displayItems-funktion til at vise resultater fra begge arrays
-function displayItems(results) {
-    const resultsContainer = document.getElementById("results-container");
-    resultsContainer.innerHTML = ""; // Ryd tidligere resultater
-
-    results.forEach(result => {
-        const div = document.createElement("div");
-        div.classList.add("result-item");
-
-        div.innerHTML = `
-            <strong>${result.name}</strong> - ${result.itemNo} (${result.liters}L)
-            <br>
-            <span>Kategori: ${result.category} - Pris: ${result.price} kr.</span>
-            <br>
-            Shine: ${result.shine}
-        `;
-
-        div.addEventListener("click", () => {
-            const productPageUrl = `/products/${result.itemNo}`; // Dynamisk URL
-            window.location.href = productPageUrl; // Naviger til produktsiden
-        });
-
-        resultsContainer.appendChild(div);
-    });
-}
+// Hent malinger fra backend, når siden loader
 async function fetchAllPaints() {
-    const paintContainer = document.getElementById("paint-container");
-
     try {
         const response = await fetch('http://localhost:8080/api/paint/getAllPaints', {
             method: "GET",
@@ -73,29 +14,75 @@ async function fetchAllPaints() {
             throw new Error("Fejl ved hentning af malinger");
         }
 
-        const paints = await response.json();
-
-        paintContainer.innerHTML = "";
-        paints.forEach(paint => {
-            const paintDiv = document.createElement("div");
-            paintDiv.classList.add("paint-item");
-
-            paintDiv.innerHTML = `
-                <strong>${paint.name}</strong> - ${paint.paintNo.itemNo} (${paint.paintNo.liters}L)
-                <br>
-                <span>Kategori: ${paint.category}</span>
-                <br>
-                Pris: ${paint.price} kr. - Shine: ${paint.shine}
-                <br>
-                <em>${paint.description}</em>
-            `;
-            paintContainer.appendChild(paintDiv);
-        });
+        paints = await response.json(); // Gem malinger i variablen
+        console.log("Hentede malinger:", paints); // Debugging
     } catch (error) {
         console.error("Fejl:", error);
-        paintContainer.innerHTML = "<p>Kunne ikke hente malinger.</p>";
     }
 }
 
-// Kald funktionen, når siden loader
-window.onload = fetchAllPaints;
+// Søgning ved input
+function searchByNameOrItemNo() {
+    const searchInput = document.getElementById("search-input").value.trim().toLowerCase();
+    const resultsContainer = document.getElementById("results-container");
+
+    if (searchInput.length === 0) {
+        resultsContainer.classList.add("hidden"); // Skjul dropdown, hvis søgefeltet er tomt
+        resultsContainer.innerHTML = "";
+        return;
+    }
+
+    // Filtrer malinger baseret på søgning
+    const filteredPaints = paints.filter(paint =>
+        paint.name.toLowerCase().includes(searchInput) ||
+        paint.paintNo.itemNo.toLowerCase().includes(searchInput)
+    );
+
+    console.log("Filtrerede resultater:", filteredPaints); // Debugging
+
+    if (filteredPaints.length > 0) {
+        resultsContainer.classList.remove("hidden");
+        displayItems(filteredPaints);
+    } else {
+        resultsContainer.classList.remove("hidden");
+        resultsContainer.innerHTML = `<div class="p-2 text-gray-600">Ingen resultater fundet.</div>`;
+    }
+}
+
+// Vis søgeresultater
+function displayItems(results) {
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = ""; // Ryd tidligere resultater
+
+    results.forEach(result => {
+        const div = document.createElement("div");
+        div.classList.add("p-3", "hover:bg-gray-100", "cursor-pointer");
+
+        div.innerHTML = `
+            <strong>${result.name}</strong> - ${result.paintNo.itemNo} (${result.paintNo.liters}L)
+            <br>
+            <span class="text-sm text-gray-600">Kategori: ${result.category} - Pris: ${result.price} kr.</span>
+        `;
+
+        div.addEventListener("click", () => {
+            productPageUrl = `/products/${result.paintNo.itemNo}`;
+            window.location.href = productPageUrl;
+        });
+
+        resultsContainer.appendChild(div);
+    });
+
+    resultsContainer.classList.remove("hidden"); // Vis resultater
+}
+
+window.onload = () => {
+    fetchAllPaints();
+
+    const searchInput = document.getElementById("search-input");
+    if (!searchInput) {
+        console.error("Søgefeltet med id='search-input' blev ikke fundet.");
+        return;
+    }
+
+    searchInput.addEventListener("input", searchByNameOrItemNo);
+};

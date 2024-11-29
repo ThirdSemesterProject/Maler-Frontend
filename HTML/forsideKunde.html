@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maling.dk - Tilbud</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../JS/Search.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/footer.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -15,6 +16,7 @@
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
+
 <!-- Header -->
 <header class="bg-white py-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center">
@@ -25,13 +27,23 @@
             </div>
             <span class="ml-4 font-semibold text-lg tracking-wide">Maling.dk</span>
         </div>
-        <!-- Søgefelt -->
-        <div class="flex items-center w-1/2">
-            <input type="text" placeholder="Søg efter produkter..."
-                   class="p-3 rounded-l-full text-gray-800 flex-grow border border-gray-300 focus:outline-none focus:ring focus:ring-gray-400">
+
+        <div class="flex items-center w-1/2 relative">
+            <div class="flex-grow relative">
+                <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Søg efter produkter..."
+                        class="p-3 rounded-l-full text-gray-800 w-full border border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+                        oninput="searchByNameOrItemNo()">
+                <div
+                        id="results-container"
+                        class="absolute left-0 top-full bg-white shadow-lg rounded-md border border-gray-300 max-h-72 overflow-y-auto hidden z-50 w-full">
+                </div>
+            </div>
             <button class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-r-full">Søg</button>
-        </div>
-        <!-- Kurv -->
+
+     <!-- Kurv -->
         <div>
             <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
             <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
@@ -82,7 +94,9 @@
                     </button>
                 </div>
             </div>
+
         </div>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
     </div>
 </header>
 
@@ -98,6 +112,7 @@
         </div>
     </div>
 </section>
+
 
 <!-- Info Sektion -->
 <section class="bg-white py-8">
@@ -120,6 +135,7 @@
         </div>
     </div>
 </section>
+
 
 <!-- Kategorier -->
 <section class="container mx-auto mt-12 mb-12">
@@ -153,11 +169,10 @@
         <div class="text-center">
             <a href="/tilbehør" class="block">
                 <img src="/images/tilbehørKategori.png" alt="Tilbehør" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Tilbehør</p>
         </div>
-
-        <!-- Værktøj -->
         <div class="text-center">
             <a href="/værktøj" class="block">
                 <img src="/images/toolsKategori.png" alt="Værktøj" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
@@ -181,16 +196,19 @@
             <p class="mt-4 text-lg font-semibold text-gray-800">Rengøring</p>
         </div>
 
+
         <!-- Dit kreative univers -->
         <div class="text-center">
             <a href="/kreativt-univers" class="block">
                 <img src="/images/kreativtUniversKategori.png" alt="Dit kreative univers" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">
+
             </a>
             <p class="mt-4 text-lg font-semibold text-gray-800">Dit kreative univers</p>
         </div>
-
+        <!-- Tilføj de øvrige kategorier -->
     </div>
 </section>
+
 
 <footer class="footer">
     <div class="container">
