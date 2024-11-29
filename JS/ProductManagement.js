@@ -38,6 +38,92 @@ function createProductModal() {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 })();
 
+function createProductManagementSection() {
+    const sectionHTML = `
+        <section id="product-management" class="hidden p-8">
+            <h1 class="text-2xl font-bold mb-6">Administrer Produkter</h1>
+            <table class="table-auto border-collapse border border-gray-300 w-full text-sm mb-4 shadow-lg rounded-lg">
+                <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Field</th>
+                    <th class="border border-gray-300 px-4 py-2">Input</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Name</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-name" placeholder="Name" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">URL</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-url" placeholder="Url" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Price</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="number" id="product-price" placeholder="Price" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Description</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <textarea id="product-description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Category</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-category" placeholder="Category" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Brand</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-brand" placeholder="Brand" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button onclick="createProduct()" class="bg-blue-500 text-white py-2 px-4 rounded">Create Product</button>
+            <button onclick="updateProduct()" class="bg-green-500 text-white py-2 px-4 rounded">Update Product</button>
+            <button onclick="clearProductForm()" class="bg-gray-500 text-white py-2 px-4 rounded">Clear</button>
+            <div id="products-list" class="mt-6">
+                <!-- Fetched products will be displayed here -->
+            </div>
+        </section>
+    `;
+    document.body.insertAdjacentHTML('beforeend', sectionHTML);
+}
+
+// Call the function during initialization
+(function initializeProductManagement() {
+    createProductManagementSection();
+})();
+
+function showProductSection() {
+    const productManagement = document.querySelector('#product-management');
+    if (!productManagement) {
+        createProductManagementSection();
+    }
+    productManagement.classList.remove('hidden');
+    fetchProducts();
+}
+
+// Wait for the DOM to fully load before attaching event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const addProductsLink = document.getElementById('add-products-link');
+    if (addProductsLink) {
+        addProductsLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default link behavior
+            showProductSection(); // Call the function to show the product section
+        });
+    }
+});
+
 // fetch product data
 async function fetchProducts() {
     const response = await fetch('http://localhost:8080/api/products/getAllProducts');
