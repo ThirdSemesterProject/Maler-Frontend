@@ -25,7 +25,7 @@
         </a>
 
         <!-- Tilføj Produkter -->
-        <a href="/admin/tilføj-produkter" class="mb-8 text-center group">
+        <a href="#products" class="mb-8 text-center group" onclick="showProductSection()">
             <div class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
                 <span class="text-gray-800 font-bold text-sm">Tilføj produkter</span>
             </div>
@@ -98,8 +98,57 @@
             </div>
         </header>
         <!-- modal end -->
-        </header>
         <!-- Content -->
+        <section id="product-management" class="hidden p-8">
+            <h1 class="text-2xl font-bold mb-6">Administrer Produkter</h1>
+            <table class="table-auto border-collapse border border-gray-300 w-full text-sm mb-4 shadow-lg rounded-lg">
+                <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Field</th>
+                    <th class="border border-gray-300 px-4 py-2">Input</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Name</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-name" placeholder="Name" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Price</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="number" id="product-price" placeholder="Price" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Description</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <textarea id="product-description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Category</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-category" placeholder="Category" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">Brand</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <input type="text" id="product-brand" placeholder="Brand" class="w-full p-2 border rounded">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button onclick="createProduct()" class="bg-blue-500 text-white py-2 px-4 rounded">Create Product</button>
+
+            <div id="products-list" class="mt-6">
+                <!-- Fetched products will be displayed here -->
+            </div>
+        </section>
+
+
         <main class="p-8">
             <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Overblik</h1>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -123,5 +172,6 @@
     </div>
 </div>
 <script src="../JS/JwtHandling.js"></script>
+<script src="../JS/ProductManagement.js"></script>
 </body>
 </html>
