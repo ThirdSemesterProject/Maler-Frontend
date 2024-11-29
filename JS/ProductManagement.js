@@ -9,6 +9,7 @@ async function fetchProducts() {
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">ID</th>
                     <th class="border border-gray-300 px-4 py-2">Name</th>
+                    <th class="border border-gray-300 px-4 py-2">URL</th>
                     <th class="border border-gray-300 px-4 py-2">Price</th>
                     <th class="border border-gray-300 px-4 py-2">Description</th>
                     <th class="border border-gray-300 px-4 py-2">Category</th>
@@ -21,6 +22,7 @@ async function fetchProducts() {
                     <tr>
                         <td class="border border-gray-300 px-4 py-2">${product.id}</td>
                         <td class="border border-gray-300 px-4 py-2">${product.name}</td>
+                        <td class="border border-gray-300 px-4 py-2">${product.url}</td>
                         <td class="border border-gray-300 px-4 py-2">${product.price}</td>
                         <td class="border border-gray-300 px-4 py-2">${product.description}</td>
                         <td class="border border-gray-300 px-4 py-2">${product.category}</td>
@@ -40,6 +42,7 @@ async function fetchProducts() {
 
 async function createProduct() {
     const name = document.querySelector('#product-name').value;
+    const url = document.querySelector('#product-url').value;
     const price = document.querySelector('#product-price').value;
     const description = document.querySelector('#product-description').value;
     const category = document.querySelector('#product-category').value;
@@ -48,7 +51,7 @@ async function createProduct() {
     await fetch('http://localhost:8080/api/products/createProduct', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, price, description, category, brand }),
+        body: JSON.stringify({ name, url, price, description, category, brand }),
     });
     fetchProducts();
 }
@@ -66,6 +69,7 @@ function showProductSection() {
 // Populate product data for editing
 function populateProductForm(product) {
     document.querySelector('#product-name').value = product.name;
+    document.querySelector('#product-url').value = product.url;
     document.querySelector('#product-price').value = product.price;
     document.querySelector('#product-description').value = product.description;
     document.querySelector('#product-category').value = product.category;
@@ -78,6 +82,7 @@ function populateProductForm(product) {
 // Clear the form inputs
 function clearProductForm() {
     document.querySelector('#product-name').value = '';
+    document.querySelector('#product-url').value = '';
     document.querySelector('#product-price').value = '';
     document.querySelector('#product-description').value = '';
     document.querySelector('#product-category').value = '';
@@ -94,6 +99,7 @@ async function updateProduct() {
     }
 
     const name = document.querySelector('#product-name').value;
+    const url = document.querySelector('#product-url').value;
     const price = document.querySelector('#product-price').value;
     const description = document.querySelector('#product-description').value;
     const category = document.querySelector('#product-category').value;
@@ -102,7 +108,7 @@ async function updateProduct() {
     const response = await fetch(`http://localhost:8080/api/products/${editingId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, price, description, category, brand }),
+        body: JSON.stringify({ name, url, price, description, category, brand }),
     });
 
     if (response.ok) {
