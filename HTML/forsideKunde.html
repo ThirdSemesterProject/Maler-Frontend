@@ -28,8 +28,9 @@
             <span class="ml-4 font-semibold text-lg tracking-wide">Maling.dk</span>
         </div>
 
-        <div class="flex items-center w-1/2 relative">
-            <div class="flex-grow relative">
+        <!-- søgefelt -->
+        <div class="flex-grow flex justify-center relative">
+            <div class="flex items-center w-2/3 relative">
                 <input
                         type="text"
                         id="search-input"
@@ -40,12 +41,12 @@
                         id="results-container"
                         class="absolute left-0 top-full bg-white shadow-lg rounded-md border border-gray-300 max-h-72 overflow-y-auto hidden z-50 w-full">
                 </div>
+                <button class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-r-full">Søg</button>
             </div>
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-r-full">Søg</button>
+        </div>
 
-     <!-- Kurv -->
+     <!-- Knapper -->
         <div>
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
             <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
                 Sign up
             </button>
@@ -59,6 +60,11 @@
                 Get Secret
             </button>
         </div>
+
+        <div class="ml-auto">
+            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
+        </div>
+
         <nav class="bg-gray-100 py-4">
             <div class="container mx-auto flex justify-between items-center">
                 <div>
@@ -66,6 +72,7 @@
                 </div>
             </div>
         </nav>
+
         <!-- Modal start -->
         <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div class="bg-white w-96 rounded-lg shadow-lg">
@@ -94,9 +101,7 @@
                     </button>
                 </div>
             </div>
-
         </div>
-        <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
     </div>
 </header>
 
