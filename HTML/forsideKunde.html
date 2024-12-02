@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,96 +16,7 @@
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
-
-<!-- Header -->
-<header class="bg-white py-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-        <!-- Logo -->
-        <div class="flex items-center">
-            <div class="bg-gray-200 p-2 rounded-full">
-                <span class="text-gray-800 font-bold">Logo</span>
-            </div>
-            <span class="ml-4 font-semibold text-lg tracking-wide">Maling.dk</span>
-        </div>
-
-        <!-- søgefelt -->
-        <div class="flex-grow flex justify-center relative">
-            <div class="flex items-center w-2/3 relative">
-                <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Søg efter produkter..."
-                        class="p-3 rounded-l-full text-gray-800 w-full border border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-                        oninput="searchByNameOrItemNo()">
-                <div
-                        id="results-container"
-                        class="absolute left-0 top-full bg-white shadow-lg rounded-md border border-gray-300 max-h-72 overflow-y-auto hidden z-50 w-full">
-                </div>
-            </div>
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-r-full">Søg</button>
-
-        </div>
-
-     <!-- Knapper -->
-        <div>
-            <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
-                Sign up
-            </button>
-            <button id="btn-show-login" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">
-                Sign in
-            </button>
-            <button id="btn-fetch" hidden class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                Fetch data
-            </button>
-            <button id="btn-get-secret" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" hidden>
-                Get Secret
-            </button>
-        </div>
-
-        <div class="ml-auto">
-            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>
-        </div>
-
-        <nav class="bg-gray-100 py-4">
-            <div class="container mx-auto flex justify-between items-center">
-                <div>
-
-                </div>
-            </div>
-        </nav>
-
-        <!-- Modal start -->
-        <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div class="bg-white w-96 rounded-lg shadow-lg">
-                <div class="border-b px-4 py-2 flex justify-between items-center">
-                    <h3 id="modal-title" class="text-lg font-semibold">Login</h3>
-                    <button onclick="toggleModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
-                </div>
-                <div class="p-4">
-                    <form>
-                        <div class="mb-4">
-                            <label for="username-field" class="block text-gray-700 font-semibold">Name</label>
-                            <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
-                        </div>
-                        <div class="mb-4">
-                            <label for="password-field" class="block text-gray-700 font-semibold">Password</label>
-                            <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
-                        </div>
-                    </form>
-                </div>
-                <div class="border-t px-4 py-2 flex justify-end">
-                    <button onclick="toggleModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                        Cancel
-                    </button>
-                    <button id="btn-form-login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
-                        Login
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
+    <script src="../JS/HeaderScript.js"></script>
 
 <!-- Hero Section -->
 <section class="relative bg-cover bg-center h-[400px]" style="background-image: url('../images/forsideBilledeIkkeVores.png');">
@@ -215,6 +126,8 @@
     </div>
 </section>
 
+<div id="main-container" class="max-w-4xl mx-auto mt-8"></div>
+
 
 <footer class="footer">
     <div class="container">
@@ -258,6 +171,11 @@
         <p>© Maling.dk - 2024. All Rights Reserved</p>
     </div>
 </footer>
+
+
+
+<script src="../JS/JwtHandling.js"></script>
+<script src="../JS/ProductShowSite.js"></script>
 
 <script src="../JS/JwtSecurityLoginHandling.js"></script>
 </body>
