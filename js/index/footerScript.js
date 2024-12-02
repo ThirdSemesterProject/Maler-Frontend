@@ -3,17 +3,17 @@ function addFooter() {
         '        <div class="container">\n' +
         '            <div class="row">\n' +
         '                <div class="footer-col">\n' +
-        '                    <h4>OPLYSNINGER</h4>\n' +
+        '                    <h4>KONTAKT OPLYSNINGER</h4>\n' +
         '                    <ul>\n' +
-        '                        <li><a href="/">Scrapbasket.dk</a></li>\n' +
-        '                        <li><a href="/">Ring til mig på</a></li>\n' +
-        '                        <li><a href="/">Skriv til mig på mail</a></li>\n' +
+        '                        <li><a href="/">maling.dk</a></li>\n' +
+        '                        <li><a href="/">Ring til os på</a></li>\n' +
+        '                        <li><a href="/">Skriv til os på mail</a></li>\n' +
         '                    </ul>\n' +
         '                </div>\n' +
         '                <div class="footer-col">\n' +
         '                    <h4>INFORMATION</h4>\n' +
         '                    <ul>\n' +
-        '                        <li><a href="/">Om mig</a></li>\n' +
+        '                        <li><a href="/">Om os</a></li>\n' +
         '                        <li><a href="/">Handelsbetingelser</a></li>\n' +
         '                        <li><a href="/">###</a></li>\n' +
         '                        <li><a href="/">###</a></li>\n' +
@@ -22,13 +22,13 @@ function addFooter() {
         '                <div class="footer-col">\n' +
         '                    <h4>Hjælp & kontakt</h4>\n' +
         '                    <ul>\n' +
-        '                        <li><a href="/">Kontakt mig</a></li>\n' +
+        '                        <li><a href="/">Kontakt os</a></li>\n' +
         '                        <li><a href="/">Hyppige spørgsmål</a></li>\n' +
         '                        <li><a href="/">Mere information</a></li>\n' +
         '                    </ul>\n' +
         '                </div>\n' +
         '                <div class="footer-col">\n' +
-        '                    <h4>Følg mig på!</h4>\n' +
+        '                    <h4>Følg os på!</h4>\n' +
         '                    <div class="social-links">\n' +
         '                        <a href="#"><i class="fab fa-facebook-f"></i></a>\n' +
         '                        <a href="#"><i class="fab fa-instagram"></i></a>\n' +
