@@ -1,52 +1,50 @@
 function addFooter() {
-
-    const footerHTML = `
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col">
-                        <h4>FIRMAOPLYSNINGER</h4>
-                        <ul>
-                            <li><a href="/">Maling.dk</a></li>
-                            <li><a href="/">Ring til os på</a></li>
-                            <li><a href="/">Skriv til os på mail</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>INFORMATION</h4>
-                        <ul>
-                            <li><a href="/">Om os</a></li>
-                            <li><a href="/">Handelsbetingelser</a></li>
-                            <li><a href="/">###</a></li>
-                            <li><a href="/">###</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Hjælp & kontakt</h4>
-                        <ul>
-                            <li><a href="/">Kontakt os</a></li>
-                            <li><a href="/">Hyppige spørgsmål</a></li>
-                            <li><a href="/">Mere information</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Følg os på!</h4>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© Maling.dk - 2024. All Rights Reserved</p>
-            </div>
-        </footer>
-    `;
-
-    // Selvudførende funktion for at tilføje footeren
-    (function initializeFooterScript() {
-        document.body.insertAdjacentHTML('beforeend', footerHTML);
-    })();
+    return '    <footer class="footer">\n' +
+        '        <div class="container">\n' +
+        '            <div class="row">\n' +
+        '                <div class="footer-col">\n' +
+        '                    <h4>OPLYSNINGER</h4>\n' +
+        '                    <ul>\n' +
+        '                        <li><a href="/">Scrapbasket.dk</a></li>\n' +
+        '                        <li><a href="/">Ring til mig på</a></li>\n' +
+        '                        <li><a href="/">Skriv til mig på mail</a></li>\n' +
+        '                    </ul>\n' +
+        '                </div>\n' +
+        '                <div class="footer-col">\n' +
+        '                    <h4>INFORMATION</h4>\n' +
+        '                    <ul>\n' +
+        '                        <li><a href="/">Om mig</a></li>\n' +
+        '                        <li><a href="/">Handelsbetingelser</a></li>\n' +
+        '                        <li><a href="/">###</a></li>\n' +
+        '                        <li><a href="/">###</a></li>\n' +
+        '                    </ul>\n' +
+        '                </div>\n' +
+        '                <div class="footer-col">\n' +
+        '                    <h4>Hjælp & kontakt</h4>\n' +
+        '                    <ul>\n' +
+        '                        <li><a href="/">Kontakt mig</a></li>\n' +
+        '                        <li><a href="/">Hyppige spørgsmål</a></li>\n' +
+        '                        <li><a href="/">Mere information</a></li>\n' +
+        '                    </ul>\n' +
+        '                </div>\n' +
+        '                <div class="footer-col">\n' +
+        '                    <h4>Følg mig på!</h4>\n' +
+        '                    <div class="social-links">\n' +
+        '                        <a href="#"><i class="fab fa-facebook-f"></i></a>\n' +
+        '                        <a href="#"><i class="fab fa-instagram"></i></a>\n' +
+        '                        <a href="#"><i class="fab fa-twitter"></i></a>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '        <div class="footer-bottom">\n' +
+        '            <p>© Scrapbasket.dk - 2024. All Rights Reserved</p>\n' +
+        '        </div>\n' +
+        '    </footer>';
 }
+
+// Selvudførende funktion for at tilføje footeren
+(function initializeFooterScript() {
+    const footerHTML= addFooter();
+    document.body.insertAdjacentHTML('beforeend', footerHTML);
+})();
