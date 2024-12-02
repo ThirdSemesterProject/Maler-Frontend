@@ -38,7 +38,7 @@ function addFooter() {
         '            </div>\n' +
         '        </div>\n' +
         '        <div class="footer-bottom">\n' +
-        '            <p>© Scrapbasket.dk - 2024. All Rights Reserved</p>\n' +
+        '            <p>© maling.dk - 2024. All Rights Reserved</p>\n' +
         '        </div>\n' +
         '    </footer>';
 }
