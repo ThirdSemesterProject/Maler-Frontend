@@ -47,3 +47,83 @@ function createInfoSection() {
     const infoSection = createInfoSection();
     document.body.insertAdjacentHTML('beforeend', infoSection);
 })();
+
+function createCategorySection() {
+    return '<!-- Kategorier -->\n' +
+        '<section class="container mx-auto mt-12 mb-12">\n' +
+        '    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">\n' +
+        '\n' +
+        '        <!-- Dit online farveunivers -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/farveunivers" class="block">\n' +
+        '                <img src="/images/farveuniversKategori.png" alt="Dit online farveunivers" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Dit online farveunivers</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '        <!-- Indendørs maling -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/indendørs-maling" class="block">\n' +
+        '                <img src="/images/indendørsKategori.png" alt="Indendørs maling" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Indendørs maling</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '        <!-- Udendørs maling -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/udendørs-maling" class="block">\n' +
+        '                <img src="/images/udendørsKategori.png" alt="Udendørs maling" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Udendørs maling</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '        <!-- Tilbehør -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/tilbehør" class="block">\n' +
+        '                <img src="/images/tilbehørKategori.png" alt="Tilbehør" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Tilbehør</p>\n' +
+        '        </div>\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/værktøj" class="block">\n' +
+        '                <img src="/images/toolsKategori.png" alt="Værktøj" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Værktøj</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '        <!-- Isenkram -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/isenkram" class="block">\n' +
+        '                <img src="/images/isenkramKategori.png" alt="Isenkram" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Isenkram</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '        <!-- Rengøring -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/rengøring" class="block">\n' +
+        '                <img src="/images/rengøringKategori.png" alt="Rengøring" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Rengøring</p>\n' +
+        '        </div>\n' +
+        '\n' +
+        '\n' +
+        '        <!-- Dit kreative univers -->\n' +
+        '        <div class="text-center">\n' +
+        '            <a href="/kreativt-univers" class="block">\n' +
+        '                <img src="/images/kreativtUniversKategori.png" alt="Dit kreative univers" class="rounded-md shadow-lg w-full h-48 object-cover hover:scale-105 transition-transform duration-300">\n' +
+        '\n' +
+        '            </a>\n' +
+        '            <p class="mt-4 text-lg font-semibold text-gray-800">Dit kreative univers</p>\n' +
+        '        </div>\n' +
+        '        <!-- Tilføj de øvrige kategorier -->\n' +
+        '    </div>\n' +
+        '</section>'
+}
+
+// Append the Product Modal to the body
+(function initializeCategorySection() {
+    const categorySection = createCategorySection();
+    document.body.insertAdjacentHTML('beforeend', categorySection);
+})();
