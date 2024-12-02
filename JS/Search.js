@@ -57,7 +57,7 @@ function searchByNameOrItemNo() {
 // Vis søgeresultater
 function displayItems(results) {
     const resultsContainer = document.getElementById("results-container");
-    resultsContainer.innerHTML = ""; // Ryd tidligere resultater
+    resultsContainer.innerHTML = ""; // Clear previous results
 
     results.forEach(result => {
         const div = document.createElement("div");
@@ -69,22 +69,23 @@ function displayItems(results) {
                 <strong>${result.name}</strong> - ${result.category}
                 <br>
                 Pris: ${result.price.toFixed(2)} kr.
-                <br>
-                Beskrivelse: ${result.description || "Ingen beskrivelse"}
-                <br>
-                Mærke: ${result.brand || "Ukendt"}
             </div>
         `;
 
-        // Klik for at navigere til produktets side
+        // Add click event listener to save to localStorage and display product
         div.addEventListener("click", () => {
-            const productPageUrl = `/products/${result.id}`; // Dynamisk URL baseret på produktets ID
-            window.location.href = productPageUrl;
+            // Save the product data to localStorage
+            localStorage.setItem("selectedProduct", JSON.stringify(result));
+            console.log(`Product saved to localStorage: ${result.id}`);
+
+            // Reload or "overhaul" the page
+            showProductDetails(); // Call a function to display the product details
         });
 
         resultsContainer.appendChild(div);
     });
 }
+
 
 window.onload = () => {
     fetchAllProducts();
