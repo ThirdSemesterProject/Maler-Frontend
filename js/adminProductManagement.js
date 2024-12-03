@@ -1,6 +1,6 @@
 function createProductModal() {
-    const modalHTML = '            <!-- Modal start -->\n' +
-        '            <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">\n' +
+    return '            <!-- Modal start -->\n' +
+        '            <div id="login-modal" class="hidden fixed z-50 inset-0 items-center justify-center bg-gray-800 bg-opacity-50">\n' +
         '                <div class="bg-white w-96 rounded-lg shadow-lg">\n' +
         '                    <div class="border-b px-4 py-2 flex justify-between items-center">\n' +
         '                        <h3 id="modal-title" class="text-lg font-semibold">Login</h3>\n' +
@@ -29,7 +29,6 @@ function createProductModal() {
         '                </div>\n' +
         '            </div>\n' +
         '            <!-- modal end -->';
-    return modalHTML;
 }
 
 // Append the Product Modal to the body
@@ -178,24 +177,6 @@ async function fetchProducts() {
 
 /* CRUD Functions */
 
-// Create product function
-async function createProduct() {
-    const name = document.querySelector('#product-name').value;
-    const url = document.querySelector('#product-url').value;
-    const price = document.querySelector('#product-price').value;
-    const description = document.querySelector('#product-description').value;
-    const category = document.querySelector('#product-category').value;
-    const subcategory = document.querySelector('#product-subcategory').value;
-    const brand = document.querySelector('#product-brand').value;
-
-    await fetch('http://localhost:8080/api/products/createProduct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, url, price, description, category, subcategory, brand }),
-    });
-    fetchProducts();
-}
-
 // Populate product data for editing
 function populateProductForm(product) {
     document.querySelector('#product-name').value = product.name;
@@ -210,6 +191,45 @@ function populateProductForm(product) {
     document.querySelector('#product-management').dataset.editingId = product.id;
 }
 
+// Helper function to gather product details from the form
+function getProductDetails() {
+    return {
+        name: document.querySelector('#product-name').value,
+        url: document.querySelector('#product-url').value,
+        price: document.querySelector('#product-price').value,
+        description: document.querySelector('#product-description').value,
+        category: document.querySelector('#product-category').value,
+        subcategory: document.querySelector('#product-subcategory').value,
+        brand: document.querySelector('#product-brand').value,
+    };
+}
+
+// Helper function to send a product request
+async function sendProductRequest(url, method, productData) {
+    return await fetch(url, {
+        method,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(productData),
+    });
+}
+
+// Create product function
+async function createProduct() {
+    const productData = getProductDetails();
+    const response = await sendProductRequest(
+        'http://localhost:8080/api/products/createProduct',
+        'POST',
+        productData
+    );
+
+    if (response.ok) {
+        await fetchProducts();
+        clearProductForm();
+    } else {
+        alert('Failed to create product.');
+    }
+}
+
 // Update an existing product
 async function updateProduct() {
     const editingId = document.querySelector('#product-management').dataset.editingId;
@@ -218,33 +238,27 @@ async function updateProduct() {
         return;
     }
 
-    const name = document.querySelector('#product-name').value;
-    const url = document.querySelector('#product-url').value;
-    const price = document.querySelector('#product-price').value;
-    const description = document.querySelector('#product-description').value;
-    const category = document.querySelector('#product-category').value;
-    const subcategory = document.querySelector('#product-subcategory').value;
-    const brand = document.querySelector('#product-brand').value;
-
-    const response = await fetch(`http://localhost:8080/api/products/${editingId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, url, price, description, category, subcategory, brand }),
-    });
+    const productData = getProductDetails();
+    const response = await sendProductRequest(
+        `http://localhost:8080/api/products/${editingId}`,
+        'PATCH',
+        productData
+    );
 
     if (response.ok) {
         alert('Product updated successfully.');
-        fetchProducts();
+        await fetchProducts();
         clearProductForm();
     } else {
         alert('Failed to update product.');
     }
 }
 
+
 // delete product by id function
 async function deleteProduct(id) {
     await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
-    fetchProducts();
+    await fetchProducts();
 }
 
 // Clear the form inputs
