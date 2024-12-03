@@ -116,7 +116,7 @@ const renderCategories = () => {
 
     window.categoriesSection.appendChild(grid);
 };
-
+    window.renderCategories = renderCategories;
 
 // Start med at vise hovedkategorierne
 renderCategories();
