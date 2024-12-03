@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function saveSelectedImage(imageId) {
         try {
             const response = await fetch('http://localhost:8080/api/upload/hero-new', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -214,23 +214,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Noget gik galt ved gemning af billedet.');
         }
     }
-
-    async function loadHeroImage() {
-        try {
-            const response = await fetch('http://localhost:8080/api/upload/hero');
-            if (response.ok) {
-                const data = await response.json();
-                const heroSection = document.getElementById('heroSection');
-                heroSection.style.backgroundImage = `url('${image.data}')`;
-            } else {
-                console.warn('Intet Hero-billede fundet på serveren.');
-            }
-        } catch (error) {
-            console.error('Fejl ved hentning af Hero-billede:', error);
-        }
-    }
-
-// Kald funktionen, når siden indlæses
-    document.addEventListener('DOMContentLoaded', loadHeroImage);
 
 });
