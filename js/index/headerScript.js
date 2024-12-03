@@ -45,7 +45,7 @@ function CreateHeader() {
         '        </div>\n' +
         '\n' +
         '        <div class="ml-auto">\n' +
-        '            <button class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>\n' +
+        '            <button id="cart-button" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>\n' +
         '        </div>\n' +
         '\n' +
         '        <nav class="bg-gray-100 py-4">\n' +
