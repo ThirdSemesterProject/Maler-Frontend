@@ -12,7 +12,9 @@
         backButton.className =
             "bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors";
         backButton.textContent = "Tilbage";
-        backButton.addEventListener("click", window.renderCategories);
+        backButton.addEventListener("click", () => {
+            window.renderCategories(); // Kalder funktionen til at vise hovedkategorier
+        });
 
         const title = document.createElement("h2");
         title.className = "text-2xl font-bold text-gray-800 text-center w-full";
@@ -142,7 +144,7 @@
                     <div class="flex items-center justify-between">
                         <span class="text-lg font-bold text-red-500">${product.price.toFixed(2)} DKK</span>
                         <button class="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600">
-                            Køb
+                            Læg i kurv
                         </button>
                     </div>
                 </div>
