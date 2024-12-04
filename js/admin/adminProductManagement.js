@@ -257,6 +257,14 @@ async function updateProduct() {
     }
 
     const productData = getProductDetails();
+
+    // Validate the price field
+    const price = productData.price;
+    if (isNaN(price) || price <= 0) {
+        alert('Please enter a valid price (a positive number).');
+        return;
+    }
+
     const response = await sendProductRequest(
         `http://localhost:8080/api/products/${editingId}`,
         'PATCH',
@@ -271,6 +279,7 @@ async function updateProduct() {
         alert('Failed to update product.');
     }
 }
+
 
 // delete an existing product
 async function deleteProduct(id) {
