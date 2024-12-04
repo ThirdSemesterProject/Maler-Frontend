@@ -272,4 +272,79 @@ function clearProductForm() {
     document.querySelector('#product-brand').value = '';
     delete document.querySelector('#product-management').dataset.editingId; // Remove editing ID
 }
+function showProductManagement() {
+    const productManagementHTML = `
+        <section class="p-8">
+            <h1 class="text-2xl font-bold mb-6">Administrer Produkter</h1>
+            <table class="table-auto border-collapse border border-gray-300 w-full text-sm mb-4 shadow-lg rounded-lg">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-4 py-2">Field</th>
+                        <th class="border border-gray-300 px-4 py-2">Input</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Name</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="text" id="product-name" placeholder="Name" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">URL</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="text" id="product-url" placeholder="URL" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Price</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="number" id="product-price" placeholder="Price" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Description</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <textarea id="product-description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Category</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="text" id="product-category" placeholder="Category" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Subcategory</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="text" id="product-subcategory" placeholder="Subcategory" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">Brand</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="text" id="product-brand" placeholder="Brand" class="w-full p-2 border rounded">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button onclick="createProduct()" class="bg-blue-500 text-white py-2 px-4 rounded">Create Product</button>
+            <button onclick="updateProduct()" class="bg-green-500 text-white py-2 px-4 rounded">Update Product</button>
+            <button onclick="clearProductForm()" class="bg-gray-500 text-white py-2 px-4 rounded">Clear</button>
+            <div id="products-list" class="mt-6">
+                <!-- Fetched products will be displayed here -->
+            </div>
+        </section>
+    `;
+
+    const container = document.getElementById('main-content-container');
+    if (container) {
+        container.innerHTML = productManagementHTML;
+    } else {
+        console.error('main-content-container ikke fundet.');
+    }
+
+    // Fetch products efter at indholdet er indlæst
+    fetchProducts();
+}
 

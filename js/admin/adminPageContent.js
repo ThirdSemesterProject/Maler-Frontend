@@ -47,7 +47,7 @@ export function loadAdminSidebar() {
             </a>
 
             <!-- Tilføj Produkter -->
-            <a href="#products" class="mb-8 text-center group" onclick="showProductSection()">
+            <a href="#products" class="mb-8 text-center group" onclick="showProductManagement()">
                 <div
                     class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
                     <span class="text-gray-800 font-bold text-sm">Tilføj produkter</span>
