@@ -7,15 +7,11 @@ function createAdminHeader() {
         '                </div>\n' +
         '                <span class="ml-4 font-semibold text-lg tracking-wide">Admin Panel</span>\n' +
         '            </div>\n' +
-        '            <nav class="bg-gray-100 py-4">\n' +
+        '            <nav class="bg-white-100 py-4">\n' +
         '                <div class="container mx-auto flex justify-between items-center">\n' +
         '                    <div>\n' +
-        '                        <button id="btn-signup" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">\n' +
-        '                            Sign up\n' +
-        '                        </button>\n' +
-        '                        <button id="btn-show-login"\n' +
-        '                                class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">\n' +
-        '                            Sign in\n' +
+        '                        <button id="btn-signout" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">\n' +
+        '                            Sign out\n' +
         '                        </button>\n' +
         '                        <button id="btn-fetch" hidden\n' +
         '                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">\n' +
