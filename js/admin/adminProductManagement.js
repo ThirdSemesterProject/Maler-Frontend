@@ -272,3 +272,4 @@ function clearProductForm() {
     document.querySelector('#product-brand').value = '';
     delete document.querySelector('#product-management').dataset.editingId; // Remove editing ID
 }
+
