@@ -224,6 +224,7 @@ async function createProduct() {
 
     if (response.ok) {
         await fetchProducts();
+        alert('Product created successfully.');
         clearProductForm();
     } else {
         alert('Failed to create product.');
