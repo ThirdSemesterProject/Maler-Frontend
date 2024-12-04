@@ -255,11 +255,21 @@ async function updateProduct() {
     }
 }
 
-
-// delete product by id function
+// delete an existing product
 async function deleteProduct(id) {
-    await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
-    await fetchProducts();
+    try {
+        const response = await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
+
+        if (response.ok) {
+            alert("Product successfully deleted!");
+            await fetchProducts(); // Refresh the product list
+        } else {
+            alert("Failed to delete product. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error while deleting product:", error);
+        alert("An error occurred. Please try again.");
+    }
 }
 
 // Clear the form inputs
