@@ -1,17 +1,18 @@
+
 const categories = {
     "Farveuniverset": {
         subcategories: [],
-        image: "/images/farveuniversetKategori.png",
+        image: null, // Placeholder
     },
     "Indendørs maling": {
         subcategories: [
-            { name: "Vægmaling", image: "/images/vaegmaling.png" },
-            { name: "Loftmaling", image: "/images/loftmaling.png" },
-            { name: "Træmaling", image: "/images/traemaling.png" },
-            { name: "Gulvmaling", image: "/images/gulvmaling.png" },
-            { name: "Specialmaling", image: "/images/specialmaling.png" },
+            { name: "Vægmaling", image: null },
+            { name: "Loftmaling", image: null },
+            { name: "Træmaling", image: null },
+            { name: "Gulvmaling", image: null },
+            { name: "Specialmaling", image: null },
         ],
-        image: "/images/indendoersKategori.png",
+        image: null, // Placeholder
     },
     "Udendørs maling": {
         subcategories: [
@@ -84,40 +85,84 @@ const categories = {
 
 window.categories=categories;
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    window.categoriesSection = document.getElementById("categories-section");
 
-window.categoriesSection = document.getElementById("categories-section");
+    const renderCategories = () => {
+        window.categoriesSection.innerHTML = ""; // Ryd placeholderen
 
-const renderCategories = () => {
-    window.categoriesSection.innerHTML = ""; // Ryd placeholderen
+        const grid = document.createElement("div");
+        grid.className = "grid grid-cols-2 md:grid-cols-4 gap-6";
 
-    const grid = document.createElement("div");
-    grid.className = "grid grid-cols-2 md:grid-cols-4 gap-6";
+        Object.keys(categories).forEach((category) => {
+            const { image } = categories[category];
 
-    Object.keys(window.categories).forEach((category) => {
-        const { image } = window.categories[category];
+            const card = document.createElement("div");
+            card.className =
+                "text-center bg-white rounded-md shadow-lg hover:shadow-xl transition-shadow cursor-pointer";
 
-        const card = document.createElement("div");
-        card.className =
-            "text-center bg-white rounded-md shadow-lg hover:shadow-xl transition-shadow cursor-pointer";
+            card.innerHTML = `
+                <div>
+                    <img src="${image}" alt="${category}" class="rounded-md w-full h-48 object-cover mb-4">
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800">${category}</h3>
+                </div>
+            `;
 
-        card.innerHTML = `
-            <div>
-                <img src="${image}" alt="${category}" class="rounded-md w-full h-48 object-cover mb-4">
-            </div>
-            <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-800">${category}</h3>
-            </div>
-        `;
+            card.addEventListener("click", () => window.renderSubcategories(category));
+            grid.appendChild(card);
+        });
 
-        card.addEventListener("click", () => window.renderSubcategories(category));
-        grid.appendChild(card);
-    });
+        window.categoriesSection.appendChild(grid);
+    };
 
-    window.categoriesSection.appendChild(grid);
-};
     window.renderCategories = renderCategories;
 
-// Start med at vise hovedkategorierne
-renderCategories();
+    // Først hent billeder og derefter rendér kategorier
+    await loadCategoryImages();
+    renderCategories();
 });
+
+
+async function loadCategoryImages() {
+    for (const categoryName in categories) {
+        const category = categories[categoryName];
+
+        // Hent billede til hovedkategori
+        try {
+            console.log(`Henter billede for kategori: ${categoryName}`);
+            category.image = await fetchImageByName(categoryName) || "/images/default-placeholder.png";
+        } catch (error) {
+            console.error(`Fejl ved hentning af billede for kategori ${categoryName}:`, error);
+            category.image = "/images/default-placeholder.png"; // Fallback
+        }
+
+        // Hent billeder for underkategorier
+        for (const subcategory of category.subcategories) {
+            try {
+                console.log(`Henter billede for underkategori: ${subcategory.name}`);
+                subcategory.image = await fetchImageByName(subcategory.name) || "/images/default-placeholder.png";
+            } catch (error) {
+                console.error(`Fejl ved hentning af billede for underkategori ${subcategory.name}:`, error);
+                subcategory.image = "/images/default-placeholder.png"; // Fallback
+            }
+        }
+    }
+}
+
+async function fetchImageByName(name) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/upload/images/search?name=${encodeURIComponent(name)}`);
+        if (!response.ok) {
+            throw new Error(`Billede ikke fundet for navn: ${name}`);
+        }
+        const image = await response.json();
+        return image.data || image.imageUrl;
+    } catch (error) {
+        console.error("Fejl ved hentning af billede:", error);
+        return null;
+    }
+}
+
+// Herefter kan du bruge `fetchImageByName` direkte i din Categories.js

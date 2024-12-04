@@ -99,3 +99,17 @@ function displayImages(images) {
 // Tilføj event listeners til knapperne
 document.getElementById('fetchImageButton').addEventListener('click', fetchImageById);
 document.getElementById('fetchAllImagesButton').addEventListener('click', fetchAllImages);
+
+export async function fetchImageByName(name) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/upload/images/search?name=${encodeURIComponent(name)}`);
+        if (!response.ok) {
+            throw new Error(`Billede ikke fundet for navn: ${name}`);
+        }
+        const image = await response.json();
+        return image.data || image.imageUrl; // Returner billedets URL eller Base64-data
+    } catch (error) {
+        console.error("Fejl ved hentning af billede:", error);
+        return null; // Returner null ved fejl
+    }
+}
