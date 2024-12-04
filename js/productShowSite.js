@@ -34,7 +34,14 @@ function showProductDetails() {
                 <p><strong class="font-semibold">Mærke:</strong> ${product.brand || "Unknown"}</p>
             </div>
              <!-- Add to Cart Button -->
-            <button id="addToCart" class="mt-6 px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-200 flex items-center space-x-2">
+            <button 
+                id="addToCart" 
+                class="mt-6 px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-200 flex items-center space-x-2"
+                data-id="${product.id}" 
+                data-name="${product.name}" 
+                data-price="${product.price}" 
+                data-url="${product.imageUrl}" 
+                data-quantity="1">
                 <i class="fas fa-shopping-cart"></i> <!-- Cart Icon -->
                 <span>${product.price ? product.price.toFixed(2) : "N/A"} kr.</span>
             </button>
@@ -58,13 +65,42 @@ function showProductDetails() {
         setTimeout(() => {
             imageSpinner.classList.add("hidden"); // Hide spinner
             productImage.classList.remove("hidden"); // Show image
-        }, 6000); // Add a slight delay for smooth transition
+        }, 600); // Add a slight delay for smooth transition
     });
 
-    // Add a "Go Back" button to reset the view
+    // Add event listener to "Go Back" button
     const goBackButton = document.getElementById("goBack");
     goBackButton.addEventListener("click", () => {
         location.reload(); // Reload the page to show the product list again
     });
-}
 
+    // Add event listener to "Add to Cart" button
+    const addToCartButton = document.getElementById("addToCart");
+    addToCartButton.addEventListener("click", async () => {
+        const productData = {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            url: product.imageUrl,
+            quantity: 1,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+            });
+
+            if (response.ok) {
+                alert(`${product.name} er tilføjet til kurven!`);
+            } else {
+                alert('Kunne ikke tilføje produktet til kurven.');
+            }
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
+        }
+    });
+}
