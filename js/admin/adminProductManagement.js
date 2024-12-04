@@ -216,6 +216,14 @@ async function sendProductRequest(url, method, productData) {
 // Create product function
 async function createProduct() {
     const productData = getProductDetails();
+
+    // Validate the price field
+    const price = productData.price;
+    if (isNaN(price) || price <= 0) {
+        alert('Please enter a valid price (a positive number).');
+        return;
+    }
+
     const response = await sendProductRequest(
         'http://localhost:8080/api/products/createProduct',
         'POST',
@@ -230,6 +238,15 @@ async function createProduct() {
         alert('Failed to create product.');
     }
 }
+
+document.getElementById('price').addEventListener('input', function (e) {
+    const value = e.target.value;
+    // Allow only digits, optional decimal point, and at most two decimal places
+    const valid = /^(\d+(\.\d{0,2})?)?$/.test(value);
+    if (!valid) {
+        e.target.value = value.slice(0, -1); // Remove the last invalid character
+    }
+});
 
 // Update an existing product
 async function updateProduct() {
