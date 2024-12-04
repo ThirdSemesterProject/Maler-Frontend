@@ -33,14 +33,14 @@ function showProductDetails() {
                 <p><strong class="font-semibold">Kategori:</strong> ${product.category || "Unknown"}</p>
                 <p><strong class="font-semibold">Mærke:</strong> ${product.brand || "Unknown"}</p>
             </div>
-             <!-- Add to Cart Button -->
+            <!-- Add to Cart Button -->
             <button 
                 id="addToCart" 
                 class="mt-6 px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-200 flex items-center space-x-2"
                 data-id="${product.id}" 
                 data-name="${product.name}" 
                 data-price="${product.price}" 
-                data-url="${product.imageUrl}" 
+                data-url="${product.url}" 
                 data-quantity="1">
                 <i class="fas fa-shopping-cart"></i> <!-- Cart Icon -->
                 <span>${product.price ? product.price.toFixed(2) : "N/A"} kr.</span>
@@ -78,12 +78,14 @@ function showProductDetails() {
     const addToCartButton = document.getElementById("addToCart");
     addToCartButton.addEventListener("click", async () => {
         const productData = {
-            id: product.id,
+            productId: product.id, // Ensure this matches backend requirements
             name: product.name,
             price: product.price,
-            url: product.imageUrl,
+            url: product.url, // Ensure correct field name
             quantity: 1,
         };
+
+        console.log("Sending product data to backend:", productData); // Log the data
 
         try {
             const response = await fetch('http://localhost:8080/api/cart/add', {
@@ -97,6 +99,8 @@ function showProductDetails() {
             if (response.ok) {
                 alert(`${product.name} er tilføjet til kurven!`);
             } else {
+                const errorText = await response.text();
+                console.error("Backend error response:", errorText);
                 alert('Kunne ikke tilføje produktet til kurven.');
             }
         } catch (error) {
