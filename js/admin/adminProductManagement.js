@@ -50,7 +50,7 @@ function createProductManagementSection() {
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">Name</td>
+                    <td class="border border-gray-300 px-4 py-2">Navn</td>
                     <td class="border border-gray-300 px-4 py-2">
                         <input type="text" id="product-name" placeholder="Name" class="w-full p-2 border rounded">
                     </td>
@@ -62,25 +62,25 @@ function createProductManagementSection() {
                     </td>
                 </tr>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">Price</td>
+                    <td class="border border-gray-300 px-4 py-2">Pris</td>
                     <td class="border border-gray-300 px-4 py-2">
                         <input type="number" id="product-price" placeholder="Price" class="w-full p-2 border rounded">
                     </td>
                 </tr>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">Description</td>
+                    <td class="border border-gray-300 px-4 py-2">Beskrivelse</td>
                     <td class="border border-gray-300 px-4 py-2">
                         <textarea id="product-description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">Category</td>
+                    <td class="border border-gray-300 px-4 py-2">Kategori</td>
                     <td class="border border-gray-300 px-4 py-2">
                         <input type="text" id="product-category" placeholder="Category" class="w-full p-2 border rounded">
                     </td>
                 </tr>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">Subcategory</td>
+                    <td class="border border-gray-300 px-4 py-2">Underkategori</td>
                     <td class="border border-gray-300 px-4 py-2">
                         <input type="text" id="product-subcategory" placeholder="Subcategory" class="w-full p-2 border rounded">
                     </td>
@@ -143,15 +143,15 @@ async function fetchProducts(page = 0, size = pageSize) {
         <table class="table-auto border-collapse border border-gray-300 w-full text-sm">
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="border border-gray-300 px-4 py-2">ID</th>
-                    <th class="border border-gray-300 px-4 py-2">Name</th>
-                    <th class="border border-gray-300 px-4 py-2">URL</th>
-                    <th class="border border-gray-300 px-4 py-2">Price</th>
-                    <th class="border border-gray-300 px-4 py-2">Description</th>
-                    <th class="border border-gray-300 px-4 py-2">Category</th>
-                    <th class="border border-gray-300 px-4 py-2">Subcategory</th>
-                    <th class="border border-gray-300 px-4 py-2">Brand</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
+                    <th class="border border-gray-300 px-4 py-2">Id</th>
+                    <th class="border border-gray-300 px-4 py-2">Navn</th>
+                    <th class="border border-gray-300 px-4 py-2">Url</th>
+                    <th class="border border-gray-300 px-4 py-2">Pris</th>
+                    <th class="border border-gray-300 px-4 py-2">Beskrivelse</th>
+                    <th class="border border-gray-300 px-4 py-2">Kategori</th>
+                    <th class="border border-gray-300 px-4 py-2">Underkategori</th>
+                    <th class="border border-gray-300 px-4 py-2">Mærke</th>
+                    <th class="border border-gray-300 px-4 py-2">Handlinger</th>
                 </tr>
             </thead>
             <tbody>
@@ -167,9 +167,9 @@ async function fetchProducts(page = 0, size = pageSize) {
                         <td class="border border-gray-300 px-4 py-2">${product.brand}</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <button onclick='populateProductForm(${JSON.stringify(product)})' 
-                                class="bg-orange-400 text-white py-1 px-2 rounded">Edit</button>
+                                class="bg-orange-400 text-white py-1 px-2 rounded">Rediger</button>
                             <button onclick="deleteProduct(${product.id})" 
-                                class="bg-red-500 text-white py-1 px-2 rounded">Delete</button>
+                                class="bg-red-500 text-white py-1 px-2 rounded">Slet</button>
                         </td>
                     </tr>
                 `).join('')}
@@ -186,10 +186,10 @@ function addPaginationControls(data) {
     const paginationHTML = `
         <div class="flex justify-between mt-4">
             <button ${data.first ? 'disabled' : ''} onclick="changePage(${currentPage - 1})"
-                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded">Previous</button>
+                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded">Forrige</button>
             <span>Page ${data.number + 1} of ${data.totalPages}</span>
             <button ${data.last ? 'disabled' : ''} onclick="changePage(${currentPage + 1})"
-                class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Next</button>
+                class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Næste</button>
         </div>
     `;
     productsList.insertAdjacentHTML('beforeend', paginationHTML);
@@ -346,13 +346,13 @@ function showProductManagement() {
             <table class="table-auto border-collapse border border-gray-300 w-full text-sm mb-4 shadow-lg rounded-lg">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="border border-gray-300 px-4 py-2">Field</th>
+                        <th class="border border-gray-300 px-4 py-2">Felt</th>
                         <th class="border border-gray-300 px-4 py-2">Input</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Name</td>
+                        <td class="border border-gray-300 px-4 py-2">Navn</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <input type="text" id="product-name" placeholder="Name" class="w-full p-2 border rounded">
                         </td>
@@ -364,40 +364,40 @@ function showProductManagement() {
                         </td>
                     </tr>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Price</td>
+                        <td class="border border-gray-300 px-4 py-2">Pris</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <input type="number" id="product-price" placeholder="Price" class="w-full p-2 border rounded">
                         </td>
                     </tr>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Description</td>
+                        <td class="border border-gray-300 px-4 py-2">Beskrivelse</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <textarea id="product-description" placeholder="Description" class="w-full p-2 border rounded"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Category</td>
+                        <td class="border border-gray-300 px-4 py-2">Kategori</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <input type="text" id="product-category" placeholder="Category" class="w-full p-2 border rounded">
                         </td>
                     </tr>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Subcategory</td>
+                        <td class="border border-gray-300 px-4 py-2">Underkategori</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <input type="text" id="product-subcategory" placeholder="Subcategory" class="w-full p-2 border rounded">
                         </td>
                     </tr>
                     <tr>
-                        <td class="border border-gray-300 px-4 py-2">Brand</td>
+                        <td class="border border-gray-300 px-4 py-2">Mærke</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <input type="text" id="product-brand" placeholder="Brand" class="w-full p-2 border rounded">
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <button onclick="createProduct()" class="bg-blue-500 text-white py-2 px-4 rounded">Create Product</button>
-            <button onclick="updateProduct()" class="bg-green-500 text-white py-2 px-4 rounded">Update Product</button>
-            <button onclick="clearProductForm()" class="bg-gray-500 text-white py-2 px-4 rounded">Clear</button>
+            <button onclick="createProduct()" class="bg-blue-500 text-white py-2 px-4 rounded">Opret Produkt</button>
+            <button onclick="updateProduct()" class="bg-green-500 text-white py-2 px-4 rounded">Opdater Produkt</button>
+            <button onclick="clearProductForm()" class="bg-gray-500 text-white py-2 px-4 rounded">Ryd</button>
             <div id="products-list" class="mt-6">
                 <!-- Fetched products will be displayed here -->
             </div>
