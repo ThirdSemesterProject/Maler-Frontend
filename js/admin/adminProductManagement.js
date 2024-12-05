@@ -130,12 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// fetch product data
-async function fetchProducts() {
-    const response = await fetch('http://localhost:8080/api/products/getAllProducts');
-    const products = await response.json();
-    const productsList = document.querySelector('#products-list');
+// fetch product data and added pagination
+let currentPage = 0; // This tracks the current page
+const pageSize = 10; // Items per page
 
+async function fetchProducts(page = 0, size = pageSize) {
+    const response = await fetch(`http://localhost:8080/api/products/getAllProducts?page=${page}&size=${size}`);
+    const data = await response.json();
+
+    const productsList = document.querySelector('#products-list');
     productsList.innerHTML = `
         <table class="table-auto border-collapse border border-gray-300 w-full text-sm">
             <thead class="bg-gray-200">
@@ -146,13 +149,13 @@ async function fetchProducts() {
                     <th class="border border-gray-300 px-4 py-2">Price</th>
                     <th class="border border-gray-300 px-4 py-2">Description</th>
                     <th class="border border-gray-300 px-4 py-2">Category</th>
-                    <th class="border border-gray-300 px-4 py-2">subcategory</th>
+                    <th class="border border-gray-300 px-4 py-2">Subcategory</th>
                     <th class="border border-gray-300 px-4 py-2">Brand</th>
                     <th class="border border-gray-300 px-4 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                ${products.map(product => `
+                ${data.content.map(product => `
                     <tr>
                         <td class="border border-gray-300 px-4 py-2">${product.id}</td>
                         <td class="border border-gray-300 px-4 py-2">${product.name}</td>
@@ -173,7 +176,34 @@ async function fetchProducts() {
             </tbody>
         </table>
     `;
+
+    // Add pagination controls
+    addPaginationControls(data);
 }
+
+function addPaginationControls(data) {
+    const productsList = document.querySelector('#products-list');
+    const paginationHTML = `
+        <div class="flex justify-between mt-4">
+            <button ${data.first ? 'disabled' : ''} onclick="changePage(${currentPage - 1})"
+                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded">Previous</button>
+            <span>Page ${data.number + 1} of ${data.totalPages}</span>
+            <button ${data.last ? 'disabled' : ''} onclick="changePage(${currentPage + 1})"
+                class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Next</button>
+        </div>
+    `;
+    productsList.insertAdjacentHTML('beforeend', paginationHTML);
+}
+
+function changePage(page) {
+    if (page < 0) return; // Prevent negative pages
+    currentPage = page;
+    fetchProducts(currentPage, pageSize);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchProducts();
+});
 
 /* CRUD Functions */
 
