@@ -135,7 +135,7 @@ let currentPage = 0; // This tracks the current page
 const pageSize = 10; // Items per page
 
 async function fetchProducts(page = 0, size = pageSize) {
-    const response = await fetch(`http://localhost:8080/api/products/getAllProducts?page=${page}&size=${size}`);
+    const response = await fetch(`http://localhost:8080/api/products/getAllAdminProducts?page=${page}&size=${size}`);
     const data = await response.json();
 
     const productsList = document.querySelector('#products-list');
