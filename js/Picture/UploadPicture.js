@@ -21,7 +21,7 @@ document.body.innerHTML = `
 `;
 
 // FileHandler Class
-class FileHandler {
+export class FileHandler {
     constructor() {
         this.base64Files = new Map();
     }
@@ -58,7 +58,7 @@ class FileHandler {
             const response = await fetch('http://localhost:8080/api/upload', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: imageName, data: base64Data}), // Bemærk: name i stedet for imageName
+                body: JSON.stringify({ name: imageName, data: base64Data }),
             });
 
             if (response.ok) {
@@ -89,3 +89,43 @@ document.getElementById('uploadButton').addEventListener('click', () => {
         }
     }
 });
+function showUploadSection() {
+
+    const uploadSectionHTML = `
+        <section class="p-8">
+            <h1 class="text-2xl font-bold mb-6">Upload Billeder</h1>
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h5 class="text-lg font-bold mb-2">Vælg en fil</h5>
+                <input type="file" id="imageInput" class="w-full p-2 border rounded mb-4" accept="image/*">
+                <input type="text" id="imageNameInput" class="w-full p-2 border rounded mb-4" placeholder="Indtast billedets navn">
+                <button id="uploadButton" class="bg-blue-500 text-white py-2 px-4 rounded">Upload</button>
+                <div id="message" class="mt-4 p-4 border border-gray-300 rounded bg-gray-50 overflow-y-auto" style="height: 150px;"></div>
+            </div>
+        </section>
+    `;
+
+    const container = document.getElementById("main-content-container");
+    if (container) {
+        container.innerHTML = uploadSectionHTML;
+
+        const fileHandler = new FileHandler();
+        document.getElementById('uploadButton').addEventListener('click', () => {
+            const files = document.getElementById('imageInput').files;
+            const imageName = document.getElementById('imageNameInput').value.trim();
+            if (files.length === 0) {
+                alert('Vælg en fil at uploade.');
+            } else if (!imageName) {
+                alert('Indtast et navn til billedet.');
+            } else {
+                for (const file of files) {
+                    fileHandler.handleFile(file, imageName);
+                }
+            }
+        });
+    } else {
+        console.error("Container #main-content-container ikke fundet.");
+    }
+}
+
+
+
