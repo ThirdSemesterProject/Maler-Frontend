@@ -44,10 +44,6 @@ function CreateHeader() {
         '            </button>\n' +
         '        </div>\n' +
         '\n' +
-        '        <div class="ml-auto">\n' +
-        '            <button id="cart-button" class="bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-full">Kurv</button>\n' +
-        '        </div>\n' +
-        '\n' +
         '        <nav class="bg-gray-100 py-4">\n' +
         '            <div class="container mx-auto flex justify-between items-center">\n' +
         '                <div>\n' +
@@ -55,6 +51,14 @@ function CreateHeader() {
         '                </div>\n' +
         '            </div>\n' +
         '        </nav>\n' +
+        '<div class="ml-auto">\n' +
+        '    <button id="cart-button" class="bg-white hover:bg-white text-white py-2 px-4 rounded-full flex items-center">\n' +
+        '        <img src="../image/Capture.PNG" style="width: 75px; height: 75px" alt="Shopping Cart" class="w-6 h-6 mr-2" />\n' +
+        '<span id="cart-counter" class="absolute top-8 right-8 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">\n' +
+        '    0\n' +
+        '    </span>\n' +
+        '    </button>\n' +
+        '</div>\n'+
         '\n' +
         '        <!-- Modal start -->\n' +
         '        <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">\n' +
@@ -86,7 +90,8 @@ function CreateHeader() {
         '            </div>\n' +
         '        </div>\n' +
         '    </div>\n' +
-        '</header>'
+        '</header>\n'
+    ;
 }
 
 // Append the Product Modal to the body
