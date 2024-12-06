@@ -46,7 +46,7 @@ function showProductDetails() {
                 <span>${product.price ? product.price.toFixed(2) : "N/A"} kr.</span>
             </button>
             <button id="" class="mt-6 px-6 py-3 text-white font-semibold rounded-md transition duration-200" 
-                style="background: linear-gradient(90deg, #2C2C2C, #696969, #A52A2A, #8B4513, #D3D3D3);">
+                style="background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo);">
                 Farve Univers
             </button>  
             <button id="goBack" class="mt-6 px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200">
