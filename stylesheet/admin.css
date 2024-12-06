@@ -3,17 +3,22 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
 }
+aside, header {
+    background-color: tan;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Ens skygge for en let effekt */
+}
 
 aside {
-    background-color: #f8f9fa;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 12rem; /* Sidebar bredde */
+    height: 100vh; /* Fyld hele højden */
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    padding-top: 2rem;
     display: flex;
-    position: fixed;
+    flex-direction: column;
     align-items: center;
+    padding-top: 2rem; /* Ekstra plads til indhold */
+    z-index: 10;
 }
 
 aside div {
@@ -35,10 +40,18 @@ aside div:hover {
 }
 
 main {
+    margin-top: 5rem;
     margin-left: 12rem;
     padding: 2rem;
-    background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
     flex: 1;
     overflow-y: auto;
+}
+header {
+    position: absolute;
+    top: 0;
+    left: 8rem; /* Placeres efter sidebar */
+    width: calc(100% - 8rem); /* Fyld resten af bredden */
+    padding: 1rem; /* Ens padding */
+    z-index: 5;
 }

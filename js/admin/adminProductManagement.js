@@ -1,34 +1,34 @@
 function createProductModal() {
     return '            <!-- Modal start -->\n' +
-        '            <div id="login-modal" class="hidden fixed z-50 inset-0 items-center justify-center bg-gray-800 bg-opacity-50">\n' +
-        '                <div class="bg-white w-96 rounded-lg shadow-lg">\n' +
-        '                    <div class="border-b px-4 py-2 flex justify-between items-center">\n' +
-        '                        <h3 id="modal-title" class="text-lg font-semibold">Login</h3>\n' +
-        '                        <button onclick="toggleModal()" class="text-gray-600 hover:text-gray-800">&times;</button>\n' +
-        '                    </div>\n' +
-        '                    <div class="p-4">\n' +
-        '                        <form>\n' +
-        '                            <div class="mb-4">\n' +
-        '                                <label for="username-field" class="block text-gray-700 font-semibold">Name</label>\n' +
-        '                                <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">\n' +
-        '                            </div>\n' +
-        '                            <div class="mb-4">\n' +
-        '                                <label for="password-field" class="block text-gray-700 font-semibold">Password</label>\n' +
-        '                                <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">\n' +
-        '                            </div>\n' +
-        '                        </form>\n' +
-        '                    </div>\n' +
-        '                    <div class="border-t px-4 py-2 flex justify-end">\n' +
-        '                        <button onclick="toggleModal()" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">\n' +
-        '                            Cancel\n' +
-        '                        </button>\n' +
-        '                        <button id="btn-form-login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">\n' +
-        '                            Login\n' +
-        '                        </button>\n' +
-        '                    </div>\n' +
-        '                </div>\n' +
-        '            </div>\n' +
-        '            <!-- modal end -->';
+    '            <div id="login-modal" class="hidden fixed z-50 inset-0 items-center justify-center bg-gray-800 bg-opacity-50">\n' +
+    '                <div class="bg-white w-96 rounded-lg shadow-lg">\n' +
+    '                    <div class="border-b px-4 py-2 flex justify-between items-center">\n' +
+    '                        <h3 id="modal-title" class="text-lg font-semibold text-gray-800">Login</h3>\n' +
+    '                        <button onclick="toggleModal()" class="text-gray-600 hover:text-gray-800">&times;</button>\n' +
+    '                    </div>\n' +
+    '                    <div class="p-4">\n' +
+    '                        <form>\n' +
+    '                            <div class="mb-4">\n' +
+    '                                <label for="username-field" class="block text-gray-800 font-semibold">Name</label>\n' +
+    '                                <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-gray-300">\n' +
+    '                            </div>\n' +
+    '                            <div class="mb-4">\n' +
+    '                                <label for="password-field" class="block text-gray-800 font-semibold">Password</label>\n' +
+    '                                <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-gray-300">\n' +
+    '                            </div>\n' +
+    '                        </form>\n' +
+    '                    </div>\n' +
+    '                    <div class="border-t px-4 py-2 flex justify-end">\n' +
+    '                        <button onclick="toggleModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">\n' +
+    '                            Cancel\n' +
+    '                        </button>\n' +
+    '                        <button id="btn-form-login" class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded ml-2">\n' +
+    '                            Login\n' +
+    '                        </button>\n' +
+    '                    </div>\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '            <!-- modal end -->';
 }
 
 // Append the Product Modal to the body
