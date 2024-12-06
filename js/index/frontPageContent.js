@@ -194,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Luk modal
         modal.classList.add('hidden');
     }
+
     async function saveSelectedImage(imageId) {
         try {
             const response = await fetch('http://localhost:8080/api/upload/hero-new', {
@@ -208,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Kunne ikke gemme billedet.');
             }
 
+
             alert('Hero-billedet er gemt!');
         } catch (error) {
             console.error('Fejl ved gemning:', error);
@@ -216,3 +218,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+// Hent aktuelt Hero-billede og opdater sektionen
+async function fetchAndUpdateHeroImage() {
+    try {
+        const response = await fetch('http://localhost:8080/api/upload/hero');
+        if (response.ok) {
+            const heroImage = await response.json();
+            updateHeroSectionBackground(heroImage.data); // Base64-data
+        } else {
+            console.warn('Kunne ikke hente Hero-billede, bruger fallback.');
+        }
+    } catch (error) {
+        console.error('Fejl ved hentning af Hero-billede:', error);
+    }
+}
+
+// Opdater Hero Sektionens baggrund
+function updateHeroSectionBackground(imageData) {
+    const heroSection = document.getElementById('heroSection');
+    heroSection.style.backgroundImage = `url('${imageData}')`;
+}
+
+// Kald denne funktion ved initialisering af forsiden
+document.addEventListener('DOMContentLoaded', fetchAndUpdateHeroImage);
+
+// Vælg billede og opdater Hero Sektion
+function selectImageForHero(imageId, imageData) {
+    updateHeroSectionBackground(imageData); // Opdater frontenden med det samme
+    saveSelectedImageToBackend(imageId);    // Opdater backend
+}
+
+// Send det valgte billede til backend
+async function saveSelectedImageToBackend(imageId) {
+    try {
+        const response = await fetch('http://localhost:8080/api/upload/hero-new', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(imageId), // Send ID som JSON
+        });
+
+        if (!response.ok) {
+            throw new Error('Kunne ikke gemme Hero-billede.');
+        }
+        alert('Hero-billedet er opdateret!');
+    } catch (error) {
+        console.error('Fejl ved gemning af Hero-billede:', error);
+        alert('Noget gik galt ved opdatering af billedet.');
+    }
+}
