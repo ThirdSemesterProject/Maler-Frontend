@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Dynamisk visning af kurvens produkter
+    // Opdatere renderCartItems til at opdatere tælleren
     function renderCartItems(cartItems) {
         cartItemsContainer.innerHTML = '';
         let total = 0;
@@ -106,23 +107,34 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'flex py-6 justify-between';
 
             li.innerHTML = `
-                <div class="flex">
-                    <img class="h-16 w-16 rounded-md border" src="${item.url}" alt="${item.name}">
-                    <div class="ml-4">
-                        <p class="font-medium text-gray-900">${item.name}</p>
-                        <p class="text-sm text-gray-500">Price: $${item.price}</p>
-                        <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
-                    </div>
+            <div class="flex">
+                <img class="h-16 w-16 rounded-md border" src="${item.url}" alt="${item.name}">
+                <div class="ml-4">
+                    <p class="font-medium text-gray-900">${item.name}</p>
+                    <p class="text-sm text-gray-500">Price: $${item.price}</p>
+                    <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
                 </div>
-                <div class="flex items-center">
-                    <p class="font-semibold text-gray-900">$${(item.price * item.quantity).toFixed(2)}</p>
-                    <button class="text-red-500 hover:underline remove-btn ml-4" data-id="${item.productId}">Remove</button>
-                </div>`;
+            </div>
+            <div class="flex items-center">
+                <p class="font-semibold text-gray-900">$${(item.price * item.quantity).toFixed(2)}</p>
+                <button class="text-red-500 hover:underline remove-btn ml-4" data-id="${item.productId}">Remove</button>
+            </div>`;
             cartItemsContainer.appendChild(li);
         });
 
+        // Opdatere total pris
         cartTotalElement.textContent = `$${total.toFixed(2)}`;
+
+        // Opdatere kurvens tæller
+        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        const cartCounter = document.getElementById('cart-counter');
+        cartCounter.textContent = totalItems;
+
+        // Gemmer kurvens tæller hvis den er tom
+        cartCounter.style.display = totalItems > 0 ? 'flex' : 'none';
     }
+
+    fetchCartItems();
 
     // Fjern et produkt fra kurven
     async function removeFromCart(productId) {
