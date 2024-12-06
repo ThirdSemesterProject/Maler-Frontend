@@ -10,8 +10,16 @@
 
         const backButton = document.createElement("button");
         backButton.className =
-            "bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors";
-        backButton.textContent = "Tilbage";
+            "flex items-center justify-center bg-green-500 text-white p-2 rounded-full hover:brightness-110 transition-colors";
+        backButton.style.backgroundColor = "#00c853";
+        // Brug en ikon-pil i stedet for tekst
+        backButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        
+`;
+
         backButton.addEventListener("click", () => {
             window.renderCategories(); // Kalder funktionen til at vise hovedkategorier
         });
@@ -102,10 +110,19 @@
 
             const backButton = document.createElement("button");
             backButton.className =
-                "bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors";
-            backButton.textContent = "Tilbage";
-            backButton.addEventListener("click", () => window.renderSubcategories(window.lastCategory));
+                "flex items-center justify-center bg-green-500 text-white p-2 rounded-full hover:brightness-110 transition-colors";
+            backButton.style.backgroundColor = "#00c853"; // Grøn farve fra billedet
 
+            // Indsæt kun pil-ikonet (SVG)
+            backButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            `;
+
+            backButton.addEventListener("click", () => {
+                window.renderSubcategories(window.lastCategory);
+            });
             const title = document.createElement("h2");
             title.className = "text-2xl font-bold text-gray-800 text-center w-full";
             title.textContent = subcategory;
