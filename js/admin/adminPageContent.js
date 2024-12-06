@@ -124,6 +124,9 @@ class FileHandler {
             this.base64Files.set(imageName, base64);
             messageDiv.innerHTML += `<div>Encoded ${imageName} (${file.name}) in ${(endTime - startTime).toFixed(2)} ms</div>`;
 
+            // Indikator for uploadstatus
+            messageDiv.innerHTML += `<div>Uploading ${imageName}...</div>`;
+
             // Send to server
             await this.uploadToServer(base64, imageName);
         } catch (error) {
@@ -132,19 +135,27 @@ class FileHandler {
     }
 
     async uploadToServer(base64Data, imageName) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 60000);
         try {
             const response = await fetch('http://localhost:8080/api/upload', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: imageName, data: base64Data }),
+                signal: controller.signal, // Timeout signal
             });
+
+            clearTimeout(timeout); // Ryd timeout
 
             if (response.ok) {
                 document.getElementById('message').innerHTML += `<div>${imageName} uploaded successfully.</div>`;
             } else {
-                document.getElementById('message').innerHTML += `<div>Failed to upload ${imageName}.</div>`;
+                const errorText = await response.text();
+                document.getElementById('message').innerHTML += `<div>Failed to upload ${imageName}: ${errorText}</div>`;
+                console.error(`Failed to upload ${imageName}: ${errorText}`);
             }
         } catch (error) {
+            clearTimeout(timeout); // Ryd timeout
             document.getElementById('message').innerHTML += `<div>Error uploading ${imageName}: ${error.message}</div>`;
         }
     }
