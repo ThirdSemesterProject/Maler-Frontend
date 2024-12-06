@@ -1,4 +1,3 @@
-
 const categories = {
     "Farveuniverset": {
         subcategories: [],
@@ -83,11 +82,13 @@ const categories = {
     },
 };
 
-window.categories=categories;
+window.categories = categories;
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Kategori-sektion
     window.categoriesSection = document.getElementById("categories-section");
 
+    // Render kategorier
     const renderCategories = () => {
         window.categoriesSection.innerHTML = ""; // Ryd placeholderen
 
@@ -117,14 +118,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.categoriesSection.appendChild(grid);
     };
 
+    // Gem funktionen globalt
     window.renderCategories = renderCategories;
 
     // Først hent billeder og derefter rendér kategorier
     await loadCategoryImages();
     renderCategories();
+
+    // 2. Dropdown-knap
+    const dropdownBtn = document.getElementById("categories-dropdown-btn");
+    const dropdownMenu = document.getElementById("categories-dropdown-menu");
+
+    // Toggle dropdown visibility
+    dropdownBtn.addEventListener("click", () => {
+        dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Dynamisk oprettelse af dropdown-menuens kategorier
+    Object.keys(window.categories).forEach((category) => {
+        const li = document.createElement("li");
+        li.className = "px-4 py-2 hover:bg-gray-200 cursor-pointer text-gray-800";
+        li.textContent = category;
+
+        // Klik på kategori
+        li.addEventListener("click", () => {
+            dropdownMenu.classList.add("hidden"); // Skjul dropdown
+            window.renderSubcategories(category); // Vis underkategorier
+            scrollToCategories(); // Scroll til kategorisektionen
+        });
+
+        dropdownMenu.appendChild(li);
+    });
 });
 
+// Scroll til kategorisektionen
+function scrollToCategories() {
+    const categoriesSection = document.getElementById("categories-section");
+    if (categoriesSection) {
+        categoriesSection.scrollIntoView({ behavior: "smooth" });
+    }
+}
 
+// Hent billeder til kategorierne
 async function loadCategoryImages() {
     for (const categoryName in categories) {
         const category = categories[categoryName];
@@ -151,6 +186,7 @@ async function loadCategoryImages() {
     }
 }
 
+// Fetch billede fra serveren
 async function fetchImageByName(name) {
     try {
         const response = await fetch(`http://localhost:8080/api/upload/images/search?name=${encodeURIComponent(name)}`);
@@ -164,5 +200,3 @@ async function fetchImageByName(name) {
         return null;
     }
 }
-
-// Herefter kan du bruge `fetchImageByName` direkte i din Categories.js

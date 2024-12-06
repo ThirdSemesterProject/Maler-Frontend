@@ -9,7 +9,18 @@ function CreateHeader() {
         '            </div>\n' +
         '            <span class="ml-4 font-semibold text-lg tracking-wide">Maling.dk</span>\n' +
         '        </div>\n' +
-        '\n' +
+        '\n ' +
+        '       <!-- Dropdown Menu -->\n' +
+        '                <div class="flex justify-center items-center relative">\n' +
+        '                    <div class="relative">\n' +
+        '                           <button id="categories-dropdown-btn" class="bg-gray-800 hover:bg-gray-700 text-white py-1.5 px-3 rounded-full">\n' +
+        '                               Kategorier\n' +
+        '                           </button>' +
+        '                        <ul id="categories-dropdown-menu" class="absolute left-0 mt-1 bg-white shadow-md rounded-md border border-gray-300 hidden w-64 z-50">\n' +
+        '                            <!-- Dynamiske kategorier bliver tilføjet her -->\n' +
+        '                        </ul>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
         '        <!-- søgefelt -->\n' +
         '        <div class="flex-grow flex justify-center relative">\n' +
         '            <div class="flex items-center w-2/3 relative">\n' +
