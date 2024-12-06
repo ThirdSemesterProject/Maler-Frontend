@@ -83,8 +83,16 @@ function createCategorySection() {
     document.body.insertAdjacentHTML('beforeend', categorySection);
 })();
 
-// Event Listeners for Modal
+// Tilføj Hero-sektion og modal til DOM
 document.addEventListener('DOMContentLoaded', () => {
+    document.body.insertAdjacentHTML('beforeend', createHeroSection());
+    document.body.insertAdjacentHTML('beforeend', createImageSelectorModal());
+    initializeEventListeners();
+    fetchAndUpdateHeroImage(); // Hent aktuelt Hero-billede ved indlæsning
+});
+
+// Initialiser event listeners
+function initializeEventListeners() {
     const modal = document.getElementById('imageSelectionModal');
     const closeModalBtn = document.getElementById('closeModal');
     const openModalBtn = document.getElementById('openImageSelector');
@@ -118,154 +126,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Vis billeder i modal
     function displayImagesInModal(images) {
-        modalImageContainer.innerHTML = ''; // Ryd eksisterende indhold
+        modalImageContainer.innerHTML = '';
         images.forEach(image => {
             const imgElement = document.createElement('img');
             imgElement.src = image.data; // Base64-data
             imgElement.alt = image.name;
             imgElement.className = 'w-full h-24 rounded shadow-md cursor-pointer';
-            imgElement.addEventListener('click', () => selectImageForHero(image.data));
+            imgElement.addEventListener('click', () => selectImageForHero(image.id, image.data));
             modalImageContainer.appendChild(imgElement);
         });
     }
 
-    // Vælg billede og opdater Hero Sektion
-    function selectImageForHero(imageData) {
-        const heroSection = document.getElementById('heroSection');
-        heroSection.style.backgroundImage = `url('${imageData}')`;
-        modal.classList.add('hidden');
+    // Vælg billede og opdater Hero-sektion
+    function selectImageForHero(imageId, imageData) {
+        updateHeroSectionBackground(imageData); // Opdater UI
+        saveSelectedImageToBackend(imageId);    // Opdater backend
+        modal.classList.add('hidden');          // Luk modal
     }
-});
+}
 
-// Event Listeners for Modal
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('imageSelectionModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    const openModalBtn = document.getElementById('openImageSelector');
-    const modalImageContainer = document.getElementById('modalImageContainer');
+// Opdater Hero-sektionens baggrund
+function updateHeroSectionBackground(imageData) {
+    const heroSection = document.getElementById('heroSection');
+    heroSection.style.backgroundImage = `url('${imageData}')`;
+}
 
-    // Åbn modal
-    openModalBtn.addEventListener('click', () => {
-        modal.classList.remove('hidden');
-        fetchAllImagesForModal();
-    });
-
-    // Luk modal
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
-
-    // Hent billeder til modal
-    async function fetchAllImagesForModal() {
-        try {
-            const response = await fetch('http://localhost:8080/api/upload');
-            if (response.ok) {
-                const images = await response.json();
-                displayImagesInModal(images);
-            } else {
-                alert('Ingen billeder fundet.');
-            }
-        } catch (error) {
-            console.error('Fejl ved hentning af billeder:', error);
-        }
-    }
-
-    // Vis billeder i modal
-    function displayImagesInModal(images) {
-        modalImageContainer.innerHTML = ''; // Ryd eksisterende indhold
-        images.forEach(image => {
-            const imgElement = document.createElement('img');
-            imgElement.src = image.data; // Base64-data
-            imgElement.alt = image.name;
-            imgElement.className = 'w-full h-24 rounded shadow-md cursor-pointer';
-            imgElement.addEventListener('click', () => selectImageForHero(image.data));
-            modalImageContainer.appendChild(imgElement);
+// Send valgt billede til backend
+async function saveSelectedImageToBackend(imageId) {
+    try {
+        const response = await fetch('http://localhost:8080/api/upload/hero-new', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(imageId),
         });
-    }
 
-    // Vælg billede og opdater Hero Sektion
-    function selectImageForHero(imageData) {
-        const heroSection = document.getElementById('heroSection');
-        heroSection.style.backgroundImage = `url('${imageData}')`;
-
-        // Send valget til backend
-        saveSelectedImage(imageData);
-
-        // Luk modal
-        modal.classList.add('hidden');
-    }
-
-    async function saveSelectedImage(imageId) {
-        try {
-            const response = await fetch('http://localhost:8080/api/upload/hero-new', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(imageId), // Send kun ID som rå JSON-værdi
-            });
-
-            if (!response.ok) {
-                throw new Error('Kunne ikke gemme billedet.');
-            }
-
-
-            alert('Hero-billedet er gemt!');
-        } catch (error) {
-            console.error('Fejl ved gemning:', error);
-            alert('Noget gik galt ved gemning af billedet.');
+        if (!response.ok) {
+            throw new Error('Kunne ikke opdatere Hero-billedet.');
         }
+        alert('Hero-billedet er opdateret!');
+    } catch (error) {
+        console.error('Fejl ved opdatering:', error);
+        alert('Noget gik galt ved opdatering af billedet.');
     }
+}
 
-});
-
-// Hent aktuelt Hero-billede og opdater sektionen
+// Hent aktuelt Hero-billede og opdater UI
 async function fetchAndUpdateHeroImage() {
     try {
         const response = await fetch('http://localhost:8080/api/upload/hero');
         if (response.ok) {
             const heroImage = await response.json();
-            updateHeroSectionBackground(heroImage.data); // Base64-data
+            updateHeroSectionBackground(heroImage.data);
         } else {
-            console.warn('Kunne ikke hente Hero-billede, bruger fallback.');
+            console.warn('Ingen Hero-billede fundet, bruger fallback.');
         }
     } catch (error) {
         console.error('Fejl ved hentning af Hero-billede:', error);
     }
 }
 
-// Opdater Hero Sektionens baggrund
-function updateHeroSectionBackground(imageData) {
-    const heroSection = document.getElementById('heroSection');
-    heroSection.style.backgroundImage = `url('${imageData}')`;
-}
-
-// Kald denne funktion ved initialisering af forsiden
-document.addEventListener('DOMContentLoaded', fetchAndUpdateHeroImage);
-
-// Vælg billede og opdater Hero Sektion
-function selectImageForHero(imageId, imageData) {
-    updateHeroSectionBackground(imageData); // Opdater frontenden med det samme
-    saveSelectedImageToBackend(imageId);    // Opdater backend
-}
-
-// Send det valgte billede til backend
-async function saveSelectedImageToBackend(imageId) {
-    try {
-        const response = await fetch('http://localhost:8080/api/upload/hero-new', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(imageId), // Send ID som JSON
-        });
-
-        if (!response.ok) {
-            throw new Error('Kunne ikke gemme Hero-billede.');
-        }
-        alert('Hero-billedet er opdateret!');
-    } catch (error) {
-        console.error('Fejl ved gemning af Hero-billede:', error);
-        alert('Noget gik galt ved opdatering af billedet.');
-    }
-}
