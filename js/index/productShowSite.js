@@ -8,10 +8,18 @@ function showProductDetails() {
     }
 
     // Overhaul the page by clearing the body and showing product details
-    const body = document.body;
-    body.innerHTML = `
-        <div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            <h1 class="text-4xl font-bold text-gray-800 mb-6">${product.name}</h1>
+    const categoriesSection = document.getElementById("categories-section");
+    categoriesSection.innerHTML =  `
+<div class="relative">
+        <button 
+            id="goBack" 
+            class="absolute top-4 left-4 bg-green-500 text-white p-2 rounded-full hover:brightness-110 transition-colors z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">  
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">${product.name}</h1> 
             <div class="relative w-full max-h-80 mb-6">
                 <!-- Spinner for loading feedback -->
                 <div id="image-spinner" class="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
@@ -49,10 +57,9 @@ function showProductDetails() {
                 style="background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo);">
                 Farve Univers
             </button>  
-            <button id="goBack" class="mt-6 px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200">
-                Tilbage til oversigten
-            </button>
+           
         
+        </div>
         </div>
     `;
 
@@ -69,9 +76,15 @@ function showProductDetails() {
     });
 
     // Add event listener to "Go Back" button
-    const goBackButton = document.getElementById("goBack");
-    goBackButton.addEventListener("click", () => {
-        location.reload(); // Reload the page to show the product list again
+        const goBackButton = document.getElementById("goBack");
+        goBackButton.addEventListener("click", () => {
+            if (window.lastSubcategory) {
+                renderProductsBySubcategory(window.lastSubcategory); // Tilbage til underkategori
+            } else if (window.lastCategory) {
+                renderSubcategories(window.lastCategory); // Tilbage til kategori
+            } else {
+                renderCategories(); // Som fallback
+            }
     });
 
     // Add event listener to "Add to Cart" button
