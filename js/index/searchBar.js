@@ -74,12 +74,14 @@ function displayItems(results) {
 
         // Add click event listener to save to localStorage and display product
         div.addEventListener("click", () => {
-            // Save the product data to localStorage
             localStorage.setItem("selectedProduct", JSON.stringify(result));
-            console.log(`Product saved to localStorage: ${result.id}`);
+            showProductDetails();
 
-            // Reload or "overhaul" the page
-            showProductDetails(); // Call a function to display the product details
+            // Scroll til categories-section
+            const categoriesSection = document.getElementById("categories-section");
+            if (categoriesSection) {
+                categoriesSection.scrollIntoView({ behavior: "smooth" });
+            }
         });
 
         resultsContainer.appendChild(div);
