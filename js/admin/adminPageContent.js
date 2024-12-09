@@ -1,32 +1,43 @@
-export function loadAdminDashboard() {
+// Update loadAdminDashboard function
+export async function loadAdminDashboard() {
+    // Fetch orders based on their status
+    const modtagedeOrders = await fetchOrdersByStatus('MODTAGET');
+    const igangvaerendeOrders = await fetchOrdersByStatus('IGANGVÆRENDE');
+    const afsluttedeOrders = await fetchOrdersByStatus('AFSLUTTET');
+
     const content = `
         <div class="flex">
-                <!-- Content -->
-                <main class="p-8">
-                    <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Overblik</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Modtagede -->
-                        <div class="bg-white shadow-lg rounded-lg p-6">
-                            <h2 class="text-lg font-bold text-gray-800 mb-2">Modtagede</h2>
-                            <p class="text-gray-600">Her vil modtagede ordrer blive vist.</p>
-                        </div>
-                        <!-- Igangværende -->
-                        <div class="bg-white shadow-lg rounded-lg p-6">
-                            <h2 class="text-lg font-bold text-gray-800 mb-2">Igangværende</h2>
-                            <p class="text-gray-600">Her vil igangværende ordrer blive vist.</p>
-                        </div>
-                        <!-- Afsluttede -->
-                        <div class="bg-white shadow-lg rounded-lg p-6">
-                            <h2 class="text-lg font-bold text-gray-800 mb-2">Afsluttede</h2>
-                            <p class="text-gray-600">Her vil afsluttede ordrer blive vist.</p>
-                        </div>
+            <!-- Content -->
+            <main class="p-8">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Overblik</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Modtagede -->
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-2">Modtagede</h2>
+                        <ul class="text-gray-600">
+                            ${modtagedeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
+                        </ul>
                     </div>
-                </main>
-            </div>
+                    <!-- Igangværende -->
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-2">Igangværende</h2>
+                        <ul class="text-gray-600">
+                            ${igangvaerendeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <!-- Afsluttede -->
+                    <div class="bg-white shadow-lg rounded-lg p-6">
+                        <h2 class="text-lg font-bold text-gray-800 mb-2">Afsluttede</h2>
+                        <ul class="text-gray-600">
+                            ${afsluttedeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </main>
         </div>
     `;
 
-    // Find main-content-container og tilføj indholdet
+    // Find main-content-container and add the content
     const container = document.getElementById("main-content-container");
     if (container) {
         container.innerHTML = content;
@@ -34,7 +45,27 @@ export function loadAdminDashboard() {
         console.error("Container #main-content-container ikke fundet.");
     }
 }
-loadAdminDashboard();
+
+// Helper function to fetch orders by status
+async function fetchOrdersByStatus(status) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/orders/status/${status}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch orders for status: ${status}`);
+        }
+        const orders = await response.json();
+        return orders;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadAdminDashboard();
+    loadAdminSidebar();
+});
+
 export function loadAdminSidebar() {
     const sidebarContent = `
         <div style="display: flex; height: 100vh; overflow: hidden">
