@@ -157,22 +157,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Håndter checkout-processen
     checkoutButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/cart/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ customerName: 'John Doe', customerEmail: 'john.doe@example.com' })
-            });
+            const response = await fetch('http://localhost:8080/api/cart'); // Hent varer fra backend
             if (response.ok) {
-                alert('Order placed successfully!');
-                fetchCartItems(); // Tøm kurven
-            } else {
-                alert('Failed to place order.');
+                const cartItems = await response.json();
+                loadOrderPage(cartItems); // Vis ordresiden med kurvens varer
             }
         } catch (error) {
-            console.error('Error during checkout:', error);
+            console.error('Error fetching cart items:', error);
         }
     });
-
-    // Initialiser ved første visning
-    fetchCartItems();
 });

@@ -1,5 +1,8 @@
+
+function loadOrderPage(cartItems) {
+
 // Dynamisk HTML-generering
-document.body.innerHTML = `
+    document.body.innerHTML = `
   <div class="container mx-auto bg-white shadow-md rounded-md p-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Leveringsadresse -->
@@ -103,59 +106,114 @@ document.body.innerHTML = `
                   </div>
               </div>
 
-              <h2 class="text-lg font-bold border-b pb-2 mb-4 mt-6 text-gray-700">📦 ORDREOVERSIGT</h2>
-              <div>
-                  <p class="text-gray-600 font-medium">2 VARER I KURVEN</p>
-                         <!-- jeg mangler lige viggos ting -->
-              </div>
-          </div>
-      </div>
-  </div>
-`;
-
-// Event listener for form submission
-document.getElementById('customerForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    // Collect form data
-    const customerData = {
-        email: document.getElementById('email').value,
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        address: document.getElementById('street').value,
-        postNo: document.getElementById('postNo').value,
-        city: document.getElementById('city').value,
-        country: document.getElementById('country').value,
-        phone: document.getElementById('phone').value,
-        company: document.getElementById('company').value,
-    };
-
-    // Validate data
-    if (!customerData.email || !customerData.firstName || !customerData.lastName) {
-        alert('Udfyld venligst alle påkrævede felter.');
-        return;
+               <h2 class="text-lg font-bold border-b pb-2 mb-4 text-gray-700">📦 ORDREOVERSIGT</h2>
+                <ul class="space-y-4">
+                    ${cartItems.map(item => `
+                        <li class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-900 font-medium">${item.name}</p>
+                                <p class="text-gray-500 text-sm">Mængde: ${item.quantity}</p>
+                                <p class="text-gray-500 text-sm">Pris: ${item.price.toFixed(2)} DKK</p>
+                            </div>
+                            <p class="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)} DKK</p>
+                        </li>
+                    `).join('')}
+                </ul>
+                <div class="mt-4">
+                    <p class="text-lg font-bold text-gray-900">
+                        Total: ${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} DKK
+                    </p>
+                </div>
+             <!-- Butiksvalg -->
+                        <h2 class="text-lg font-bold border-b pb-2 mt-6 mb-4 text-gray-700">🏪 Vælg en butik</h2>
+                        <div id="shop-options" class="space-y-4">
+                            <!-- Radio-knapper til butikker -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+     `;
+    fetchAndDisplayShops();
     }
 
-    console.log("Opretter kunde:", customerData);
+    // Event listener for form submission
+    document.getElementById('customerForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-    // Send POST request to backend
-    try {
-        const response = await fetch('http://localhost:8080/api/customer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(customerData),
-        });
+        // Collect form data
+        const customerData = {
+            email: document.getElementById('email').value,
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            address: document.getElementById('street').value,
+            postNo: document.getElementById('postNo').value,
+            city: document.getElementById('city').value,
+            country: document.getElementById('country').value,
+            phone: document.getElementById('phone').value,
+            company: document.getElementById('company').value,
+        };
 
-        if (response.ok) {
-            alert('Kunde oprettet med succes!');
-            document.getElementById('customerForm').reset(); // Reset form after submission
-        } else {
-            alert('Noget gik galt ved oprettelsen af kunden.');
+        // Validate data
+        if (!customerData.email || !customerData.firstName || !customerData.lastName) {
+            alert('Udfyld venligst alle påkrævede felter.');
+            return;
         }
-    } catch (error) {
-        console.error('Fejl:', error);
-        alert('Kunne ikke oprette kunden. Prøv igen senere.');
+
+        console.log("Opretter kunde:", customerData);
+
+        // Send POST request to backend
+        try {
+            const response = await fetch('http://localhost:8080/api/customer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(customerData),
+            });
+
+            if (response.ok) {
+                alert('Kunde oprettet med succes!');
+                document.getElementById('customerForm').reset(); // Reset form after submission
+            } else {
+                alert('Noget gik galt ved oprettelsen af kunden.');
+            }
+        } catch (error) {
+            console.error('Fejl:', error);
+            alert('Kunne ikke oprette kunden. Prøv igen senere.');
+        }
+    });
+
+    // Hent og vis shops som radio-knapper
+    async function fetchAndDisplayShops() {
+        console.log("fetchAndDisplayShops kaldt");
+        try {
+            const response = await fetch('http://localhost:8080/api/shop');
+            if (response.ok) {
+                const shops = await response.json();
+                renderShopOptions(shops); // Render shops as radio buttons
+            } else {
+                console.error('Failed to fetch shops:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching shops:', error);
+        }
     }
-});
+
+    // Render shops as radio buttons
+    function renderShopOptions(shops) {
+        const shopContainer = document.getElementById('shop-options');
+        shopContainer.innerHTML = ''; // Ryd eksisterende indhold
+
+        shops.forEach(shop => {
+            const shopOption = `
+                <label class="flex items-center">
+                    <input type="radio" name="shop" value="${shop.id}" class="mr-2">
+                    ${shop.name} - ${shop.address}
+                </label>
+            `;
+            shopContainer.insertAdjacentHTML('beforeend', shopOption);
+        });
+    }
+
+    // Kald denne funktion, når ordresiden indlæses
+    fetchAndDisplayShops();
