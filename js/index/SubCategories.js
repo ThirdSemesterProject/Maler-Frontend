@@ -220,6 +220,11 @@ async function addToCart(product) {
 
         if (response.ok) {
             alert(`${product.name} er tilføjet til kurven!`);
+
+            // Dynamisk opdatering af kurven
+            if (window.fetchCartItems) {
+                await window.fetchCartItems(); // Henter og opdaterer kurven
+            }
         } else {
             alert('Kunne ikke tilføje produktet til kurven.');
         }

@@ -9,7 +9,7 @@ function showProductDetails() {
 
     // Overhaul the page by clearing the body and showing product details
     const categoriesSection = document.getElementById("categories-section");
-    categoriesSection.innerHTML =  `
+    categoriesSection.innerHTML = `
 <div class="relative">
         <button 
             id="goBack" 
@@ -63,42 +63,37 @@ function showProductDetails() {
         </div>
     `;
 
-    // Get image and spinner elements
+
     const productImage = document.getElementById("product-image");
     const imageSpinner = document.getElementById("image-spinner");
 
-    // Add a delay to hide the spinner after the image is fully loaded
     productImage.addEventListener("load", () => {
         setTimeout(() => {
-            imageSpinner.classList.add("hidden"); // Hide spinner
-            productImage.classList.remove("hidden"); // Show image
-        }, 600); // Add a slight delay for smooth transition
+            imageSpinner.classList.add("hidden");
+            productImage.classList.remove("hidden");
+        }, 600);
     });
 
-    // Add event listener to "Go Back" button
-        const goBackButton = document.getElementById("goBack");
-        goBackButton.addEventListener("click", () => {
-            if (window.lastSubcategory) {
-                renderProductsBySubcategory(window.lastSubcategory); // Tilbage til underkategori
-            } else if (window.lastCategory) {
-                renderSubcategories(window.lastCategory); // Tilbage til kategori
-            } else {
-                renderCategories(); // Som fallback
-            }
+    const goBackButton = document.getElementById("goBack");
+    goBackButton.addEventListener("click", () => {
+        if (window.lastSubcategory) {
+            renderProductsBySubcategory(window.lastSubcategory);
+        } else if (window.lastCategory) {
+            renderSubcategories(window.lastCategory);
+        } else {
+            renderCategories();
+        }
     });
 
-    // Add event listener to "Add to Cart" button
     const addToCartButton = document.getElementById("addToCart");
     addToCartButton.addEventListener("click", async () => {
         const productData = {
-            productId: product.id, // Ensure this matches backend requirements
+            productId: product.id,
             name: product.name,
             price: product.price,
-            url: product.url, // Ensure correct field name
+            url: product.url,
             quantity: 1,
         };
-
-        console.log("Sending product data to backend:", productData); // Log the data
 
         try {
             const response = await fetch('http://localhost:8080/api/cart/add', {
@@ -111,6 +106,8 @@ function showProductDetails() {
 
             if (response.ok) {
                 alert(`${product.name} er tilføjet til kurven!`);
+                fetchCartItems(); // Dynamisk opdatering af kurven
+                showCartNotification(`${product.name} er tilføjet til kurven!`);
             } else {
                 const errorText = await response.text();
                 console.error("Backend error response:", errorText);
@@ -120,4 +117,16 @@ function showProductDetails() {
             console.error('Error adding product to cart:', error);
         }
     });
+}
+
+// Feedback notifikation
+function showCartNotification(message) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.className = 'fixed top-4 right-4 bg-green-500 text-white py-2 px-4 rounded shadow';
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }

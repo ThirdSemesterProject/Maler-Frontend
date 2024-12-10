@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                                         <div class="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal</p>
-                                            <p id="cart-total">0.00 </p>
+                                            <p id="cart-total">0.00 DKK</p>
                                         </div>
                                         <div class="mt-6">
                                             <button id="checkout-btn" class="flex items-center justify-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
@@ -83,19 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
         shoppingCart.classList.add('hidden');
     });
 
-    // Hent kurvens data fra backend
-    async function fetchCartItems() {
+    window.fetchCartItems = async function fetchCartItems() {
         try {
             const response = await fetch('http://localhost:8080/api/cart');
-            const cartItems = await response.json();
-            renderCartItems(cartItems);
+            if (response.ok) {
+                const cartItems = await response.json();
+                renderCartItems(cartItems);
+                updateCartCounter(cartItems);
+            } else {
+                console.error("Error fetching cart items. Backend response not OK.");
+            }
         } catch (error) {
             console.error('Error fetching cart items:', error);
         }
-    }
+    };
 
     // Dynamisk visning af kurvens produkter
-    // Opdatere renderCartItems til at opdatere tælleren
     function renderCartItems(cartItems) {
         cartItemsContainer.innerHTML = '';
         let total = 0;
@@ -107,40 +110,38 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'flex py-6 justify-between';
 
             li.innerHTML = `
-            <div class="flex">
-                <img class="h-16 w-16 rounded-md border" src="${item.url}" alt="${item.name}">
-                <div class="ml-4">
-                    <p class="font-medium text-gray-900">${item.name}</p>
-                    <p class="text-sm text-gray-500">Price: $${item.price}</p>
-                    <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
-                </div>
+        <div class="flex">
+            <img class="h-16 w-16 rounded-md border" src="${item.url}" alt="${item.name}">
+            <div class="ml-4">
+                <p class="font-medium text-gray-900">${item.name}</p>
+                <p class="text-sm text-gray-500">Price: ${item.price.toFixed(2)} DKK</p>
+                <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
             </div>
-            <div class="flex items-center">
-                <p class="font-semibold text-gray-900">$${(item.price * item.quantity).toFixed(2)}</p>
-                <button class="text-red-500 hover:underline remove-btn ml-4" data-id="${item.productId}">Remove</button>
-            </div>`;
+        </div>
+        <div class="flex items-center">
+            <p class="font-semibold text-gray-900">${(item.price * item.quantity).toFixed(2)} DKK</p>
+            <button class="text-red-500 hover:underline remove-btn ml-4" data-id="${item.productId}">Remove</button>
+        </div>`;
             cartItemsContainer.appendChild(li);
         });
 
-        // Opdatere total pris
-        cartTotalElement.textContent = `$${total.toFixed(2)}`;
+        // Opdater total pris
+        cartTotalElement.textContent = `${total.toFixed(2)} DKK`;
+    }
 
-        // Opdatere kurvens tæller
+    // Dynamisk tælleropdatering
+    function updateCartCounter(cartItems) {
         const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
         const cartCounter = document.getElementById('cart-counter');
         cartCounter.textContent = totalItems;
-
-        // Gemmer kurvens tæller hvis den er tom
         cartCounter.style.display = totalItems > 0 ? 'flex' : 'none';
     }
-
-    fetchCartItems();
 
     // Fjern et produkt fra kurven
     async function removeFromCart(productId) {
         try {
             await fetch(`http://localhost:8080/api/cart/${productId}`, { method: 'DELETE' });
-            fetchCartItems(); // Opdater kurvens data
+            fetchCartItems();
         } catch (error) {
             console.error('Error removing item from cart:', error);
         }
@@ -166,4 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching cart items:', error);
         }
     });
+
+    // Opdater kurven ved sideindlæsning
+    fetchCartItems();
 });
