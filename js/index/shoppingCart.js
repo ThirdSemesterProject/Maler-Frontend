@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                                         <div class="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal</p>
-                                            <p id="cart-total">$0.00</p>
+                                            <p id="cart-total">0.00 </p>
                                         </div>
                                         <div class="mt-6">
                                             <button id="checkout-btn" class="flex items-center justify-center rounded-md bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">

@@ -73,8 +73,8 @@ function createInfoSection() {
 function createCategorySection() {
     return '<!-- Kategorier -->\n' +
         '<section id="categories-section" class="container mx-auto mt-12 mb-12 px-6">'
-            '<!-- Indhold genereres via JavaScript -->'
-       ' </section>'
+    '<!-- Indhold genereres via JavaScript -->'
+    ' </section>'
 }
 
 // Append the Product Modal to the body
@@ -85,10 +85,19 @@ function createCategorySection() {
 
 // Tilføj Hero-sektion og modal til DOM
 document.addEventListener('DOMContentLoaded', () => {
-    document.body.insertAdjacentHTML('beforeend', createHeroSection());
-    document.body.insertAdjacentHTML('beforeend', createImageSelectorModal());
+    // Tjek, om Hero-sektionen allerede eksisterer
+    if (!document.getElementById('heroSection')) {
+        document.body.insertAdjacentHTML('beforeend', createHeroSection());
+    }
+
+    // Tjek, om modal allerede eksisterer
+    if (!document.getElementById('imageSelectionModal')) {
+        document.body.insertAdjacentHTML('beforeend', createImageSelectorModal());
+    }
+
+    // Initialiser event listeners og hent Hero-billede
     initializeEventListeners();
-    fetchAndUpdateHeroImage(); // Hent aktuelt Hero-billede ved indlæsning
+    fetchAndUpdateHeroImage();
 });
 
 // Initialiser event listeners
@@ -186,4 +195,3 @@ async function fetchAndUpdateHeroImage() {
         console.error('Fejl ved hentning af Hero-billede:', error);
     }
 }
-
