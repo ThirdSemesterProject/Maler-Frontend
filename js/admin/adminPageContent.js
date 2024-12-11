@@ -49,7 +49,7 @@ export async function loadAdminDashboard() {
 // Helper function to fetch orders by status
 async function fetchOrdersByStatus(status) {
     try {
-        const response = await fetch(`http://localhost:8080/api/orders/status/${status}`);
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/orders/status/${status}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch orders for status: ${status}`);
         }
@@ -168,7 +168,7 @@ class FileHandler {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 60000);
         try {
-            const response = await fetch('http://localhost:8080/api/upload', {
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: imageName, data: base64Data }),

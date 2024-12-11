@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.fetchCartItems = async function fetchCartItems() {
         try {
-            const response = await fetch('http://localhost:8080/api/cart');
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/cart');
             if (response.ok) {
                 const cartItems = await response.json();
                 renderCartItems(cartItems);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fjern et produkt fra kurven
     async function removeFromCart(productId) {
         try {
-            await fetch(`http://localhost:8080/api/cart/${productId}`, { method: 'DELETE' });
+            await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/cart/${productId}`, { method: 'DELETE' });
             fetchCartItems();
         } catch (error) {
             console.error('Error removing item from cart:', error);
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Håndter checkout-processen
     checkoutButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/cart'); // Hent varer fra backend
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/cart'); // Hent varer fra backend
             if (response.ok) {
                 const cartItems = await response.json();
                 loadOrderPage(cartItems); // Vis ordresiden med kurvens varer

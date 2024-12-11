@@ -5,7 +5,7 @@ let products = []; // Variabel til at gemme produkter
 
 async function fetchAllProducts() {
     try {
-        const response = await fetch('http://localhost:8080/api/products/getAllProducts', {
+        const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/getAllProducts', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

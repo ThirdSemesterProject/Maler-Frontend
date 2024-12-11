@@ -28,7 +28,7 @@ async function fetchImageById() {
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/api/upload/${id}`);
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload/${id}`);
         if (response.ok) {
             const image = await response.json();
             displaySingleImage(image);
@@ -44,7 +44,7 @@ async function fetchImageById() {
 // Hent alle billeder
 async function fetchAllImages() {
     try {
-        const response = await fetch('http://localhost:8080/api/upload');
+        const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload');
         if (response.ok) {
             const images = await response.json();
             displayImages(images);
@@ -102,7 +102,7 @@ document.getElementById('fetchAllImagesButton').addEventListener('click', fetchA
 
 export async function fetchImageByName(name) {
     try {
-        const response = await fetch(`http://localhost:8080/api/upload/images/search?name=${encodeURIComponent(name)}`);
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload/images/search?name=${encodeURIComponent(name)}`);
         if (!response.ok) {
             throw new Error(`Billede ikke fundet for navn: ${name}`);
         }

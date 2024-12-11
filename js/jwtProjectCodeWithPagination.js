@@ -57,7 +57,7 @@ function escapeHTML(string) {
 
 /* Pagination/data fetching */
 
-const API_ENDPOINT = 'http://localhost:8080/api/books';
+const API_ENDPOINT = 'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/books';
 const PAGE_SIZE = 10
 let sortColumn = 'author'
 let sortDirection = 'asc'

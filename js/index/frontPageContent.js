@@ -121,7 +121,7 @@ function initializeEventListeners() {
     // Hent billeder til modal
     async function fetchAllImagesForModal() {
         try {
-            const response = await fetch('http://localhost:8080/api/upload');
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload');
             if (response.ok) {
                 const images = await response.json();
                 displayImagesInModal(images);
@@ -163,7 +163,7 @@ function updateHeroSectionBackground(imageData) {
 // Send valgt billede til backend
 async function saveSelectedImageToBackend(imageId) {
     try {
-        const response = await fetch('http://localhost:8080/api/upload/hero-new', {
+        const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload/hero-new', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -184,7 +184,7 @@ async function saveSelectedImageToBackend(imageId) {
 // Hent aktuelt Hero-billede og opdater UI
 async function fetchAndUpdateHeroImage() {
     try {
-        const response = await fetch('http://localhost:8080/api/upload/hero');
+        const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload/hero');
         if (response.ok) {
             const heroImage = await response.json();
             updateHeroSectionBackground(heroImage.data);

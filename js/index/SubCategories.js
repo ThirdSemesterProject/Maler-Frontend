@@ -30,7 +30,7 @@ window.renderSubcategories = renderSubcategories;
 
 async function fetchProductsBySubcategory(subcategory) {
     try {
-        const response = await fetch(`http://localhost:8080/api/products/getBySubcategory?subcategory=${subcategory}`, {
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/getBySubcategory?subcategory=${subcategory}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -212,7 +212,7 @@ async function addToCart(product) {
     };
 
     try {
-        const response = await fetch('http://localhost:8080/api/cart/add', {
+        const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/cart/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(productData),
