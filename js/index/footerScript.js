@@ -1,50 +1,50 @@
 function addFooter() {
-    return '    <footer class="footer">\n' +
-        '        <div class="container">\n' +
-        '            <div class="row">\n' +
-        '                <div class="footer-col">\n' +
-        '                    <h4>KONTAKT OPLYSNINGER</h4>\n' +
-        '                    <ul>\n' +
-        '                        <li><a href="/">maling.dk</a></li>\n' +
-        '                        <li><a href="/">Ring til os på</a></li>\n' +
-        '                        <li><a href="/">Skriv til os på mail</a></li>\n' +
-        '                    </ul>\n' +
-        '                </div>\n' +
-        '                <div class="footer-col">\n' +
-        '                    <h4>INFORMATION</h4>\n' +
-        '                    <ul>\n' +
-        '                        <li><a href="/">Om os</a></li>\n' +
-        '                        <li><a href="/">Handelsbetingelser</a></li>\n' +
-        '                        <li><a href="/">###</a></li>\n' +
-        '                        <li><a href="/">###</a></li>\n' +
-        '                    </ul>\n' +
-        '                </div>\n' +
-        '                <div class="footer-col">\n' +
-        '                    <h4>Hjælp & kontakt</h4>\n' +
-        '                    <ul>\n' +
-        '                        <li><a href="/">Kontakt os</a></li>\n' +
-        '                        <li><a href="/">Hyppige spørgsmål</a></li>\n' +
-        '                        <li><a href="/">Mere information</a></li>\n' +
-        '                    </ul>\n' +
-        '                </div>\n' +
-        '                <div class="footer-col">\n' +
-        '                    <h4>Følg os på!</h4>\n' +
-        '                    <div class="social-links">\n' +
-        '                        <a href="#"><i class="fab fa-facebook-f"></i></a>\n' +
-        '                        <a href="#"><i class="fab fa-instagram"></i></a>\n' +
-        '                        <a href="#"><i class="fab fa-twitter"></i></a>\n' +
-        '                    </div>\n' +
-        '                </div>\n' +
-        '            </div>\n' +
-        '        </div>\n' +
-        '        <div class="footer-bottom">\n' +
-        '            <p>© maling.dk - 2024. All Rights Reserved</p>\n' +
-        '        </div>\n' +
-        '    </footer>';
+    return `
+        <footer class="footer bg-gray-800 text-white p-4">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col">
+                        <h4>KONTAKT OPLYSNINGER</h4>
+                        <ul>
+                            <li><a href="/">maling.dk</a></li>
+                            <li><a href="/">Ring til os på</a></li>
+                            <li><a href="/">Skriv til os på mail</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>INFORMATION</h4>
+                        <ul>
+                            <li><a href="#about" id="about-link">Om os</a></li>
+                            <li><a href="/">Handelsbetingelser</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Hjælp & kontakt</h4>
+                        <ul>
+                            <li><a href="/">Kontakt os</a></li>
+                            <li><a href="/">Hyppige spørgsmål</a></li>
+                            <li><a href="/">Mere information</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Følg os på!</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>© maling.dk - 2024. All Rights Reserved</p>
+            </div>
+        </footer>
+    `;
 }
 
-// Selvudførende funktion for at tilføje footeren
+// Tilføj footeren
 (function initializeFooterScript() {
-    const footerHTML= addFooter();
-    document.body.insertAdjacentHTML('beforeend', footerHTML);
+    const footerHTML = addFooter();
+    document.body.insertAdjacentHTML("beforeend", footerHTML);
 })();
