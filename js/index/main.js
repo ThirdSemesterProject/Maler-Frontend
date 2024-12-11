@@ -1,8 +1,9 @@
 import { loadFrontPageContent } from "./frontPageContent.js";
+import { renderAboutPage } from "./aboutPage.js";
 
 // Funktion til at parse hash og hente route
 function parseHash(hash) {
-    const [route, queryString] = hash.split('?');
+    const [route, queryString] = hash.split("?");
     const params = new URLSearchParams(queryString);
     return { route, params };
 }
@@ -12,8 +13,8 @@ function navigate() {
     const hash = window.location.hash.substring(1) || 'home'; // Standard til forsiden
     const { route } = parseHash(hash);
 
-    const app = document.getElementById('app'); // Main-indhold container
-    app.innerHTML = ''; // Rydder det gamle indhold
+    const mainContent = document.getElementById('main-content-container');
+    mainContent.innerHTML = ''; // Rydder det gamle indhold
 
     switch (route) {
         case 'home':
@@ -25,9 +26,11 @@ function navigate() {
         case 'products':
             loadProductPageContent(); // Indlæs produkter til en enkelte subCategory
             break;
-
+        case 'about':
+            renderAboutPage(); // Indlæs "Om os"-siden
+            break;
         default:
-            app.innerHTML = `<p class="text-center text-red-500">Siden blev ikke fundet!</p>`;
+            mainContent.innerHTML = `<p class="text-center text-red-500">Siden blev ikke fundet!</p>`;
     }
 }
 
@@ -36,3 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navigate(); // Indlæs initial side
     window.addEventListener('hashchange', navigate); // Lyt efter hashændringer
 });
+
+
+
