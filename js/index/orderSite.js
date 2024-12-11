@@ -143,6 +143,7 @@ function loadOrderPage(cartItems) {
         };
 
         try {
+            // Send ordreoprettelse
             const response = await fetch('http://localhost:8080/api/orders/new', {
                 method: 'POST',
                 headers: {
@@ -158,10 +159,28 @@ function loadOrderPage(cartItems) {
             const responseData = await response.json();
             console.log('Ordre oprettet:', responseData);
 
+            // Alert brugeren om succesfuld ordreoprettelse
             alert('Ordre oprettet med succes!');
+
+            // Send anmodning for at rydde kurven
+            const clearCartResponse = await fetch('http://localhost:8080/api/cart/clear', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!clearCartResponse.ok) {
+                throw new Error('Noget gik galt ved rydning af kurven.');
+            }
+
+            const clearCartMessage = await clearCartResponse.text();
+            console.log(clearCartMessage); // "Cart cleared."
+            alert('Kurv ryddet med succes!');
+
         } catch (error) {
             console.error('Fejl:', error);
-            alert('Kunne ikke oprette ordren. Prøv igen.');
+            alert('Kunne ikke gennemføre operationen. Prøv igen.');
         }
     });
 
