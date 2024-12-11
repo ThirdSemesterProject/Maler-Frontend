@@ -45,12 +45,12 @@ function createInfoSection() {
         '<section class="bg-white py-8">\n' +
         '    <div class="container mx-auto flex justify-around">\n' +
         '        <div class="text-center">\n' +
-        '            <h3 class="text-lg font-bold">Hurtig levering</h3>\n' +
-        '            <p class="text-gray-600">1-4 hverdage</p>\n' +
+        '            <h3 class="text-lg font-bold">GRØN - BILLIG - PROFESSIONEL</h3>\n' +
+        '            <p class="text-gray-600">Den billigste vej til den professionelle løsning med miljø rigtige produkter</p>\n' +
         '        </div>\n' +
         '        <div class="text-center">\n' +
-        '            <h3 class="text-lg font-bold">Prisgaranti</h3>\n' +
-        '            <p class="text-gray-600">På alle vores varer</p>\n' +
+        '            <h3 class="text-lg font-bold">Hurtig levering</h3>\n' +
+        '            <p class="text-gray-600">1-4 hverdage</p>\n' +
         '        </div>\n' +
         '        <div class="text-center">\n' +
         '            <h3 class="text-lg font-bold">Gratis fragt</h3>\n' +
