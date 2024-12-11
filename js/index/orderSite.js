@@ -8,7 +8,7 @@ function loadOrderPage(cartItems) {
           <!-- Leveringsadresse -->
           <div>
               <h2 class="text-lg font-bold border-b pb-2 mb-4 text-gray-700">🏠 LEVERINGSADRESSE</h2>
-             <form id="customerForm" class="space-y-4">
+             <form id="orderForm" class="space-y-4">
                   <div>
                       <label class="block text-sm font-medium text-gray-600">Emailadresse <span class="text-red-500">*</span></label>
                       <input type="email" id="email" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Indtast din email">
@@ -25,25 +25,13 @@ function loadOrderPage(cartItems) {
                   </div>
                   <div>
                       <label class="block text-sm font-medium text-gray-600">Gade/vej</label>
-                      <input type="text" id="street" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Gade/vej">
+                      <input type="text" id="address" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Gade/vej">
                   </div>
                   <div class="grid grid-cols-2 gap-4">
-                      <div>
-                          <label class="block text-sm font-medium text-gray-600">By</label>
-                          <input type="text" id="city" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="By">
-                      </div>
                       <div>
                           <label class="block text-sm font-medium text-gray-600">Postnummer</label>
                           <input type="text" id="postNo" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Postnummer">
                       </div>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-medium text-gray-600">Land</label>
-                      <select id="country" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300">
-                          <option>Danmark</option>
-                          <option>Sverige</option>
-                          <option>Norge</option>
-                      </select>
                   </div>
                   <div>
                       <label class="block text-sm font-medium text-gray-600">Telefonnummer</label>
@@ -78,7 +66,7 @@ function loadOrderPage(cartItems) {
                       <label class="block text-sm font-medium text-gray-600">Kommentarer</label>
                       <textarea id="comments" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300" rows="3" placeholder="Tilføj kommentarer..."></textarea>
                   </div>
-                  <button type="submit" class="w-full bg-blue-500 text-white rounded-lg p-2 mt-4 hover:bg-blue-600 transition">Send</button>
+                  <button type="ordersumit" class="w-full bg-blue-500 text-white rounded-lg p-2 mt-4 hover:bg-blue-600 transition">Send</button>
               </form>
           </div>
 
@@ -125,95 +113,105 @@ function loadOrderPage(cartItems) {
                     </p>
                 </div>
              <!-- Butiksvalg -->
-                        <h2 class="text-lg font-bold border-b pb-2 mt-6 mb-4 text-gray-700">🏪 Vælg en butik</h2>
-                        <div id="shop-options" class="space-y-4">
-                            <!-- Radio-knapper til butikker -->
+                     <div class="container mx-auto bg-white shadow-md rounded-md p-6">
+                             <div>
+                                <h2 class="text-lg font-bold text-gray-700">🏪 Vil du hente i en butik?</h2>
+                                
+                                <div id="shop-options" class="space-y-4 mt-4 hidden">
+                                    <!-- Butikker vil blive vist her -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
      `;
-    fetchAndDisplayShops();
-    }
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayShops);
 
-    // Event listener for form submission
-    document.getElementById('customerForm').addEventListener('submit', async function (event) {
+    document.getElementById('orderForm').addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Collect form data
-        const customerData = {
+        const orderRequest = {
+            phoneNR: document.getElementById('phone').value,
             email: document.getElementById('email').value,
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,
-            address: document.getElementById('street').value,
+            address: document.getElementById('address').value,
             postNo: document.getElementById('postNo').value,
-            city: document.getElementById('city').value,
-            country: document.getElementById('country').value,
-            phone: document.getElementById('phone').value,
-            company: document.getElementById('company').value,
+            shopId: localStorage.getItem('selectedShopId'),
+            itemIds: cartItems.map(item => item.id)
         };
 
-        // Validate data
-        if (!customerData.email || !customerData.firstName || !customerData.lastName) {
-            alert('Udfyld venligst alle påkrævede felter.');
-            return;
-        }
-
-        console.log("Opretter kunde:", customerData);
-
-        // Send POST request to backend
         try {
-            const response = await fetch('http://localhost:8080/api/customer', {
+            const response = await fetch('http://localhost:8080/api/orders/new', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(customerData),
+                body: JSON.stringify(orderRequest)
             });
 
-            if (response.ok) {
-                alert('Kunde oprettet med succes!');
-                document.getElementById('customerForm').reset(); // Reset form after submission
-            } else {
-                alert('Noget gik galt ved oprettelsen af kunden.');
+            if (!response.ok) {
+                throw new Error('Noget gik galt ved ordreoprettelse.');
             }
+
+            const responseData = await response.json();
+            console.log('Ordre oprettet:', responseData);
+
+            alert('Ordre oprettet med succes!');
         } catch (error) {
             console.error('Fejl:', error);
-            alert('Kunne ikke oprette kunden. Prøv igen senere.');
+            alert('Kunne ikke oprette ordren. Prøv igen.');
         }
     });
 
-    // Hent og vis shops som radio-knapper
     async function fetchAndDisplayShops() {
-        console.log("fetchAndDisplayShops kaldt");
         try {
-            const response = await fetch('http://localhost:8080/api/shop');
-            if (response.ok) {
-                const shops = await response.json();
-                renderShopOptions(shops); // Render shops as radio buttons
-            } else {
-                console.error('Failed to fetch shops:', response.statusText);
-            }
+            // Hent data fra en API eller lokal fil
+            const response = await fetch('http://localhost:8080/api/shop/all'); // Skift til korrekt endpoint eller filsti
+            if (!response.ok) throw new Error('Fejl ved indlæsning af butikker');
+
+            const shops = await response.json();
+
+            // Find elementet, hvor butikkerne skal vises
+            const shopOptionsContainer = document.getElementById('shop-options');
+
+            // Tøm containeren og gør den synlig
+            shopOptionsContainer.innerHTML = '';
+            shopOptionsContainer.classList.remove('hidden');
+
+            // Dynamisk generer HTML for butikkerne
+            shops.forEach(shop => {
+                const shopElement = document.createElement('div');
+                shopElement.className = 'flex items-center space-x-4 border p-4 rounded-md';
+
+                shopElement.innerHTML = `
+                <input type="radio" name="shop" id="shop-${shop.id}" value="${shop.id}" class="mr-2">
+                <label for="shop-${shop.id}" class="text-gray-700">
+                    <span class="font-bold">${shop.name}</span><br>
+                    <span class="text-sm text-gray-500">${shop.address}</span>
+                </label>
+            `;
+
+                shopOptionsContainer.appendChild(shopElement);
+            });
+
+            document.querySelectorAll('input[name="shop"]').forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const selectedShopId = event.target.value;
+
+                    // Gem det valgte shop ID i localStorage
+                    localStorage.setItem('selectedShopId', selectedShopId);
+
+                    console.log(`Valgt butik ID: ${selectedShopId} er gemt i localStorage.`);
+                });
+            });
+
         } catch (error) {
-            console.error('Error fetching shops:', error);
+            console.error(error);
+            alert('Kunne ikke indlæse butikker. Prøv igen senere.');
         }
     }
 
-    // Render shops as radio buttons
-    function renderShopOptions(shops) {
-        const shopContainer = document.getElementById('shop-options');
-        shopContainer.innerHTML = ''; // Ryd eksisterende indhold
-
-        shops.forEach(shop => {
-            const shopOption = `
-                <label class="flex items-center">
-                    <input type="radio" name="shop" value="${shop.id}" class="mr-2">
-                    ${shop.name} - ${shop.address}
-                </label>
-            `;
-            shopContainer.insertAdjacentHTML('beforeend', shopOption);
-        });
-    }
-
-    // Kald denne funktion, når ordresiden indlæses
     fetchAndDisplayShops();
+}
