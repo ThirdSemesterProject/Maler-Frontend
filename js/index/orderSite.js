@@ -168,7 +168,7 @@ function loadOrderPage(cartItems) {
     async function fetchAndDisplayShops() {
         try {
             // Hent data fra en API eller lokal fil
-            const response = await fetch('http://localhost:8080/api/shop/all'); // Skift til korrekt endpoint eller filsti
+            const response = await fetch('http://localhost:8080/api/shop'); // Skift til korrekt endpoint eller filsti
             if (!response.ok) throw new Error('Fejl ved indlæsning af butikker');
 
             const shops = await response.json();
