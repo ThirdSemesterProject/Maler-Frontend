@@ -1,70 +1,117 @@
-// Update loadAdminDashboard function
-export async function loadAdminDashboard() {
-    // Fetch orders based on their status
-    const modtagedeOrders = await fetchOrdersByStatus('MODTAGET');
-    const igangvaerendeOrders = await fetchOrdersByStatus('IGANGVÆRENDE');
-    const afsluttedeOrders = await fetchOrdersByStatus('AFSLUTTET');
+export function loadAdminDashboard(orders) {
+    const categories = {
+        MODTAGET: "Modtagede",
+        IGANGVÆRENDE: "Igangværende",
+        AFSLUTTET: "Afsluttede",
+    };
 
     const content = `
         <div class="flex">
-            <!-- Content -->
             <main class="p-8">
                 <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Overblik</h1>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Modtagede -->
-                    <div class="bg-white shadow-lg rounded-lg p-6">
-                        <h2 class="text-lg font-bold text-gray-800 mb-2">Modtagede</h2>
-                        <ul class="text-gray-600">
-                            ${modtagedeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <!-- Igangværende -->
-                    <div class="bg-white shadow-lg rounded-lg p-6">
-                        <h2 class="text-lg font-bold text-gray-800 mb-2">Igangværende</h2>
-                        <ul class="text-gray-600">
-                            ${igangvaerendeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <!-- Afsluttede -->
-                    <div class="bg-white shadow-lg rounded-lg p-6">
-                        <h2 class="text-lg font-bold text-gray-800 mb-2">Afsluttede</h2>
-                        <ul class="text-gray-600">
-                            ${afsluttedeOrders.map(order => `<li>${order.customerName} - ${order.orderDate}</li>`).join('')}
-                        </ul>
-                    </div>
+                    ${Object.entries(categories)
+        .map(
+            ([status, title]) => `
+                                <div class="bg-white shadow-lg rounded-lg p-6">
+                                    <h2 class="text-lg font-bold text-gray-800 mb-2">${title}</h2>
+                                    <div id="${status.toLowerCase()}-orders">
+                                        ${orders
+                .filter((order) => order.orderStatus === status)
+                .map((order) => `
+                    <div class="p-4 border rounded mb-4">
+                        <p><strong>Navn:</strong> ${order.customerName}</p>
+                        <p><strong>Ordredato:</strong> ${order.orderDate}</p>
+                        <p><strong>Status:</strong> ${order.orderStatus}</p>
+                       <button class="bg-blue-500 text-white py-1 px-2 rounded edit-btn" data-id="${order.orderId}" data-status="${order.orderStatus}">Rediger Status</button>
+                    </div>`
+                )
+                .join("")}
+                     </div>
+                </div>`
+        )
+        .join("")}
                 </div>
             </main>
         </div>
     `;
 
-    // Find main-content-container and add the content
     const container = document.getElementById("main-content-container");
     if (container) {
         container.innerHTML = content;
-    } else {
-        console.error("Container #main-content-container ikke fundet.");
+
+        // Attach click listeners for edit buttons
+        const editButtons = document.querySelectorAll(".edit-btn");
+        editButtons.forEach((btn) =>
+            btn.addEventListener("click", (e) => {
+                const id = btn.dataset.id;
+                const status = btn.dataset.status;
+                showEditForm(id, status);
+            })
+        );
     }
 }
 
-// Helper function to fetch orders by status
-async function fetchOrdersByStatus(status) {
+function showEditForm(orderId, currentStatus) {
+    const formHTML = `
+        <section class="p-8">
+            <h2 class="text-2xl font-bold mb-4">Edit Order Status</h2>
+            <form id="edit-order-form">
+                <input type="hidden" id="order-id" value="${orderId}">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2" for="status">Status</label>
+                    <select id="order-status" class="border p-2 rounded w-full">
+                        <option value="MODTAGET" ${currentStatus === "MODTAGET" ? "selected" : ""}>Modtagede</option>
+                        <option value="IGANGVÆRENDE" ${currentStatus === "IGANGVÆRENDE" ? "selected" : ""}>Igangværende</option>
+                        <option value="AFSLUTTET" ${currentStatus === "AFSLUTTET" ? "selected" : ""}>Afsluttede</option>
+                    </select>
+                </div>
+                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Save</button>
+            </form>
+        </section>
+    `;
+
+    const container = document.getElementById("main-content-container");
+    container.innerHTML = formHTML;
+
+    document.getElementById("edit-order-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const newStatus = document.getElementById("order-status").value;
+
+        await updateOrderStatus(orderId, newStatus);
+        await loadOrdersAndDashboard();
+    });
+}
+
+async function updateOrderStatus(orderId, newStatus) {
     try {
-        const response = await fetch(`http://localhost:8080/api/orders/status/${status}`);
+        const response = await fetch(`http://localhost:8080/api/orders/${orderId}/status`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+        });
+
         if (!response.ok) {
-            throw new Error(`Failed to fetch orders for status: ${status}`);
+            throw new Error("Failed to update order status");
         }
-        const orders = await response.json();
-        return orders;
     } catch (error) {
-        console.error(error);
-        return [];
+        console.error(error.message);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadAdminDashboard();
-    loadAdminSidebar();
-});
+async function loadOrdersAndDashboard() {
+    try {
+        const response = await fetch("http://localhost:8080/api/orders/getAllOrders");
+        const orders = await response.json();
+        // kunne smide den i local storage her
+        loadAdminDashboard(orders);
+        loadAdminSidebar();
+    } catch (error) {
+        console.error("Failed to fetch orders:", error.message);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadOrdersAndDashboard);
 
 export function loadAdminSidebar() {
     const sidebarContent = `
@@ -113,13 +160,6 @@ export function loadAdminSidebar() {
         console.error("Container #sidebar-container ikke fundet.");
     }
 }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadAdminDashboard();
-    loadAdminSidebar();
-
-});
 
 export function loadContent(sectionHTML) {
     const container = document.getElementById("main-content-container");
@@ -191,7 +231,6 @@ class FileHandler {
     }
 }
 
-// Event Listeners
 const fileHandler = new FileHandler();
 
 document.getElementById('uploadButton').addEventListener('click', () => {
@@ -208,6 +247,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
         }
     }
 });
+
 function showUploadSection() {
 
     const uploadSectionHTML = `
@@ -245,4 +285,3 @@ function showUploadSection() {
         console.error("Container #main-content-container ikke fundet.");
     }
 }
-
