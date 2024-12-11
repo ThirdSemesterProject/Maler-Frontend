@@ -1,4 +1,5 @@
-function loadAdminDashboard(orders) {
+// Funktion det at load heel admin siden
+export function loadAdminDashboard(orders) {
     const categories = {
         MODTAGET: "Modtagede",
         IGANGVÆRENDE: "Igangværende",
@@ -8,7 +9,7 @@ function loadAdminDashboard(orders) {
     const content = `
         <div class="flex">
             <main class="p-8">
-                <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Overblik</h1>
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Oversigt</h1>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     ${Object.entries(categories)
         .map(
@@ -20,7 +21,9 @@ function loadAdminDashboard(orders) {
                 .filter((order) => order.orderStatus === status)
                 .map((order) => `
                     <div class="p-4 border rounded mb-4">
-                        <p><strong>Navn:</strong> ${order.customerName}</p>
+                        <a href="#order/${order.orderId}" class="text-blue-500 hover:underline customer-link">
+                            <strong>Navn:</strong> ${order.customerName}
+                        </a>
                         <p><strong>Ordredato:</strong> ${order.orderDate}</p>
                         <p><strong>Status:</strong> ${order.orderStatus}</p>
                        <button class="bg-blue-500 text-white py-1 px-2 rounded edit-btn" data-id="${order.orderId}" data-status="${order.orderStatus}">Rediger Status</button>
@@ -40,7 +43,7 @@ function loadAdminDashboard(orders) {
     if (container) {
         container.innerHTML = content;
 
-        // Attach click listeners for edit buttons
+        // En click listeners for rediger knappen, bliver brugt når kan bruger "rediger status" knappen
         const editButtons = document.querySelectorAll(".edit-btn");
         editButtons.forEach((btn) =>
             btn.addEventListener("click", (e) => {
@@ -49,25 +52,80 @@ function loadAdminDashboard(orders) {
                 showEditForm(id, status);
             })
         );
+
+        // En click listeners  for customer links, bliver brugt nå man klikker på en persons navn i ordre overblik
+        const customerLinks = document.querySelectorAll(".customer-link");
+        customerLinks.forEach((link) =>
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const id = link.getAttribute("href").split("/")[1];
+                loadOrderDetails(id);
+            })
+        );
     }
 }
 
+// en async funktion til at se ordre detaljer samt HTML for dette
+async function loadOrderDetails(orderId) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/orders/${orderId}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch order details.");
+        }
+        const order = await response.json();
+
+        // Håndtere handlingen i tilfælde hvor ItemNames enten er undefined eller empty
+        const itemNames = order.itemNames || [];
+
+        const detailHTML = `
+            <div class="p-8">
+                <main class="p-8">
+                    <h2 class="text-2xl font-bold mb-4">Ordre Detaljer</h2>
+                    <p><strong>ID:</strong> ${order.orderId}</p>
+                    <p><strong>Navn:</strong> ${order.customerName}</p>
+                    <p><strong>Ordredato:</strong> ${order.orderDate}</p>
+                    <p><strong>Shop navn:</strong> ${order.shopName}</p>
+                    <p><strong>Status:</strong> ${order.orderStatus}</p>
+                    <h3 class="text-xl font-bold mt-6 mb-2">Bestilte Produkter:</h3>
+                    <ul class="list-disc pl-6">
+                        ${itemNames
+                .map(
+                    (itemName) => `
+                            <li>
+                                <strong>${itemName}</strong>
+                            </li>`
+                )
+                .join("")}
+                </main>
+            </div>
+        `;
+
+        const container = document.getElementById("main-content-container");
+        container.innerHTML = detailHTML;
+    } catch (error) {
+        console.error("Error loading order details:", error.message);
+    }
+}
+
+//En funktion til se rediger formen
 function showEditForm(orderId, currentStatus) {
     const formHTML = `
         <section class="p-8">
-            <h2 class="text-2xl font-bold mb-4">Edit Order Status</h2>
+        <main class="p-8">
+            <h2 class="text-2xl font-bold mb-4">Rediger ordre status</h2>
             <form id="edit-order-form">
-                <input type="hidden" id="order-id" value="${orderId}">
-                <div class="mb-4">
-                    <label class="block text-sm font-bold mb-2" for="status">Status</label>
-                    <select id="order-status" class="border p-2 rounded w-full">
-                        <option value="MODTAGET" ${currentStatus === "MODTAGET" ? "selected" : ""}>Modtagede</option>
-                        <option value="IGANGVÆRENDE" ${currentStatus === "IGANGVÆRENDE" ? "selected" : ""}>Igangværende</option>
-                        <option value="AFSLUTTET" ${currentStatus === "AFSLUTTET" ? "selected" : ""}>Afsluttede</option>
-                    </select>
-                </div>
-                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Save</button>
+                    <input type="hidden" id="order-id" value="${orderId}">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2" for="status">Status</label>
+                        <select id="order-status" class="border p-2 rounded w-full">
+                            <option value="MODTAGET" ${currentStatus === "MODTAGET" ? "selected" : ""}>Modtagede</option>
+                            <option value="IGANGVÆRENDE" ${currentStatus === "IGANGVÆRENDE" ? "selected" : ""}>Igangværende</option>
+                            <option value="AFSLUTTET" ${currentStatus === "AFSLUTTET" ? "selected" : ""}>Afsluttede</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Gem</button>
             </form>
+            </main>
         </section>
     `;
 
@@ -83,6 +141,7 @@ function showEditForm(orderId, currentStatus) {
     });
 }
 
+// En async funktion til at opdatere ordre statussen
 async function updateOrderStatus(orderId, newStatus) {
     try {
         const response = await fetch(`http://localhost:8080/api/orders/${orderId}/status`, {
@@ -99,6 +158,7 @@ async function updateOrderStatus(orderId, newStatus) {
     }
 }
 
+// En async funktion til at loade ordre og dashboardet
 async function loadOrdersAndDashboard() {
     try {
         const response = await fetch("http://localhost:8080/api/orders/getAllOrders");
@@ -113,6 +173,7 @@ async function loadOrdersAndDashboard() {
 
 document.addEventListener("DOMContentLoaded", loadOrdersAndDashboard);
 
+// funktion til at loade admin sidebaren
 export function loadAdminSidebar() {
     const sidebarContent = `
         <div style="display: flex; height: 100vh; overflow: hidden">
@@ -121,7 +182,7 @@ export function loadAdminSidebar() {
                 <a href="#overblik" id="overblik-link" class="mb-8 text-center group">
                     <div
                         class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
-                        <span class="text-gray-800 font-bold text-sm">Overblik</span>
+                        <span class="text-gray-800 font-bold text-sm">Oversigt</span>
                     </div>
                 </a>
                 <a href="#products" id="products-link" class="mb-8 text-center group">
@@ -144,7 +205,7 @@ export function loadAdminSidebar() {
     if (sidebarContainer) {
         sidebarContainer.innerHTML = sidebarContent;
 
-        // Binder event listener
+        // forbinder event listener
         const overblikLink = document.getElementById("overblik-link");
         const productsLink = document.getElementById("products-link");
         const uploadLink = document.getElementById("upload-link");
@@ -169,6 +230,7 @@ export function loadAdminSidebar() {
     }
 }
 
+// Bliver den her brugt?
 export function loadContent(sectionHTML) {
     const container = document.getElementById("main-content-container");
     if (container) {
