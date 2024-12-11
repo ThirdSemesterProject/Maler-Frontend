@@ -1,4 +1,4 @@
-export function loadAdminDashboard(orders) {
+function loadAdminDashboard(orders) {
     const categories = {
         MODTAGET: "Modtagede",
         IGANGVÆRENDE: "Igangværende",
@@ -116,46 +116,54 @@ document.addEventListener("DOMContentLoaded", loadOrdersAndDashboard);
 export function loadAdminSidebar() {
     const sidebarContent = `
         <div style="display: flex; height: 100vh; overflow: hidden">
-    <!-- Sidebar -->
-    <aside class="w-36 bg-white shadow-md h-full py-8 flex flex-col items-center">
-        
-        <a href="/admin/overblik" class="mb-8 text-center group">
-            <div
-                class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
-                <span class="text-gray-800 font-bold text-sm">Overblik</span>
-            </div>
-        </a>
-
-        <a href="#products" class="mb-8 text-center group" onclick="showProductManagement()">
-            <div
-                class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
-                <span class="text-gray-800 font-bold text-sm">Tilføj produkter</span>
-            </div>
-        </a>
-
-        <!-- Upload -->
-        <a href="#upload" class="text-center group" id="upload-link">
-            <div class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
-                <span class="text-gray-800 font-bold text-sm">Upload</span>
-            </div>
-        </a>
-    </aside>
-</div>
+            <!-- Sidebar -->
+            <aside class="w-36 bg-white shadow-md h-full py-8 flex flex-col items-center">
+                <a href="#overblik" id="overblik-link" class="mb-8 text-center group">
+                    <div
+                        class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
+                        <span class="text-gray-800 font-bold text-sm">Overblik</span>
+                    </div>
+                </a>
+                <a href="#products" id="products-link" class="mb-8 text-center group">
+                    <div
+                        class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
+                        <span class="text-gray-800 font-bold text-sm">Tilføj produkter</span>
+                    </div>
+                </a>
+                <a href="#upload" id="upload-link" class="text-center group">
+                    <div
+                        class="w-24 h-24 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center transition-all duration-300">
+                        <span class="text-gray-800 font-bold text-sm">Upload</span>
+                    </div>
+                </a>
+            </aside>
+        </div>
     `;
 
-    // Find eller opret en container til sidebaren
     const sidebarContainer = document.getElementById("sidebar-container");
     if (sidebarContainer) {
         sidebarContainer.innerHTML = sidebarContent;
 
-        // Tilføj event listener for upload-sektionen
-        const uploadLink = document.getElementById('upload-link');
-        if (uploadLink) {
-            uploadLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                showUploadSection();
-            });
-        }
+        // Binder event listener
+        const overblikLink = document.getElementById("overblik-link");
+        const productsLink = document.getElementById("products-link");
+        const uploadLink = document.getElementById("upload-link");
+
+        overblikLink.addEventListener("click", async (event) => {
+            event.preventDefault();
+            // Sikre at ordre er loaded bør det bliver renderet på dashboardet.
+            await loadOrdersAndDashboard();
+        });
+
+        productsLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            showProductManagement();
+        });
+
+        uploadLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            showUploadSection();
+        });
     } else {
         console.error("Container #sidebar-container ikke fundet.");
     }
