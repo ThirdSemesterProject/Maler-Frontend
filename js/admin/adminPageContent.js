@@ -308,9 +308,9 @@ document.getElementById('uploadButton').addEventListener('click', () => {
     const imageName = document.getElementById('imageNameInput').value.trim();
 
     if (files.length === 0) {
-        alert('Please select a file to upload.');
+        console.log('Please select a file to upload.');
     } else if (!imageName) {
-        alert('Please enter a name for the image.');
+        console.log('Please enter a name for the image.');
     } else {
         for (const file of files) {
             fileHandler.handleFile(file, imageName);
@@ -342,9 +342,9 @@ function showUploadSection() {
             const files = document.getElementById('imageInput').files;
             const imageName = document.getElementById('imageNameInput').value.trim();
             if (files.length === 0) {
-                alert('Vælg en fil at uploade.');
+                console.log('Vælg en fil at uploade.');
             } else if (!imageName) {
-                alert('Indtast et navn til billedet.');
+                console.log('Indtast et navn til billedet.');
             } else {
                 for (const file of files) {
                     fileHandler.handleFile(file, imageName);

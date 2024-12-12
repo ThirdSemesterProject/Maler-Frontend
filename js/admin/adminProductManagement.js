@@ -250,7 +250,7 @@ async function createProduct() {
     // Validate the price field
     const price = productData.price;
     if (isNaN(price) || price <= 0) {
-        alert('Please enter a valid price (a positive number).');
+        console.log('Please enter a valid price (a positive number).');
         return;
     }
 
@@ -262,10 +262,10 @@ async function createProduct() {
 
     if (response.ok) {
         await fetchProducts();
-        alert('Product created successfully.');
+        console.log('Product created successfully.');
         clearProductForm();
     } else {
-        alert('Failed to create product.');
+        console.log('Failed to create product.');
     }
 }
 
@@ -282,7 +282,7 @@ document.getElementById('price').addEventListener('input', function (e) {
 async function updateProduct() {
     const editingId = document.querySelector('#product-management').dataset.editingId;
     if (!editingId) {
-        alert('No product selected for editing.');
+        console.log('No product selected for editing.');
         return;
     }
 
@@ -291,7 +291,7 @@ async function updateProduct() {
     // Validate the price field
     const price = productData.price;
     if (isNaN(price) || price <= 0) {
-        alert('Please enter a valid price (a positive number).');
+        console.log('Please enter a valid price (a positive number).');
         return;
     }
 
@@ -302,11 +302,11 @@ async function updateProduct() {
     );
 
     if (response.ok) {
-        alert('Product updated successfully.');
+        console.log('Product updated successfully.');
         await fetchProducts();
         clearProductForm();
     } else {
-        alert('Failed to update product.');
+        console.log('Failed to update product.');
     }
 }
 
@@ -317,14 +317,14 @@ async function deleteProduct(id) {
         const response = await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
 
         if (response.ok) {
-            alert("Product successfully deleted!");
+            console.log("Product successfully deleted!");
             await fetchProducts(); // Refresh the product list
         } else {
-            alert("Failed to delete product. Please try again.");
+            console.log("Failed to delete product. Please try again.");
         }
     } catch (error) {
         console.error("Error while deleting product:", error);
-        alert("An error occurred. Please try again.");
+        console.log("An error occurred. Please try again.");
     }
 }
 
