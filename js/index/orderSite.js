@@ -159,6 +159,20 @@ function loadOrderPage(cartItems) {
             const responseData = await response.json();
             console.log('Ordre oprettet:', responseData);
 
+            // Gem ordredata i sessionStorage
+            sessionStorage.setItem('orderDetails', JSON.stringify({
+                customer: {
+                    firstName: orderRequest.firstName,
+                    lastName: orderRequest.lastName,
+                    email: orderRequest.email
+                },
+                order: responseData // Ordredetaljer fra backend
+            }));
+
+            console.log('Response Data:', responseData);
+
+            sessionStorage.setItem('orderData', JSON.stringify(responseData));
+
             // Alert brugeren om succesfuld ordreoprettelse
             alert('Ordre oprettet med succes!');
 
@@ -177,6 +191,10 @@ function loadOrderPage(cartItems) {
             const clearCartMessage = await clearCartResponse.text();
             console.log(clearCartMessage); // "Cart cleared."
             alert('Kurv ryddet med succes!');
+
+            // Kald thank you-funktion
+            console.log('Order ID to be saved:', responseData.id);
+                thankYouForOrdre();
 
         } catch (error) {
             console.error('Fejl:', error);
