@@ -135,7 +135,7 @@ let currentPage = 0; // This tracks the current page
 const pageSize = 10; // Items per page
 
 async function fetchProducts(page = 0, size = pageSize) {
-    const response = await fetch(`http://localhost:8080/api/products/getAllAdminProducts?page=${page}&size=${size}`);
+    const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/getAllAdminProducts?page=${page}&size=${size}`);
     const data = await response.json();
 
     const productsList = document.querySelector('#products-list');
@@ -255,7 +255,7 @@ async function createProduct() {
     }
 
     const response = await sendProductRequest(
-        'http://localhost:8080/api/products/createProduct',
+        'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/createProduct',
         'POST',
         productData
     );
@@ -296,7 +296,7 @@ async function updateProduct() {
     }
 
     const response = await sendProductRequest(
-        `http://localhost:8080/api/products/${editingId}`,
+        `https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/${editingId}`,
         'PATCH',
         productData
     );
@@ -314,7 +314,7 @@ async function updateProduct() {
 // delete an existing product
 async function deleteProduct(id) {
     try {
-        const response = await fetch(`http://localhost:8080/api/products/${id}`, { method: 'DELETE' });
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/products/${id}`, { method: 'DELETE' });
 
         if (response.ok) {
             alert("Product successfully deleted!");

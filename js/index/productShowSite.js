@@ -96,7 +96,7 @@ function showProductDetails() {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/cart/add', {
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

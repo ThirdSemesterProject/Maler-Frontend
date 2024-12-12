@@ -189,7 +189,7 @@ async function loadCategoryImages() {
 // Fetch billede fra serveren
 async function fetchImageByName(name) {
     try {
-        const response = await fetch(`http://localhost:8080/api/upload/images/search?name=${encodeURIComponent(name)}`);
+        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload/images/search?name=${encodeURIComponent(name)}`);
         if (!response.ok) {
             throw new Error(`Billede ikke fundet for navn: ${name}`);
         }

@@ -1,6 +1,6 @@
 /* JWT handling */
-const API_LOGIN = 'http://localhost:8080/login';
-const API_SIGNUP = 'http://localhost:8080/signup';
+const API_LOGIN = 'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/login';
+const API_SIGNUP = 'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/signup';
 
 function getToken() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -111,7 +111,7 @@ function getSecret(event) {
 }
 
 function myFetch(endpoint, method, payload=null, token){
-    return fetch(`http://localhost:8080/${endpoint}`,  // important to start this line with 'return'
+    return fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/${endpoint}`,  // important to start this line with 'return'
         {
             method: method,
             body: payload,
