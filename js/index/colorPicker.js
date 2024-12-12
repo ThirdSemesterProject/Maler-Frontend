@@ -1,3 +1,156 @@
+const colorSection1 = [
+    // Række 1
+    { name: "346 Ekte hvit", hex: "#F1F1F1" }, // S 0300-N
+    { name: "351 Perlehvit", hex: "#F3F3F3" }, // S 0500-N
+    { name: "301 Blanco", hex: "#F4F5F2" }, // 0401-G42Y
+    { name: "302 Hvitveis", hex: "#F5F4F2" }, // 0501-Y01R
+    { name: "305 Egghvit", hex: "#F5F2E9" }, // 0502-Y
+    { name: "333 Myrull", hex: "#ECE8E1" }, // S 0502-Y
+    { name: "303 Kalkhvit", hex: "#EFE5DE" }, // 0801-Y25R
+    { name: "334 Hyasint", hex: "#EFE3DD" }, // 1102-Y10R
+    { name: "306 Lys Antikk", hex: "#EDE8D4" }, // 0802-G98Y
+    { name: "417 Smooth beige", hex: "#E5DFCF" }, // 1203-Y19R
+
+    // Række 2
+    { name: "340 Velvet", hex: "#E0DCCC" }, // S 1002-Y
+    { name: "341 Basalt", hex: "#D6D0C0" }, // S 1502-Y
+    { name: "418 Warm shadow", hex: "#CCC4B2" }, // S 2002-Y
+    { name: "419 Soulmate", hex: "#D1CBB3" }, // 2003-G96Y
+    { name: "420 Soft grey", hex: "#D0C7B2" }, // 2703-Y19R
+    { name: "416 Antikkgrå", hex: "#C4BAA8" }, // S 2502-Y
+    { name: "421 Warm grey", hex: "#BAB09E" }, // S 3502-Y
+    { name: "422 Iconic grey", hex: "#A89E8C" }, // S 4502-Y
+    { name: "344 Grafitti", hex: "#91897A" }, // S 5502-Y
+    { name: "423 Soft dark", hex: "#6E6456" }, // S 7502-Y
+
+    // Række 3
+    { name: "424 Illusion", hex: "#E3DBCC" }, // 1202-Y26R
+    { name: "335 Skygge", hex: "#D8CAB5" }, // 1603-Y31R
+    { name: "425 Satin love", hex: "#D1C1AB" }, // 1805-Y20R
+    { name: "426 Perfect beige", hex: "#CABAA6" }, // 1704-Y19R
+    { name: "427 Essential beige", hex: "#BBAF9B" }, // S 2005-Y20R
+    { name: "342 Akasie", hex: "#A59684" }, // 2903-Y30R
+    { name: "343 Aroma", hex: "#9C8D7B" }, // 3504-Y19R
+    { name: "324 Jord", hex: "#8C7A68" }, // S 5005-Y50R
+    { name: "428 True brown", hex: "#6E5D4C" }, // S 6005-Y50R
+    { name: "429 Burnt pepper", hex: "#5A4A39" }, // S 7005-Y50R
+
+    // Række 4
+    { name: "336 Cumulus", hex: "#DED2C3" }, // 2303-Y14R
+    { name: "430 Chic beige", hex: "#D2C6B4" }, // 2305-Y22R
+    { name: "431 Timeless", hex: "#C6B8A6" }, // 2805-Y27R
+    { name: "339 Eikenøtt", hex: "#B2A48C" }, // 3606-Y29R
+    { name: "323 Krydder", hex: "#8F7D66" }, // 4207-Y42R
+    { name: "404 Silke", hex: "#786955" }, // 2306-Y47R
+    { name: "405 Slør", hex: "#6F5E4B" }, // S 3010-Y50R
+    { name: "432 Golden nude", hex: "#5E503D" }, // 2914-Y53R
+    { name: "406 Duggrose", hex: "#4C3E2D" }, // 3923-Y74R
+    { name: "407 Chili", hex: "#3A2C1F" }, // 4436-Y81R
+];
+
+const colorSection2 = [
+    // Række 1
+    { name: "410 Lind", hex: "#A48F80" }, // S 1002-Y50R
+    { name: "433 Nude", hex: "#B8958A" }, // S 1505-Y80R
+    { name: "434 Pink love", hex: "#BC8C83" }, // S 1510-Y80R
+    { name: "435 Pink glow", hex: "#D69086" }, // 2911-Y82R
+    { name: "412 Daggry", hex: "#D0B2A3" }, // S 3005-Y80R
+    { name: "413 Cuzco", hex: "#B29484" }, // S 5005-Y80R
+    { name: "414 Pepperkorn", hex: "#977766" }, // S 6005-Y80R
+    { name: "415 Koriander", hex: "#7C5E51" }, // 7003-R01B
+    { name: "436 Burnt rose", hex: "#87524D" }, // S 6020-R10B
+    { name: "437 Burgundy", hex: "#6D3D3A" }, // S 7010-R10B
+
+    // Række 2
+    { name: "438 Sjøluft", hex: "#C8C2C6" }, // S 1502-R
+    { name: "439 Nordisk lys", hex: "#B8B2B5" }, // S 2502-R
+    { name: "440 Smokey grey", hex: "#A19A9D" }, // S 3502-R
+    { name: "441 Evening grey", hex: "#888185" }, // S 4502-R
+    { name: "322 Aubergine", hex: "#765F6B" }, // S 4005-R20B
+    { name: "442 Bliss", hex: "#6D5C64" }, // S 5005-R20B
+    { name: "481 Plomme", hex: "#59414F" }, // S 6005-R20B
+    { name: "366 Harmoni", hex: "#4A4C57" }, // S 6005-R50B
+    { name: "367 Enebær", hex: "#4E4950" }, // 6309-R37B
+    { name: "443 Diva", hex: "#393643" }, // S 7010-R50B
+
+    // Række 3
+    { name: "357 Skjellsand", hex: "#F0EFEA" }, // S 1000-N
+    { name: "318 Dis", hex: "#E6E5E0" }, // S 1500-N
+    { name: "352 Grålut", hex: "#DCDAD6" }, // S 2000-N
+    { name: "347 Sementgrå", hex: "#CAC7C3" }, // S 3000-N
+    { name: "359 Leire", hex: "#B8B5B1" }, // S 4000-N
+    { name: "354 Jerngrå", hex: "#A6A29E" }, // S 5000-N
+    { name: "349 Kvartsgrå", hex: "#8C8884" }, // S 6000-N
+    { name: "350 Anis", hex: "#615F5B" }, // S 7500-N
+    { name: "356 Sort oliven", hex: "#4D4B48" }, // S 8000-N
+    { name: "362 Varg", hex: "#3A3936" }, // S 8500-N
+
+    // Række 4
+    { name: "444 Sølvgrå", hex: "#DDE3E5" }, // S 2002-B
+    { name: "445 Gråskimmer", hex: "#CAD0D4" }, // S 2502-B
+    { name: "446 Delikat grå", hex: "#B8BDC2" }, // S 3502-B
+    { name: "447 Horisont", hex: "#A6ADB3" }, // S 4502-B
+    { name: "377 Aftenbris", hex: "#89A0B5" }, // S 3010-B
+    { name: "448 Fjordblå", hex: "#6E90A8" }, // S 3020-B
+    { name: "384 Korall", hex: "#4D738E" }, // S 4020-B
+    { name: "383 Jade", hex: "#49788F" }, // S 4020-B10G
+    { name: "386 Dråpe", hex: "#345C77" }, // S 6020-B
+    { name: "449 Blåtinde", hex: "#1C3F5A" }, // S 7020-B
+];
+
+const colorSection3 = [
+    // Række 1
+    { name: "450 Sølvdråpe", hex: "#D0D3DA" }, // S 1005-R90B
+    { name: "451 Østavind", hex: "#B8C1CF" }, // S 2005-R90B
+    { name: "371 Skyggespill", hex: "#98A5B8" }, // S 3010-R90B
+    { name: "452 Midnatt blå", hex: "#647B99" }, // 3908-B01G
+    { name: "453 Stille sjø", hex: "#8396AA" }, // S 4010-R90B
+    { name: "372 Sommernatt", hex: "#5E7088" }, // S 5010-R90B
+    { name: "379 Blåstål", hex: "#4D6276" }, // 6108-B08G
+    { name: "373 Tindeblå", hex: "#3E5571" }, // S 5020-R90B
+    { name: "454 Navy blue", hex: "#2C3D57" }, // 6416-B02G
+    { name: "380 Kaprifol", hex: "#1A2C41" }, // S 7010-R90B
+
+// Række 2
+    { name: "455 Lys mint", hex: "#D8E6D4" }, // S 1005-G10Y
+    { name: "456 Fresh mint", hex: "#CFE3C6" }, // S 1005-G20Y
+    { name: "387 Frost", hex: "#B7D4A6" }, // 1706-G15Y
+    { name: "388 Nordlys", hex: "#A3C99A" }, // S 3005-G20Y
+    { name: "457 Sjøgrønn", hex: "#85B7A3" }, // 3706-B93G
+    { name: "458 Smokey green", hex: "#6E9D94" }, // S 4010-B50G
+    { name: "391 Papaya", hex: "#608B87" }, // S 5010-B50G
+    { name: "459 Urban green", hex: "#4A7A74" }, // S 6010-B50G
+    { name: "460 Green spirit", hex: "#3A6B65" }, // S 7010-B50G
+    { name: "461 Tropical green", hex: "#2D5C58" }, // S 7020-B50G
+
+// Række 3
+    { name: "462 Vårsøg", hex: "#E4E6CF" }, // S 1010-G70Y
+    { name: "463 Urteblad", hex: "#D3D9B8" }, // S 1510-G60Y
+    { name: "464 Stay green", hex: "#C1CE9D" }, // S 2010-G70Y
+    { name: "465 Myk mose", hex: "#B3C88E" }, // S 2010-G80Y
+    { name: "466 Nature", hex: "#A6C47E" }, // S 3010-G70Y
+    { name: "467 Organic", hex: "#8BAE6B" }, // S 4010-G70Y
+    { name: "468 Go green", hex: "#7B9B5D" }, // 3916-G73Y
+    { name: "469 Dempet grønn", hex: "#687F50" }, // S 5010-G70Y
+    { name: "470 Soft olive", hex: "#596F43" }, // S 6010-G70Y
+    { name: "471 Flaskegrønn", hex: "#455F39" }, // 6711-G52Y
+
+// Række 4
+    { name: "472 Solbris", hex: "#F9F4E8" }, // S 0505-Y10R
+    { name: "473 Silky signature", hex: "#F5EAD6" }, // S 0907-Y10R
+    { name: "474 Satin touch", hex: "#EBD7C0" }, // S 1510-Y10R
+    { name: "475 Sommervind", hex: "#E2C9AB" }, // S 2010-Y10R
+    { name: "398 Ingefær", hex: "#D8B68F" }, // 2120-Y06R
+    { name: "476 Solglød", hex: "#C9A176" }, // S 2030-Y10R
+    { name: "477 Mustard", hex: "#B88A57" }, // S 3030-Y20R
+    { name: "478 Dempet jord", hex: "#A97D4C" }, // 3713-Y18R
+    { name: "479 Camel", hex: "#926845" }, // S 4020-Y20R
+    { name: "480 Safran", hex: "#7D5733" }, // S 4030-Y20R
+];
+
+let currentSectionIndex = 0; // Start med den første sektion
+const colorSections = [colorSection1, colorSection2, colorSection3];
+
 async function loadColorPickerSection() {
     // Skjul sektioner, der ikke skal vises
     const heroSection = document.getElementById('heroSection');
@@ -18,151 +171,6 @@ async function loadColorPickerSection() {
         { name: "Bedroom", src: null, width: 1232, height: 1793 },
         { name: "Sofa", src: null, width: 1240, height: 1920 },
     ];
-    const colors = [
-        // Første kolonne
-        { name: "346 Rice bric", hex: "#F8F1E4" },
-        { name: "351 Pedrixit", hex: "#F5F0EB" },
-        { name: "301 Blanco", hex: "#F6F5F3" },
-        { name: "302 Ibiotecis", hex: "#F6F5F1" },
-        { name: "305 Eqlokit", hex: "#F4EFE7" },
-        { name: "333 Myall", hex: "#E8E5DE" },
-        { name: "303 Kubiwt", hex: "#E8E3D8" },
-        { name: "331 Jyisti", hex: "#EEE7E1" },
-        { name: "306 Lyx Antik", hex: "#E8DFD5" },
-        { name: "417 Smooth beige", hex: "#E5DDD5" },
-
-// Anden kolonne
-        { name: "340 Velvet", hex: "#EDE6DB" },
-        { name: "341 Brush", hex: "#EAE2DA" },
-        { name: "418 Warm shadow", hex: "#E1D7C4" },
-        { name: "419 Soulmate", hex: "#DCD2BF" },
-        { name: "420 Soft grey", hex: "#D5CDC2" },
-        { name: "416 Antikgrej", hex: "#D2C9BE" },
-        { name: "421 Warm grey", hex: "#D8CEC3" },
-        { name: "422 Ionic grey", hex: "#D1C8C2" },
-        { name: "344 Grafin", hex: "#CFC6BE" },
-        { name: "423 Soft dark", hex: "#CCC4BE" },
-
-// Tredje kolonne
-        { name: "434 Illusion", hex: "#D8CBB9" },
-        { name: "353 Stagger", hex: "#E5DCCC" },
-        { name: "425 Satin love", hex: "#D9CFBA" },
-        { name: "426 Perfect beige", hex: "#D6C7A8" },
-        { name: "427 Essential beige", hex: "#CABEA4" },
-        { name: "342 Alsine", hex: "#C1B4A2" },
-        { name: "343 Arena", hex: "#C0B1A0" },
-        { name: "324 Joel", hex: "#BBAE9E" },
-        { name: "438 Tree brown", hex: "#AD9E8B" },
-        { name: "429 Burnt pepper", hex: "#A79483" },
-
-// Fjerde kolonne
-        { name: "336 Camulos", hex: "#BFB6A3" },
-        { name: "430 Chic beige", hex: "#D0C6B1" },
-        { name: "431 Timeless", hex: "#CFC3A5" },
-        { name: "339 Eflacent", hex: "#BEB29B" },
-        { name: "323 Krylder", hex: "#B1A492" },
-        { name: "404 Slik", hex: "#ADA390" },
-        { name: "405 Sler", hex: "#A99E8F" },
-        { name: "406 Sly dark", hex: "#9E9184" },
-        { name: "407 Chili", hex: "#8F8276" },
-        { name: "437 Burgundy", hex: "#835F55" },
-
-// Femte kolonne
-        { name: "357 Skylband", hex: "#C4C1BA" },
-        { name: "318 Dia", hex: "#CAC6C0" },
-        { name: "352 Celus", hex: "#D5D1CC" },
-        { name: "347 Succnep", hex: "#D6D1CB" },
-        { name: "441 Evening grey", hex: "#C3BCB5" },
-        { name: "442 Bliss", hex: "#B6AFA9" },
-        { name: "414 Peppercorn", hex: "#B3AAA4" },
-        { name: "413 Cuoso", hex: "#AEA7A1" },
-        { name: "436 Burn rose", hex: "#A1948D" },
-        { name: "415 Korroko", hex: "#967F79" },
-
-// Sjette kolonne
-        { name: "444 Selgraph", hex: "#B6B1A9" },
-        { name: "446 Delux pat", hex: "#A7A49F" },
-        { name: "447 Hotscot", hex: "#989490" },
-        { name: "349 Kuropit", hex: "#8F8C87" },
-        { name: "436 Burn rose", hex: "#7A6A66" },
-        { name: "464 Nature", hex: "#D0C5AC" },
-        { name: "457 Sigrness", hex: "#C4B9A6" },
-        { name: "450 Shelbrige", hex: "#E2DFD8" },
-        { name: "455 Leg mint", hex: "#D8D7D4" },
-        { name: "372 Summerset", hex: "#C9C4BC" },
-
-// Syvende kolonne
-        { name: "371 Mystic blue", hex: "#A9A8A4" },
-        { name: "353 Lagoon deep", hex: "#98A2A0" },
-        { name: "460 Green spirit", hex: "#748678" },
-        { name: "471 Flaskgreen", hex: "#667A66" },
-        { name: "479 Casual", hex: "#8E7748" },
-        { name: "461 Tropical green", hex: "#628F76" },
-        { name: "452 Shilo", hex: "#516E68" },
-        { name: "380 Kayfall", hex: "#3D3E46" },
-        { name: "480 Soltan", hex: "#9F7B61" },
-
-// Otte kolonne
-        { name: "465 Myk nose", hex: "#C3B18F" },
-        { name: "475 Summerstand", hex: "#D2C39F" },
-        { name: "473 Drapet jod", hex: "#BEA56F" },
-        { name: "477 Mustard", hex: "#C7A65B" },
-        { name: "468 Nature glow", hex: "#B7A059" },
-        { name: "470 Shelwood", hex: "#84763E" },
-        { name: "469 Leaf glow", hex: "#738644" },
-        { name: "474 Sunset touch", hex: "#A98453" },
-        { name: "479 Calm sage", hex: "#97945E" },
-        { name: "475 Golden oak", hex: "#D3B87F" },
-
-// Niende kolonne
-        { name: "388 Norby", hex: "#5A6F76" },
-        { name: "391 Poppy", hex: "#55796D" },
-        { name: "466 Go green", hex: "#4E6E56" },
-        { name: "468 Deepest green", hex: "#405946" },
-        { name: "469 Donut moss", hex: "#354F40" },
-        { name: "471 Flaskgreen", hex: "#2D4736" },
-        { name: "479 Casual", hex: "#705E40" },
-        { name: "475 Summerstand", hex: "#BA9C6A" },
-        { name: "477 Mustard", hex: "#D0A055" },
-        { name: "474 Sunset touch", hex: "#C78E4E" },
-
-// Tiende kolonne
-        { name: "480 Soltan", hex: "#84662E" },
-        { name: "479 Calm sage", hex: "#736C48" },
-        { name: "478 Drapet jod", hex: "#6F623A" },
-        { name: "469 Leaf glow", hex: "#5C5C3A" },
-        { name: "470 Shelwood", hex: "#4B4F33" },
-        { name: "467 Organic", hex: "#3D4734" },
-        { name: "466 Nature", hex: "#314032" },
-        { name: "468 Go green", hex: "#4A6B4F" },
-        { name: "461 Tropical green", hex: "#3E6856" },
-        { name: "460 Green spirit", hex: "#365746" },
-
-// Elvte kolonne
-        { name: "457 Sigrness", hex: "#4F7C5C" },
-        { name: "456 Fresh mint", hex: "#77A78C" },
-        { name: "455 Leg mint", hex: "#A8C6A7" },
-        { name: "450 Shelbrige", hex: "#BACCB7" },
-        { name: "444 Selgraph", hex: "#D4E0D0" },
-        { name: "446 Delux pat", hex: "#DBE1D6" },
-        { name: "447 Hotscot", hex: "#E5EAE4" },
-        { name: "436 Burn rose", hex: "#CEB4AC" },
-        { name: "437 Burgundy", hex: "#AB6D63" },
-        { name: "435 Pink glow", hex: "#D0B4A5" },
-
-// Tolvte kolonne
-        { name: "433 Nude", hex: "#E6D2CB" },
-        { name: "431 Timeless", hex: "#C4B9A3" },
-        { name: "426 Perfect beige", hex: "#B6A492" },
-        { name: "425 Satin love", hex: "#B3A497" },
-        { name: "424 Essential beige", hex: "#8E7E6A" },
-        { name: "423 Soft dark", hex: "#6D5B46" },
-        { name: "422 Ionic grey", hex: "#524839" },
-        { name: "421 Warm grey", hex: "#413829" },
-        { name: "419 Soulmate", hex: "#3C3225" },
-        { name: "418 Warm shadow", hex: "#2E291D" }
-
-    ];
 
     try {
         // Hent billeder fra API'et
@@ -177,46 +185,47 @@ async function loadColorPickerSection() {
 
         // HTML-struktur
         mainContentContainer.innerHTML = `
-            <div id="color-picker-section" class="flex flex-col md:flex-row gap-6 max-w-7xl mx-auto">
-                <!-- Venstre kolonne -->
-                <div class="image-layout flex flex-col gap-4 w-full md:w-2/3">
-                    <!-- Stort billede -->
-                    <div id="main-image-box" class="relative" style="width: 100%; aspect-ratio: 3 / 2;">
-                        <div class="absolute inset-0" id="stue-box" style="background-color: #ffffff;" data-name="Stue">
-                            <img src="${imageData[0].src}" alt="Stue" class="rounded-md w-full h-full object-cover cursor-pointer" data-name="Stue">
-                        </div>
-                    </div>
-
-                    <!-- To små billeder -->
-                    <div class="flex gap-4">
-                        ${imageData.slice(1).map((image, index) => `
-                            <div class="relative" style="width: 50%; aspect-ratio: 2 / 3;">
-                                <div class="absolute inset-0" style="background-color: #ffffff;" data-name="${image.name}">
-                                    <img src="${image.src}" alt="${image.name}" 
-                                         class="rounded-md w-full h-full object-cover cursor-pointer" data-name="${image.name}">
-                                </div>
+            <div id="main-content-container" style="margin: 0; padding: 0; width: 100%;">
+                <div id="color-picker-section" class="flex flex-wrap md:flex-nowrap gap-6" style="margin: 0; padding: 0; width: 100%;">
+                    <!-- Venstre kolonne -->
+                    <div class="image-layout flex flex-col gap-4 w-full md:w-2/3">
+                        <div id="main-image-box" class="relative" style="width: 100%; aspect-ratio: 3 / 2;">
+                            <div class="absolute inset-0" id="stue-box" style="background-color: #ffffff;" data-name="Stue">
+                                <img src="${imageData[0]?.src}" alt="Stue" class="rounded-md w-full h-full object-cover cursor-pointer" data-name="Stue">
                             </div>
-                        `).join('')}
+                        </div>
+                        <div class="flex gap-4">
+                            ${imageData.slice(1).map((image) => `
+                                <div class="relative" style="width: 48%; aspect-ratio: 3 / 2;">
+                                    <div class="absolute inset-0" style="background-color: #ffffff;" data-name="${image.name}">
+                                        <img src="${image.src}" alt="${image.name}" 
+                                            class="rounded-md w-full h-full object-cover cursor-pointer" data-name="${image.name}">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Højre kolonne (farvekort) -->
+                    <div id="color-section-container" class="color-layout grid grid-cols-4 gap-4 w-full md:w-1/3">
+                        ${renderColorSection(colorSections[currentSectionIndex])}
                     </div>
                 </div>
 
-                <!-- Højre kolonne (farvekort) -->
-                <div class="color-layout grid grid-cols-3 md:grid-cols-4 gap-2 w-full md:w-1/3">
-                    ${colors.map(color => `
-                        <div class="color-option cursor-pointer rounded-md w-full h-12 shadow-md"
-                             style="background-color: ${color.hex};" data-color="${color.hex}">
-                        </div>
-                    `).join('')}
+                <!-- Navigationsknapper -->
+                <div class="flex justify-between mt-4">
+                    <button id="prev-section" aria-label="Forrige sektion" disabled>←</button>
+                    <button id="next-section" aria-label="Næste sektion">→</button>
                 </div>
             </div>
-
-            <!-- Tilbage-knap -->
-            <div class="text-center mt-6">
-                <button id="back-to-home" class="bg-gray-500 text-white py-2 px-6 rounded-md hover:bg-gray-600">
-                    Tilbage til forsiden
-                </button>
-            </div>
+           
         `;
+        updateNavigationButtons();
+
+        // Event listeners til navigation
+        document.getElementById('prev-section').addEventListener('click', () => changeSection(-1));
+        document.getElementById('next-section').addEventListener('click', () => changeSection(1));
+
 
         // Event listeners til farver
         const colorOptions = document.querySelectorAll('.color-option');
@@ -237,12 +246,19 @@ async function loadColorPickerSection() {
             });
         });
 
-        // Tilbage-knap
-        document.getElementById('back-to-home').addEventListener('click', restoreDefaultSections);
+        updateNavigationButtons();
     } catch (error) {
         console.error(error);
         mainContentContainer.innerHTML = `<p class="text-red-500">Der opstod en fejl: ${error.message}</p>`;
     }
+}
+
+function renderColorSection(colors) {
+    return colors.map(color => `
+        <div class="color-option cursor-pointer rounded-md w-full h-12 shadow-md"
+             style="background-color: ${color.hex};" data-color="${color.hex}">
+        </div>
+    `).join('');
 }
 
 // Funktion til at opdatere baggrundsfarver
@@ -253,21 +269,23 @@ function updateBackgroundColors(color) {
     });
 }
 
-// Funktion til at åbne modal med forstørret billede
+// Funktion til at åbne modal med præcis billedstørrelse
 function openFullscreenImage(imageSrc, backgroundColor) {
     const modal = document.createElement('div');
     modal.id = "image-modal";
     modal.className = "fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50";
     modal.innerHTML = `
-        <div class="relative bg-white rounded-lg shadow-lg p-0 overflow-hidden"
-             style="background-color: ${backgroundColor}; max-width: 95%; max-height: 95%; display: flex; justify-content: center; align-items: center;">
-            <img src="${imageSrc}" alt="Forstørret billede" class="rounded-md" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        <div class="relative" 
+             style="background-color: ${backgroundColor}; display: inline-block; padding: 0; margin: 0; border-radius: 10px;">
+            <img src="${imageSrc}" alt="Forstørret billede" 
+                 style="display: block; max-width: 100vw; max-height: 100vh; object-fit: contain; margin: 0;">
             <button id="close-modal" 
-                    class="absolute top-2 right-2 bg-gray-200 text-black py-1 px-4 rounded-md hover:bg-gray-300">
+                    class="absolute top-4 right-4 bg-gray-200 text-black py-1 px-4 rounded-md hover:bg-gray-300">
                 Luk
             </button>
         </div>
     `;
+
     document.body.appendChild(modal);
 
     // Luk modal ved klik eller 'Esc'
@@ -276,6 +294,53 @@ function openFullscreenImage(imageSrc, backgroundColor) {
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') closeModal();
     }, { once: true });
+
+    // Luk modal ved klik uden for billedet
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+    });
+}
+
+// Funktion til at skifte sektion
+function changeSection(direction) {
+    currentSectionIndex += direction;
+
+    // Opdater farvekortet
+    const colorSectionContainer = document.getElementById('color-section-container');
+    colorSectionContainer.innerHTML = renderColorSection(colorSections[currentSectionIndex]);
+
+    // Genaktivér event listeners for farveændring
+    const colorOptions = document.querySelectorAll('.color-option');
+    colorOptions.forEach(option => {
+        option.addEventListener('click', (event) => {
+            const color = event.target.getAttribute('data-color');
+            updateBackgroundColors(color);
+        });
+    });
+
+    updateNavigationButtons(); // Opdater navigationsknappernes tilstand
+}
+
+// Funktion til at opdatere navigationsknapper
+function updateNavigationButtons() {
+    const prevButton = document.getElementById('prev-section');
+    const nextButton = document.getElementById('next-section');
+
+    // Første sektion
+    if (currentSectionIndex === 0) {
+        prevButton.disabled = true; // Deaktiver tilbage-knap
+        nextButton.disabled = false; // Aktivér frem-knap
+    }
+    // Sidste sektion
+    else if (currentSectionIndex === colorSections.length - 1) {
+        prevButton.disabled = false; // Aktivér tilbage-knap
+        nextButton.disabled = true; // Deaktiver frem-knap
+    }
+    // Mellemsektioner
+    else {
+        prevButton.disabled = false; // Aktivér tilbage-knap
+        nextButton.disabled = false; // Aktivér frem-knap
+    }
 }
 
 // Funktion til at gendanne forsiden
