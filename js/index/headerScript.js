@@ -5,10 +5,12 @@ function CreateHeader() {
             <div class="container mx-auto flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center space-x-4">
-                    <div class="bg-gray-200 p-3 rounded-full">
-                        <span class="text-gray-800 font-bold">Logo</span>
-                    </div>
-                    <span class="font-semibold text-lg tracking-wide text-gray-800">Maling.dk</span>
+                    <a href="https://www.instagram.com/maling.dk/" target="_blank" class="text-gray-800 font-bold text-4xl">
+                        #
+                    </a>
+                    <a href="javascript:void(0);" onclick="location.reload();" class="font-semibold text-lg tracking-wide text-gray-800">
+                        Maling.dk
+                    </a>
                 </div>
                 
                 <!-- Dropdown Menu -->
