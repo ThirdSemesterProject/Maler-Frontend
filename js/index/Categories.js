@@ -84,6 +84,7 @@ const categories = {
 
 window.categories = categories;
 
+// Indlæs kategori-sektionen og render kategorier
 document.addEventListener("DOMContentLoaded", async () => {
     // 1. Kategori-sektion
     window.categoriesSection = document.getElementById("categories-section");
@@ -111,7 +112,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
             `;
 
-            card.addEventListener("click", () => window.renderSubcategories(category));
+            // Tilføj click-event for hver kategori
+            card.addEventListener("click", () => {
+                if (category === "Farveuniverset") {
+                    window.loadColorPickerSection(); // Naviger til farvevælger
+                } else {
+                    window.renderSubcategories(category); // Standard underkategorier
+                }
+            });
+
             grid.appendChild(card);
         });
 
