@@ -31,7 +31,7 @@ function CreateHeader() {
                         id="search-input"
                         placeholder="Søg efter produkter..."
                         class="p-2 rounded-l-full text-gray-800 w-full border border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-                        oninput="searchByNameOrItemNo()">
+                        oninput="searchByNameOrItem()">
                     <div
                         id="results-container"
                         class="absolute left-0 top-full bg-white shadow-lg rounded-md border border-gray-300 max-h-72 overflow-y-auto hidden z-50 w-full">
@@ -60,11 +60,109 @@ function CreateHeader() {
                 </div>
             </div>
         </header>
+
+        <!-- Login Modal -->
+        <div id="login-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white w-96 rounded-lg shadow-lg">
+                <div class="border-b px-4 py-2 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Login</h3>
+                    <button onclick="toggleModal('login-modal')" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <div class="p-4">
+                    <form>
+                        <div class="mb-4">
+                            <label for="username-field" class="block text-gray-700 font-semibold">Name</label>
+                            <input type="text" id="username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password-field" class="block text-gray-700 font-semibold">Password</label>
+                            <input type="password" id="password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+                    </form>
+                </div>
+                <div class="border-t px-4 py-2 flex justify-end">
+                    <button onclick="toggleModal('login-modal')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Cancel
+                    </button>
+                    <button id="btn-form-login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign Up Modal -->
+        <div id="signup-modal" class="hidden fixed z-50 inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white w-96 rounded-lg shadow-lg">
+                <div class="border-b px-4 py-2 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Sign Up</h3>
+                    <button onclick="toggleModal('signup-modal')" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <div class="p-4">
+                    <form>
+                        <div class="mb-4">
+                            <label for="signup-username-field" class="block text-gray-700 font-semibold">Name</label>
+                            <input type="text" id="signup-username-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+                        <div class="mb-4">
+                            <label for="signup-email-field" class="block text-gray-700 font-semibold">Email</label>
+                            <input type="email" id="signup-email-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+                        <div class="mb-4">
+                            <label for="signup-password-field" class="block text-gray-700 font-semibold">Password</label>
+                            <input type="password" id="signup-password-field" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200">
+                        </div>
+                    </form>
+                </div>
+                <div class="border-t px-4 py-2 flex justify-end">
+                    <button onclick="toggleModal('signup-modal')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Cancel
+                    </button>
+                    <button id="btn-form-signup" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
     `;
 }
 
-// Append the Header to the body
+// Modal toggle function
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.toggle('hidden');
+    }
+}
+
+// Dummy search function
+function searchByNameOrItem() {
+    const input = document.getElementById("search-input");
+    const resultsContainer = document.getElementById("results-container");
+    if (input && resultsContainer) {
+        const query = input.value.toLowerCase();
+        if (query) {
+            resultsContainer.innerHTML = `<div class="p-2">Søger efter: <strong>${query}</strong></div>`;
+            resultsContainer.classList.remove("hidden");
+        } else {
+            resultsContainer.classList.add("hidden");
+        }
+    }
+}
+
+// Append the Header and Add Event Listeners
 (function initializeHeaderScript() {
-    const headerScript = CreateHeader();
-    document.body.insertAdjacentHTML('afterbegin', headerScript);
+    const headerHTML = CreateHeader();
+    document.body.insertAdjacentHTML("afterbegin", headerHTML);
+
+    // Event Listeners for modals
+    const loginButton = document.getElementById("btn-show-login");
+    const signupButton = document.getElementById("btn-signup");
+
+    if (loginButton) {
+        loginButton.addEventListener("click", () => toggleModal('login-modal'));
+    }
+    if (signupButton) {
+        signupButton.addEventListener("click", () => toggleModal('signup-modal'));
+    }
 })();
