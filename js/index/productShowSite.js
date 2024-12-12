@@ -105,7 +105,6 @@ function showProductDetails() {
             });
 
             if (response.ok) {
-                alert(`${product.name} er tilføjet til kurven!`);
                 fetchCartItems(); // Dynamisk opdatering af kurven
                 showCartNotification(`${product.name} er tilføjet til kurven!`);
             } else {
