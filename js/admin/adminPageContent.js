@@ -8,7 +8,6 @@ export function loadAdminDashboard(orders) {
 
     const content = `
         <div class="flex">
-            <!-- Content -->
             <main class="p-8">
                 <h1 class="text-2xl font-bold text-gray-900 mb-6">Ordre Oversigt</h1>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -40,7 +39,6 @@ export function loadAdminDashboard(orders) {
         </div>
     `;
 
-    // Find main-content-container and add the content
     const container = document.getElementById("main-content-container");
     if (container) {
         container.innerHTML = content;
@@ -91,13 +89,13 @@ async function loadOrderDetails(orderId) {
                     <h3 class="text-xl font-bold mt-6 mb-2">Bestilte Produkter:</h3>
                     <ul class="list-disc pl-6">
                         ${itemNames
-                .map(
-                    (itemName) => `
+            .map(
+                (itemName) => `
                             <li>
                                 <strong>${itemName}</strong>
                             </li>`
-                )
-                .join("")}
+            )
+            .join("")}
                 </main>
             </div>
         `;
@@ -109,10 +107,49 @@ async function loadOrderDetails(orderId) {
     }
 }
 
-// Helper function to fetch orders by status
-async function fetchOrdersByStatus(status) {
+//En funktion til se rediger formen
+function showEditForm(orderId, currentStatus) {
+    const formHTML = `
+        <section class="p-8">
+        <main class="p-8">
+            <h2 class="text-2xl font-bold mb-4">Rediger ordre status</h2>
+            <form id="edit-order-form">
+                    <input type="hidden" id="order-id" value="${orderId}">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2" for="status">Status</label>
+                        <select id="order-status" class="border p-2 rounded w-full">
+                            <option value="MODTAGET" ${currentStatus === "MODTAGET" ? "selected" : ""}>Modtagede</option>
+                            <option value="IGANGVÆRENDE" ${currentStatus === "IGANGVÆRENDE" ? "selected" : ""}>Igangværende</option>
+                            <option value="AFSLUTTET" ${currentStatus === "AFSLUTTET" ? "selected" : ""}>Afsluttede</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Gem</button>
+            </form>
+            </main>
+        </section>
+    `;
+
+    const container = document.getElementById("main-content-container");
+    container.innerHTML = formHTML;
+
+    document.getElementById("edit-order-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const newStatus = document.getElementById("order-status").value;
+
+        await updateOrderStatus(orderId, newStatus);
+        await loadOrdersAndDashboard();
+    });
+}
+
+// En async funktion til at opdatere ordre statussen
+async function updateOrderStatus(orderId, newStatus) {
     try {
-        const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/orders/status/${status}`);
+        const response = await fetch(`http://localhost:8080/api/orders/${orderId}/status`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+        });
+
         if (!response.ok) {
             throw new Error("Failed to update order status");
         }
@@ -136,6 +173,7 @@ async function loadOrdersAndDashboard() {
 
 document.addEventListener("DOMContentLoaded", loadOrdersAndDashboard);
 
+// funktion til at loade admin sidebaren
 export function loadAdminSidebar() {
     const sidebarContent = `
         <div style="display: flex; height: 100vh; overflow: hidden">
@@ -163,7 +201,6 @@ export function loadAdminSidebar() {
         </div>
     `;
 
-    // Find eller opret en container til sidebaren
     const sidebarContainer = document.getElementById("sidebar-container");
     if (sidebarContainer) {
         sidebarContainer.innerHTML = sidebarContent;
@@ -241,7 +278,7 @@ class FileHandler {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 60000);
         try {
-            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload', {
+            const response = await fetch('http://localhost:8080/api/upload', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: imageName, data: base64Data }),
@@ -264,7 +301,6 @@ class FileHandler {
     }
 }
 
-// Event Listeners
 const fileHandler = new FileHandler();
 
 document.getElementById('uploadButton').addEventListener('click', () => {
@@ -281,6 +317,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
         }
     }
 });
+
 function showUploadSection() {
 
     const uploadSectionHTML = `
@@ -318,4 +355,3 @@ function showUploadSection() {
         console.error("Container #main-content-container ikke fundet.");
     }
 }
-

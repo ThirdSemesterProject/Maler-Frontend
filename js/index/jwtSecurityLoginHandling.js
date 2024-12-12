@@ -2,13 +2,9 @@
 const API_LOGIN = 'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/login';
 const API_SIGNUP = 'https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/signup';
 
-function getToken() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || !user.token) {
-        console.log("No valid token found. Please log in.");
-        return null;
-    }
-    return user.token;
+function getToken(){
+    const localstorage_user = JSON.parse(localStorage.getItem('user'))
+    return  localstorage_user.token
 }
 
 function signup(event) {
@@ -90,24 +86,18 @@ function deleteUser(event) {
 }
 
 function getSecret(event) {
-    event.preventDefault();
-
-    // Check if a user is logged in
-    const token = getToken();
-    if (!token) {
-        console.log("No token. Login first.");
-        alert("You must log in to access this feature."); // Notify the user
-        return;
+    event.preventDefault()
+    if(localStorage.getItem('user') == undefined){
+        console.log("No token. Login first");
+        return
     }
 
-    // Fetch the secret data using the token
-    myFetch("getSecret", "POST", null, token)
+    const token = getToken();
+    console.log(token);
+    myFetch("getSecret", "POST", null, getToken())
         .then((data) => {
-            console.log("Secret data:", JSON.stringify(data));
+            console.log(JSON.stringify(data));
         })
-        .catch((err) => {
-            console.error("Failed to fetch secret:", err);
-        });
 }
 
 function myFetch(endpoint, method, payload=null, token){
