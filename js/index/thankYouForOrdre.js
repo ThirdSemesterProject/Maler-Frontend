@@ -50,6 +50,6 @@ function showThankYouSection(orderId, customerName, shopName, orderStatus, order
 
     // Tilføj eventlistener til knappen
     document.getElementById('goToHome').addEventListener('click', () => {
-        window.location.href = '/'; // Naviger til forsiden
+        window.location.reload();
     });
 }
