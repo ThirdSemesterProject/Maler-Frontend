@@ -82,6 +82,18 @@ function displayItems(results) {
             if (categoriesSection) {
                 categoriesSection.scrollIntoView({ behavior: "smooth" });
             }
+            // Ryd søgefeltet
+            const searchInput = document.getElementById("search-input");
+            if (searchInput) {
+                searchInput.value = "";
+            }
+
+            // Skjul resultaterne
+            const resultsContainer = document.getElementById("results-container");
+            if (resultsContainer) {
+                resultsContainer.classList.add("hidden");
+                resultsContainer.innerHTML = "";
+            }
         });
 
         resultsContainer.appendChild(div);
