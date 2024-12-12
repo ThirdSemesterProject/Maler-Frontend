@@ -173,8 +173,6 @@ function loadOrderPage(cartItems) {
 
             sessionStorage.setItem('orderData', JSON.stringify(responseData));
 
-            // Alert brugeren om succesfuld ordreoprettelse
-            alert('Ordre oprettet med succes!');
 
             // Send anmodning for at rydde kurven
             const clearCartResponse = await fetch('http://localhost:8080/api/cart/clear', {
@@ -190,7 +188,6 @@ function loadOrderPage(cartItems) {
 
             const clearCartMessage = await clearCartResponse.text();
             console.log(clearCartMessage); // "Cart cleared."
-            alert('Kurv ryddet med succes!');
 
             // Kald thank you-funktion
             console.log('Order ID to be saved:', responseData.id);
@@ -198,7 +195,6 @@ function loadOrderPage(cartItems) {
 
         } catch (error) {
             console.error('Fejl:', error);
-            alert('Kunne ikke gennemføre operationen. Prøv igen.');
         }
     });
 
@@ -246,7 +242,6 @@ function loadOrderPage(cartItems) {
 
         } catch (error) {
             console.error(error);
-            alert('Kunne ikke indlæse butikker. Prøv igen senere.');
         }
     }
 
