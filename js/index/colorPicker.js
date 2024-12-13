@@ -175,7 +175,7 @@ async function loadColorPickerSection() {
     try {
         // Hent billeder fra API'et
         for (const image of imageData) {
-            const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload/images/search?name=${encodeURIComponent(image.name)}`);
+            const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload/images/search?name=${image.name}`);
             if (!response.ok) {
                 throw new Error(`Kunne ikke hente billede: ${image.name}`);
             }

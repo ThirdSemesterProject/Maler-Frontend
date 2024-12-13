@@ -121,7 +121,7 @@ function initializeEventListeners() {
     // Hent billeder til modal
     async function fetchAllImagesForModal() {
         try {
-            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload');
+            const response = await fetch('https://malingdk-dhd0fxe9bxeffdem.northeurope-01.azurewebsites.net/api/upload');
             if (response.ok) {
                 const images = await response.json();
                 displayImagesInModal(images);
