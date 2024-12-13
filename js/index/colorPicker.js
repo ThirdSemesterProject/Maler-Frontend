@@ -175,18 +175,12 @@ async function loadColorPickerSection() {
     try {
         // Hent billeder fra API'et
         for (const image of imageData) {
-            try {
-                const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload/images/search?name=${encodeURIComponent(image.name)}`);
-                if (!response.ok) {
-                    console.error(`Fejl ved hentning: ${response.status} ${response.statusText}`);
-                    throw new Error(`Kunne ikke hente billede: ${image.name}`);
-                }
-                const img = await response.json();
-                image.src = img.data || '/images/default-placeholder.png'; // Fallback
-            } catch (error) {
-                console.error(`Fejl for ${image.name}:`, error.message);
-                image.src = '/images/default-placeholder.png'; // Fallback
+            const response = await fetch(`https://malingdk-dhd0fxe9bxeffdem.scm.northeurope-01.azurewebsites.net/api/upload/images/search?name=${encodeURIComponent(image.name)}`);
+            if (!response.ok) {
+                throw new Error(`Kunne ikke hente billede: ${image.name}`);
             }
+            const img = await response.json();
+            image.src = img.data;  // Sørg for at src bliver opdateret korrekt
         }
 
         // HTML-struktur
@@ -224,13 +218,14 @@ async function loadColorPickerSection() {
                     <button id="next-section" aria-label="Næste sektion">→</button>
                 </div>
             </div>
+           
         `;
-
         updateNavigationButtons();
 
         // Event listeners til navigation
         document.getElementById('prev-section').addEventListener('click', () => changeSection(-1));
         document.getElementById('next-section').addEventListener('click', () => changeSection(1));
+
 
         // Event listeners til farver
         const colorOptions = document.querySelectorAll('.color-option');
@@ -244,15 +239,16 @@ async function loadColorPickerSection() {
         // Event listeners til billeder
         const imageBoxes = document.querySelectorAll('.image-layout div > div');
         imageBoxes.forEach(box => {
-            box.addEventListener('click', () => {
+            box.addEventListener('click', (event) => {
                 const imageName = box.getAttribute('data-name'); // Brug data-name til at identificere billede
                 const image = imageData.find(img => img.name === imageName); // Find billedet baseret på name
                 openFullscreenImage(image.src, box.style.backgroundColor);
             });
         });
 
+        updateNavigationButtons();
     } catch (error) {
-        console.error('Fejl under hentning af billeder:', error);
+        console.error(error);
         mainContentContainer.innerHTML = `<p class="text-red-500">Der opstod en fejl: ${error.message}</p>`;
     }
 }
@@ -265,6 +261,7 @@ function renderColorSection(colors) {
     `).join('');
 }
 
+// Funktion til at opdatere baggrundsfarver
 function updateBackgroundColors(color) {
     const imageBoxes = document.querySelectorAll('.image-layout div > div');
     imageBoxes.forEach(box => {
@@ -272,6 +269,7 @@ function updateBackgroundColors(color) {
     });
 }
 
+// Funktion til at åbne modal med præcis billedstørrelse
 function openFullscreenImage(imageSrc, backgroundColor) {
     const modal = document.createElement('div');
     modal.id = "image-modal";
@@ -287,25 +285,31 @@ function openFullscreenImage(imageSrc, backgroundColor) {
             </button>
         </div>
     `;
+
     document.body.appendChild(modal);
 
+    // Luk modal ved klik eller 'Esc'
     const closeModal = () => modal.remove();
     document.getElementById('close-modal').addEventListener('click', closeModal);
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') closeModal();
     }, { once: true });
 
+    // Luk modal ved klik uden for billedet
     modal.addEventListener('click', (event) => {
         if (event.target === modal) closeModal();
     });
 }
 
+// Funktion til at skifte sektion
 function changeSection(direction) {
     currentSectionIndex += direction;
 
+    // Opdater farvekortet
     const colorSectionContainer = document.getElementById('color-section-container');
     colorSectionContainer.innerHTML = renderColorSection(colorSections[currentSectionIndex]);
 
+    // Genaktivér event listeners for farveændring
     const colorOptions = document.querySelectorAll('.color-option');
     colorOptions.forEach(option => {
         option.addEventListener('click', (event) => {
@@ -314,25 +318,32 @@ function changeSection(direction) {
         });
     });
 
-    updateNavigationButtons();
+    updateNavigationButtons(); // Opdater navigationsknappernes tilstand
 }
 
+// Funktion til at opdatere navigationsknapper
 function updateNavigationButtons() {
     const prevButton = document.getElementById('prev-section');
     const nextButton = document.getElementById('next-section');
 
+    // Første sektion
     if (currentSectionIndex === 0) {
-        prevButton.disabled = true;
-        nextButton.disabled = false;
-    } else if (currentSectionIndex === colorSections.length - 1) {
-        prevButton.disabled = false;
-        nextButton.disabled = true;
-    } else {
-        prevButton.disabled = false;
-        nextButton.disabled = false;
+        prevButton.disabled = true; // Deaktiver tilbage-knap
+        nextButton.disabled = false; // Aktivér frem-knap
+    }
+    // Sidste sektion
+    else if (currentSectionIndex === colorSections.length - 1) {
+        prevButton.disabled = false; // Aktivér tilbage-knap
+        nextButton.disabled = true; // Deaktiver frem-knap
+    }
+    // Mellemsektioner
+    else {
+        prevButton.disabled = false; // Aktivér tilbage-knap
+        nextButton.disabled = false; // Aktivér frem-knap
     }
 }
 
+// Funktion til at gendanne forsiden
 function restoreDefaultSections() {
     const heroSection = document.getElementById('heroSection');
     const infoSection = document.querySelector('section.bg-white');
@@ -349,5 +360,6 @@ function restoreDefaultSections() {
     }
 }
 
+// Gør funktioner globalt tilgængelige
 window.loadColorPickerSection = loadColorPickerSection;
 window.restoreDefaultSections = restoreDefaultSections;
